@@ -163,3 +163,4 @@
 
 <!-- Contenu principal -->
 <main id="main-content" role="main">
+<!-- La balise main est fermée dans footer.php -->

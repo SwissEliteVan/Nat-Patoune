@@ -1,5 +1,6 @@
 <!-- Fermeture de la balise main du header.php -->
 </main>
+<!-- La balise main est ouverte dans header.php -->
 
 <!-- Cookie Banner -->
 <div id="cookie-banner" class="cookie-banner hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-brand-purple shadow-lg z-50 animate-slide-up">
