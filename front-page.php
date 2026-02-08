@@ -168,16 +168,19 @@ get_header(); ?>
 
 <!-- Reste du contenu de la page d'accueil -->
 <?php include(locate_template('template-parts/front-page/process.php')); ?>
-<?php include(locate_template('template-parts/front-page/services.php')); ?>
-<?php include(locate_template('template-parts/front-page/proof-photos.php')); ?>
-<?php include(locate_template('template-parts/front-page/engagements.php')); ?>
-<?php include(locate_template('template-parts/front-page/tarifs.php')); ?>
-<?php include(locate_template('template-parts/front-page/carte-cadeau.php')); ?>
-<?php include(locate_template('template-parts/front-page/zone-intervention.php')); ?>
-<?php include(locate_template('template-parts/front-page/temoignages.php')); ?>
-<?php include(locate_template('template-parts/front-page/faq.php')); ?>
-<?php include(locate_template('template-parts/front-page/blog.php')); ?>
-<?php include(locate_template('template-parts/front-page/contact.php')); ?>
-<?php include(locate_template('template-parts/front-page/gallery.php')); ?>
+<!-- Temporairement commenté jusqu'à la création des template parts -->
+<!--
+<?php // include(locate_template('template-parts/front-page/services.php')); ?>
+<?php // include(locate_template('template-parts/front-page/proof-photos.php')); ?>
+<?php // include(locate_template('template-parts/front-page/engagements.php')); ?>
+<?php // include(locate_template('template-parts/front-page/tarifs.php')); ?>
+<?php // include(locate_template('template-parts/front-page/carte-cadeau.php')); ?>
+<?php // include(locate_template('template-parts/front-page/zone-intervention.php')); ?>
+<?php // include(locate_template('template-parts/front-page/temoignages.php')); ?>
+<?php // include(locate_template('template-parts/front-page/faq.php')); ?>
+<?php // include(locate_template('template-parts/front-page/blog.php')); ?>
+<?php // include(locate_template('template-parts/front-page/contact.php')); ?>
+<?php // include(locate_template('template-parts/front-page/gallery.php')); ?>
+-->
 
 <?php get_footer(); ?>
