@@ -4,7 +4,26 @@
   <meta charset="<?php bloginfo('charset'); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <meta name="description" content="<?php echo esc_attr(get_bloginfo('description')); ?>">
+  <?php
+  $meta_title       = wp_get_document_title();
+  $meta_description = get_bloginfo('description');
+  $meta_url         = is_singular() ? get_permalink() : home_url('/');
+  $meta_type        = is_singular() ? 'article' : 'website';
+  $meta_image       = '';
+
+  if (is_singular() && has_post_thumbnail()) {
+    $meta_image = get_the_post_thumbnail_url(null, 'full');
+  }
+  ?>
+
+  <meta name="description" content="<?php echo esc_attr($meta_description); ?>">
+  <meta property="og:title" content="<?php echo esc_attr($meta_title); ?>">
+  <meta property="og:description" content="<?php echo esc_attr($meta_description); ?>">
+  <meta property="og:url" content="<?php echo esc_url($meta_url); ?>">
+  <meta property="og:type" content="<?php echo esc_attr($meta_type); ?>">
+  <?php if (!empty($meta_image)) : ?>
+    <meta property="og:image" content="<?php echo esc_url($meta_image); ?>">
+  <?php endif; ?>
 
   <?php if (!function_exists('has_site_icon') || !has_site_icon()) : ?>
     <link rel="icon" type="image/png" href="<?php echo esc_url(get_theme_file_uri('assets/img/favicon-natpatoune-chat.png')); ?>">
@@ -60,7 +79,7 @@
 <a href="#main-content" class="skip-to-content">Aller au contenu principal</a>
 
 <header class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md shadow-sm z-50">
-  <nav class="container mx-auto px-4 py-4">
+  <nav class="container mx-auto px-4 py-4" aria-label="Navigation principale">
     <div class="flex items-center justify-between">
 
       <!-- Logo -->
@@ -81,10 +100,11 @@
           'theme_location' => 'primary',
           'container'      => false,
           'menu_class'     => 'hidden lg:flex items-center gap-6 text-sm font-medium',
+          'items_wrap'     => '<ul id="primary-menu" class="%2$s">%3$s</ul>',
           'fallback_cb'    => false,
         ));
       } else {
-        echo '<ul class="hidden lg:flex items-center gap-6 text-sm font-medium">';
+        echo '<ul id="primary-menu" class="hidden lg:flex items-center gap-6 text-sm font-medium">';
         echo '<li><a href="' . esc_url(home_url('/#services')) . '" class="hover:text-brand-purple transition">Services</a></li>';
         echo '<li><a href="' . esc_url(home_url('/#tarifs')) . '" class="hover:text-brand-purple transition">Tarifs</a></li>';
         echo '<li><a href="' . esc_url(home_url('/blog/')) . '" class="hover:text-brand-purple transition">Blog</a></li>';
@@ -100,11 +120,11 @@
         $cta_text = function_exists('natpatoune_get_cta_text') ? natpatoune_get_cta_text() : 'Réserver';
         ?>
         <a href="<?php echo esc_url($cta_url); ?>" class="hidden md:inline-flex items-center bg-brand-purple hover:bg-brand-purple-dark text-white font-title font-bold py-3 px-6 rounded-full transition shadow-soft hover:shadow-medium">
-          <i class="fas fa-calendar-check mr-2"></i><?php echo esc_html($cta_text); ?>
+          <i class="fas fa-calendar-check mr-2" aria-hidden="true"></i><?php echo esc_html($cta_text); ?>
         </a>
 
-        <button id="mobile-menu-btn" class="lg:hidden text-brand-purple text-2xl" aria-label="Ouvrir le menu" aria-expanded="false">
-          <i class="fas fa-bars"></i>
+        <button id="mobile-menu-btn" class="lg:hidden text-brand-purple text-2xl" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="primary-menu">
+          <i class="fas fa-bars" aria-hidden="true"></i>
         </button>
       </div>
 
