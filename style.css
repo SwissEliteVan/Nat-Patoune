@@ -1030,3 +1030,28 @@ h2.font-title::after {
 }
 
 /* 2026 Update: Modern design system, mobile drawer, accessibility improvements */
+
+/* ============================================
+   Hero Section Readability Improvements
+   ============================================ */
+
+/* Text shadow for main hero title */
+#hero h1 {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Text shadow for hero subtitle */
+#hero p.text-xl,
+#hero p.text-2xl {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Improved readability for trust pills */
+#hero .bg-white\/10 {
+    backdrop-filter: blur(4px);
+}
+
+/* Increased overlay opacity for better readability */
+#hero .bg-gradient-to-r.from-brand-purple\/60.to-brand-pink\/40 {
+    background-image: linear-gradient(to right, rgba(143, 120, 211, 0.7), rgba(232, 174, 195, 0.5));
+}
