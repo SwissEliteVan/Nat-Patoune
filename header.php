@@ -3,9 +3,8 @@
 <head>
   <meta charset="<?php bloginfo('charset'); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <meta name="description" content="<?php echo esc_attr(get_bloginfo('description')); ?>">
-
+  
   <?php if (!function_exists('has_site_icon') || !has_site_icon()) : ?>
     <link rel="icon" type="image/png" href="<?php echo esc_url(get_theme_file_uri('assets/img/favicon-natpatoune-chat.png')); ?>">
   <?php endif; ?>
@@ -15,10 +14,23 @@
     <link rel="preload" href="<?php echo esc_url(get_theme_file_uri('assets/img/cat-sitting-lausanne-hero-720p.mp4')); ?>" as="video" type="video/mp4">
   <?php endif; ?>
 
-  <!-- Tailwind CDN (on l'enlèvera plus tard quand on compilera proprement) -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Polices Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+  <!-- Tailwind Config -->
   <script>
-    tailwind.config = {
+    if (typeof tailwind === 'undefined') {
+      // Tailwind n'est pas encore chargé, on crée un objet vide pour éviter les erreurs
+      window.tailwind = { config: { theme: { extend: {} } } };
+    }
+    
+    // Configuration Tailwind (système de design)
+    window.tailwindConfig = {
       theme: {
         extend: {
           colors: {
@@ -42,14 +54,16 @@
           }
         }
       }
+    };
+    
+    // Si Tailwind CDN est chargé, on applique la config
+    if (typeof tailwind !== 'undefined' && tailwind.config) {
+      tailwind.config = window.tailwindConfig;
     }
   </script>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  
+  <!-- Tailwind CDN (sera remplacé par une version compilée plus tard) -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
   <?php wp_head(); ?>
 </head>
@@ -57,8 +71,12 @@
 <body <?php body_class('font-body text-brand-text bg-brand-white'); ?>>
 <?php wp_body_open(); ?>
 
-<a href="#main-content" class="skip-to-content">Aller au contenu principal</a>
+<!-- Accessibilité: lien d'évitement -->
+<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:text-brand-purple focus:shadow-medium focus:rounded-md">
+  <?php esc_html_e('Aller au contenu principal', 'natpatoune'); ?>
+</a>
 
+<!-- Header avec navigation -->
 <header class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md shadow-sm z-50">
   <nav class="container mx-auto px-4 py-4">
     <div class="flex items-center justify-between">
@@ -93,23 +111,52 @@
       }
       ?>
 
-      <!-- CTA + Mobile -->
+      <!-- CTA + Mobile Menu Button -->
       <div class="flex items-center gap-4">
         <?php
         $cta_url  = function_exists('natpatoune_get_cta_url') ? natpatoune_get_cta_url() : home_url('/#contact');
         $cta_text = function_exists('natpatoune_get_cta_text') ? natpatoune_get_cta_text() : 'Réserver';
         ?>
         <a href="<?php echo esc_url($cta_url); ?>" class="hidden md:inline-flex items-center bg-brand-purple hover:bg-brand-purple-dark text-white font-title font-bold py-3 px-6 rounded-full transition shadow-soft hover:shadow-medium">
-          <i class="fas fa-calendar-check mr-2"></i><?php echo esc_html($cta_text); ?>
+          <i class="fas fa-calendar-check mr-2" aria-hidden="true"></i><?php echo esc_html($cta_text); ?>
         </a>
 
-        <button id="mobile-menu-btn" class="lg:hidden text-brand-purple text-2xl" aria-label="Ouvrir le menu" aria-expanded="false">
-          <i class="fas fa-bars"></i>
+        <button id="mobile-menu-btn" class="lg:hidden text-brand-purple text-2xl" aria-label="<?php esc_attr_e('Ouvrir le menu', 'natpatoune'); ?>" aria-expanded="false" aria-controls="mobile-menu">
+          <i class="fas fa-bars" aria-hidden="true"></i>
         </button>
       </div>
 
     </div>
+    
+    <!-- Mobile Menu (fermé par défaut) -->
+    <div id="mobile-menu" class="lg:hidden hidden mt-4 pb-4 border-t border-gray-100">
+      <?php
+      if (has_nav_menu('primary')) {
+        wp_nav_menu(array(
+          'theme_location' => 'primary',
+          'container'      => false,
+          'menu_class'     => 'flex flex-col space-y-4 mt-4',
+          'fallback_cb'    => false,
+        ));
+      } else {
+        echo '<ul class="flex flex-col space-y-4 mt-4">';
+        echo '<li><a href="' . esc_url(home_url('/#services')) . '" class="block py-2 hover:text-brand-purple transition">Services</a></li>';
+        echo '<li><a href="' . esc_url(home_url('/#tarifs')) . '" class="block py-2 hover:text-brand-purple transition">Tarifs</a></li>';
+        echo '<li><a href="' . esc_url(home_url('/blog/')) . '" class="block py-2 hover:text-brand-purple transition">Blog</a></li>';
+        echo '<li><a href="' . esc_url(home_url('/#contact')) . '" class="block py-2 hover:text-brand-purple transition">Contact</a></li>';
+        echo '</ul>';
+      }
+      
+      // CTA mobile
+      echo '<div class="mt-6">';
+      echo '<a href="' . esc_url($cta_url) . '" class="inline-flex items-center bg-brand-purple hover:bg-brand-purple-dark text-white font-title font-bold py-3 px-6 rounded-full transition shadow-soft hover:shadow-medium">';
+      echo '<i class="fas fa-calendar-check mr-2" aria-hidden="true"></i>' . esc_html($cta_text);
+      echo '</a>';
+      echo '</div>';
+      ?>
+    </div>
   </nav>
 </header>
 
+<!-- Contenu principal -->
 <main id="main-content" role="main">

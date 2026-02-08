@@ -94,12 +94,12 @@ function natpatoune_enqueue_assets() {
         );
     }
 
-    // Main theme script
+    // Main theme script - load only if file exists
     if (is_readable(get_theme_file_path('assets/js/main.js'))) {
         wp_enqueue_script(
             'natpatoune-main',
             natpatoune_theme_uri('assets/js/main.js'),
-            array(),
+            array('jquery'),
             natpatoune_file_version('assets/js/main.js', '1.0.0'),
             true
         );
@@ -109,33 +109,65 @@ function natpatoune_enqueue_assets() {
             wp_script_add_data('natpatoune-main', 'strategy', 'defer');
         }
 
-        // Localize script for AJAX
+        // Localize script for AJAX and site data
         wp_localize_script('natpatoune-main', 'natpatouneData', array(
             'ajaxUrl' => admin_url('admin-ajax.php'),
             'nonce'   => wp_create_nonce('natpatoune_nonce'),
+            'homeUrl' => esc_url(home_url('/')),
+            'themeUri' => get_template_directory_uri(),
+            'isMobile' => wp_is_mobile(),
         ));
     }
 
-    /**
-     * blog.render.js
-     * IMPORTANT: On le garde temporairement si ton thème en dépend encore.
-     * Quand on aura optimisé home.php/archive.php en rendu server-side, on le supprimera.
-     */
-    $needs_blog_render = (is_home() || is_archive() || is_search());
-    if ($needs_blog_render && is_readable(get_theme_file_path('assets/js/blog.render.js'))) {
+    // Conditionally load scripts based on page type
+    if (is_front_page()) {
+        // Front page specific scripts if needed
+        if (is_readable(get_theme_file_path('assets/js/home.js'))) {
+            wp_enqueue_script(
+                'natpatoune-home',
+                natpatoune_theme_uri('assets/js/home.js'),
+                array('jquery', 'natpatoune-main'),
+                natpatoune_file_version('assets/js/home.js', '1.0.0'),
+                true
+            );
+        }
+    }
+    
+    // Blog specific scripts - only load on blog pages
+    if ((is_home() || is_archive() || is_search()) && is_readable(get_theme_file_path('assets/js/blog.js'))) {
         wp_enqueue_script(
-            'natpatoune-blog-render',
-            natpatoune_theme_uri('assets/js/blog.render.js'),
-            array(),
-            natpatoune_file_version('assets/js/blog.render.js', '1.0.0'),
+            'natpatoune-blog',
+            natpatoune_theme_uri('assets/js/blog.js'),
+            array('jquery', 'natpatoune-main'),
+            natpatoune_file_version('assets/js/blog.js', '1.0.0'),
             true
         );
-        if (function_exists('wp_script_add_data')) {
-            wp_script_add_data('natpatoune-blog-render', 'strategy', 'defer');
-        }
+    }
+    
+    // Single post specific scripts
+    if (is_singular('post') && is_readable(get_theme_file_path('assets/js/single.js'))) {
+        wp_enqueue_script(
+            'natpatoune-single',
+            natpatoune_theme_uri('assets/js/single.js'),
+            array('jquery', 'natpatoune-main'),
+            natpatoune_file_version('assets/js/single.js', '1.0.0'),
+            true
+        );
     }
 }
 add_action('wp_enqueue_scripts', 'natpatoune_enqueue_assets');
+
+/**
+ * Set posts per page for blog to 6
+ */
+function natpatoune_posts_per_page($query) {
+    if (!is_admin() && $query->is_main_query()) {
+        if ($query->is_home() || $query->is_archive() || $query->is_search()) {
+            $query->set('posts_per_page', 6);
+        }
+    }
+}
+add_action('pre_get_posts', 'natpatoune_posts_per_page');
 
 /**
  * Customizer Settings
@@ -156,6 +188,17 @@ function natpatoune_customize_register($wp_customize) {
         'label'   => __('Téléphone', 'natpatoune'),
         'section' => 'natpatoune_contact',
         'type'    => 'text',
+    ));
+
+    // WhatsApp
+    $wp_customize->add_setting('natpatoune_whatsapp_enabled', array(
+        'default'           => true,
+        'sanitize_callback' => 'wp_validate_boolean',
+    ));
+    $wp_customize->add_control('natpatoune_whatsapp_enabled', array(
+        'label'   => __('Activer le bouton WhatsApp', 'natpatoune'),
+        'section' => 'natpatoune_contact',
+        'type'    => 'checkbox',
     ));
 
     // Email
@@ -242,6 +285,53 @@ function natpatoune_customize_register($wp_customize) {
         'section' => 'natpatoune_post_cta',
         'type'    => 'url',
     ));
+
+    // Section Cookie Banner
+    $wp_customize->add_section('natpatoune_cookies', array(
+        'title'    => __('Bannière Cookies', 'natpatoune'),
+        'priority' => 45,
+    ));
+
+    $wp_customize->add_setting('natpatoune_cookie_enabled', array(
+        'default'           => true,
+        'sanitize_callback' => 'wp_validate_boolean',
+    ));
+    $wp_customize->add_control('natpatoune_cookie_enabled', array(
+        'label'   => __('Activer la bannière cookies', 'natpatoune'),
+        'section' => 'natpatoune_cookies',
+        'type'    => 'checkbox',
+    ));
+
+    $wp_customize->add_setting('natpatoune_cookie_text', array(
+        'default'           => 'Ce site utilise des cookies pour améliorer votre expérience. En continuant à naviguer, vous acceptez notre utilisation des cookies.',
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ));
+    $wp_customize->add_control('natpatoune_cookie_text', array(
+        'label'   => __('Texte de la bannière', 'natpatoune'),
+        'section' => 'natpatoune_cookies',
+        'type'    => 'textarea',
+    ));
+
+    $wp_customize->add_setting('natpatoune_cookie_button_text', array(
+        'default'           => 'Accepter',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('natpatoune_cookie_button_text', array(
+        'label'   => __('Texte du bouton d\'acceptation', 'natpatoune'),
+        'section' => 'natpatoune_cookies',
+        'type'    => 'text',
+    ));
+
+    $wp_customize->add_setting('natpatoune_cookie_policy_url', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control('natpatoune_cookie_policy_url', array(
+        'label'   => __('Lien vers la politique de cookies', 'natpatoune'),
+        'section' => 'natpatoune_cookies',
+        'type'    => 'url',
+        'description' => __('Laissez vide pour utiliser /politique-cookies/ par défaut', 'natpatoune'),
+    ));
 }
 add_action('customize_register', 'natpatoune_customize_register');
 
@@ -278,6 +368,27 @@ function natpatoune_after_switch_theme() {
             'post_type'    => 'page',
         ));
         $home_page = $home_id ? get_post($home_id) : null;
+    }
+
+    // Pages légales
+    $legal_pages = array(
+        'mentions-legales' => 'Mentions Légales',
+        'politique-confidentialite' => 'Politique de Confidentialité',
+        'cgv' => 'Conditions Générales de Vente',
+        'politique-cookies' => 'Politique de Cookies'
+    );
+
+    foreach ($legal_pages as $slug => $title) {
+        $page = get_page_by_path($slug);
+        if (!$page) {
+            wp_insert_post(array(
+                'post_title'   => $title,
+                'post_name'    => $slug,
+                'post_content' => '<!-- wp:paragraph --><p>Cette page est en cours de rédaction.</p><!-- /wp:paragraph -->',
+                'post_status'  => 'publish',
+                'post_type'    => 'page',
+            ));
+        }
     }
 
     // Default categories
@@ -467,3 +578,70 @@ function natpatoune_get_cta_text() {
 function natpatoune_get_cta_url() {
     return get_theme_mod('natpatoune_cta_url', home_url('/#contact'));
 }
+
+/**
+ * Get fallback featured image
+ */
+function natpatoune_get_fallback_image() {
+    $fallback_image = get_theme_file_uri('assets/img/fallback-featured-image.webp');
+    return $fallback_image;
+}
+
+/**
+ * Check if page exists by slug
+ */
+function natpatoune_page_exists($slug) {
+    $page = get_page_by_path($slug);
+    return !empty($page);
+}
+
+/**
+ * Get page URL by slug (safe)
+ */
+function natpatoune_get_page_url($slug) {
+    $page = get_page_by_path($slug);
+    if ($page) {
+        return get_permalink($page->ID);
+    }
+    return '#';
+}
+
+/**
+ * Get WhatsApp link with phone number
+ */
+function natpatoune_get_whatsapp_link() {
+    $phone = preg_replace('/[^0-9+]/', '', natpatoune_get_phone());
+    if (substr($phone, 0, 1) !== '+') {
+        $phone = '+41' . ltrim($phone, '0');
+    }
+    return 'https://wa.me/' . $phone;
+}
+
+/**
+ * Check if WhatsApp button is enabled
+ */
+function natpatoune_is_whatsapp_enabled() {
+    return get_theme_mod('natpatoune_whatsapp_enabled', true);
+}
+
+/**
+ * Get cookie banner settings
+ */
+function natpatoune_get_cookie_settings() {
+    return array(
+        'enabled' => get_theme_mod('natpatoune_cookie_enabled', true),
+        'text' => get_theme_mod('natpatoune_cookie_text', 'Ce site utilise des cookies pour améliorer votre expérience. En continuant à naviguer, vous acceptez notre utilisation des cookies.'),
+        'buttonText' => get_theme_mod('natpatoune_cookie_button_text', 'Accepter'),
+        'policyUrl' => get_theme_mod('natpatoune_cookie_policy_url', '') ?: natpatoune_get_page_url('politique-cookies')
+    );
+}
+
+/**
+ * Localize cookie settings for JS
+ */
+function natpatoune_localize_cookie_settings() {
+    if (is_readable(get_theme_file_path('assets/js/main.js'))) {
+        wp_localize_script('natpatoune-main', 'natpatouneCookies', natpatoune_get_cookie_settings());
+    }
+}
+add_action('wp_enqueue_scripts', 'natpatoune_localize_cookie_settings', 20);
