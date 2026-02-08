@@ -117,11 +117,12 @@
         $cta_url  = function_exists('natpatoune_get_cta_url') ? natpatoune_get_cta_url() : home_url('/#contact');
         $cta_text = function_exists('natpatoune_get_cta_text') ? natpatoune_get_cta_text() : 'Réserver';
         ?>
-        <a href="<?php echo esc_url($cta_url); ?>" class="hidden md:inline-flex items-center bg-brand-purple hover:bg-brand-purple-dark text-white font-title font-bold py-3 px-6 rounded-full transition shadow-soft hover:shadow-medium">
-          <i class="fas fa-calendar-check mr-2" aria-hidden="true"></i><?php echo esc_html($cta_text); ?>
+        <a href="<?php echo esc_url($cta_url); ?>" class="hidden md:inline-flex items-center bg-brand-purple hover:bg-brand-purple-dark text-white font-title font-bold py-3 px-6 rounded-full transition-all duration-300 shadow-soft hover:shadow-medium transform hover:scale-105 group">
+          <i class="fas fa-calendar-check mr-2 group-hover:animate-pulse" aria-hidden="true"></i><?php echo esc_html($cta_text); ?>
+          <i class="fas fa-arrow-right ml-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" aria-hidden="true"></i>
         </a>
 
-        <button id="mobile-menu-btn" class="lg:hidden text-brand-purple text-2xl" aria-label="<?php esc_attr_e('Ouvrir le menu', 'natpatoune'); ?>" aria-expanded="false" aria-controls="mobile-menu">
+        <button id="mobile-menu-btn" class="lg:hidden text-brand-purple text-2xl p-2 rounded-full hover:bg-brand-purple/10 transition" aria-label="<?php esc_attr_e('Ouvrir le menu', 'natpatoune'); ?>" aria-expanded="false" aria-controls="mobile-menu">
           <i class="fas fa-bars" aria-hidden="true"></i>
         </button>
       </div>
@@ -129,7 +130,7 @@
     </div>
     
     <!-- Mobile Menu (fermé par défaut) -->
-    <div id="mobile-menu" class="lg:hidden hidden mt-4 pb-4 border-t border-gray-100">
+    <div id="mobile-menu" class="lg:hidden hidden mt-4 pb-4 border-t border-gray-100 rounded-xl bg-white/95 backdrop-blur-md shadow-medium">
       <?php
       if (has_nav_menu('primary')) {
         wp_nav_menu(array(
@@ -139,18 +140,20 @@
           'fallback_cb'    => false,
         ));
       } else {
-        echo '<ul class="flex flex-col space-y-4 mt-4">';
-        echo '<li><a href="' . esc_url(home_url('/#services')) . '" class="block py-2 hover:text-brand-purple transition">Services</a></li>';
-        echo '<li><a href="' . esc_url(home_url('/#tarifs')) . '" class="block py-2 hover:text-brand-purple transition">Tarifs</a></li>';
-        echo '<li><a href="' . esc_url(home_url('/blog/')) . '" class="block py-2 hover:text-brand-purple transition">Blog</a></li>';
-        echo '<li><a href="' . esc_url(home_url('/#contact')) . '" class="block py-2 hover:text-brand-purple transition">Contact</a></li>';
+        echo '<ul class="flex flex-col space-y-2 mt-4 px-4">';
+        echo '<li><a href="' . esc_url(home_url('/#services')) . '" class="block py-3 px-4 rounded-lg hover:bg-brand-purple/10 hover:text-brand-purple transition flex items-center"><i class="fas fa-paw mr-3 text-brand-purple"></i>Services</a></li>';
+        echo '<li><a href="' . esc_url(home_url('/#tarifs')) . '" class="block py-3 px-4 rounded-lg hover:bg-brand-purple/10 hover:text-brand-purple transition flex items-center"><i class="fas fa-tag mr-3 text-brand-purple"></i>Tarifs</a></li>';
+        echo '<li><a href="' . esc_url(home_url('/blog/')) . '" class="block py-3 px-4 rounded-lg hover:bg-brand-purple/10 hover:text-brand-purple transition flex items-center"><i class="fas fa-book mr-3 text-brand-purple"></i>Blog</a></li>';
+        echo '<li><a href="' . esc_url(home_url('/#contact')) . '" class="block py-3 px-4 rounded-lg hover:bg-brand-purple/10 hover:text-brand-purple transition flex items-center"><i class="fas fa-envelope mr-3 text-brand-purple"></i>Contact</a></li>';
         echo '</ul>';
       }
       
       // CTA mobile
-      echo '<div class="mt-6">';
-      echo '<a href="' . esc_url($cta_url) . '" class="inline-flex items-center bg-brand-purple hover:bg-brand-purple-dark text-white font-title font-bold py-3 px-6 rounded-full transition shadow-soft hover:shadow-medium">';
-      echo '<i class="fas fa-calendar-check mr-2" aria-hidden="true"></i>' . esc_html($cta_text);
+      echo '<div class="mt-6 px-4 pb-2">';
+      echo '<a href="' . esc_url($cta_url) . '" class="flex items-center justify-center w-full bg-brand-purple hover:bg-brand-purple-dark text-white font-title font-bold py-4 px-6 rounded-full transition-all duration-300 shadow-medium hover:shadow-lg group">';
+      echo '<span class="bg-white/20 p-2 rounded-full mr-3 group-hover:bg-white/30 transition-all"><i class="fas fa-calendar-check" aria-hidden="true"></i></span>';
+      echo esc_html($cta_text);
+      echo '<i class="fas fa-arrow-right ml-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" aria-hidden="true"></i>';
       echo '</a>';
       echo '</div>';
       ?>

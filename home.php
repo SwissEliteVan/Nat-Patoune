@@ -21,7 +21,7 @@ $fallback_image = function_exists('natpatoune_get_fallback_image')
     <div class="container mx-auto px-4">
 
         <!-- Blog Header -->
-        <header class="text-center max-w-3xl mx-auto mb-12">
+        <header class="text-center max-w-4xl mx-auto mb-12">
             <span class="text-brand-purple font-title font-bold tracking-wider uppercase text-sm">
                 <?php echo esc_html__('Le Blog Félin', 'natpatoune'); ?>
             </span>
@@ -71,7 +71,7 @@ $fallback_image = function_exists('natpatoune_get_fallback_image')
                     $categories = get_the_category($post_id);
                     ?>
 
-                    <article id="post-<?php the_ID(); ?>" <?php post_class('blog-card bg-white'); ?>>
+                    <article id="post-<?php the_ID(); ?>" <?php post_class('blog-card bg-white hover:shadow-medium transition-all duration-300'); ?>>
                         <a href="<?php the_permalink(); ?>" class="block" aria-label="<?php echo esc_attr(get_the_title($post_id)); ?>">
                             <?php if (has_post_thumbnail()) : ?>
                                 <?php
@@ -125,8 +125,8 @@ $fallback_image = function_exists('natpatoune_get_fallback_image')
                                 </span>
                             </div>
 
-                            <a href="<?php the_permalink(); ?>" class="inline-block bg-brand-purple hover:bg-brand-purple-dark text-white font-bold py-2 px-6 rounded-full transition text-sm">
-                                <i class="fas fa-arrow-right mr-2" aria-hidden="true"></i><?php echo esc_html__('Lire', 'natpatoune'); ?>
+                            <a href="<?php the_permalink(); ?>" class="inline-flex items-center bg-white hover:bg-brand-purple border border-brand-purple text-brand-purple hover:text-white font-bold py-2 px-6 rounded-full transition-all duration-300 text-sm shadow-sm hover:shadow-md">
+                                <?php echo esc_html__('Lire l\'article', 'natpatoune'); ?> <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
                             </a>
                         </div>
                     </article>

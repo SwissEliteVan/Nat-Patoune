@@ -34,6 +34,7 @@
   --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.06);
   --shadow-medium: 0 15px 40px rgba(0, 0, 0, 0.1);
   --shadow-strong: 0 20px 50px rgba(0, 0, 0, 0.15);
+  --shadow-glow: 0 0 15px rgba(255, 255, 255, 0.2);
   
   /* Arrondis */
   --radius-sm: 0.5rem;    /* 8px */
@@ -41,6 +42,163 @@
   --radius-lg: 1.5rem;    /* 24px */
   --radius-xl: 2rem;      /* 32px */
   --radius-full: 9999px;  /* Boutons arrondis */
+}
+
+/* Animation pour les CTA */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s infinite;
+}
+
+/* ===== LAYOUT & CONTENEURS ===== */
+/* Effet de surbrillance pour les éléments interactifs */
+.highlight-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.highlight-hover::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  transform: scale(0.5);
+}
+
+.highlight-hover:hover::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Effet de profondeur pour les cartes et sections */
+.depth-effect {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.depth-effect:hover {
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+}
+/* Espacement des sections */
+section {
+  position: relative;
+  padding: var(--spacing-xl) 0;
+}
+
+@media (min-width: 768px) {
+  section {
+    padding: var(--spacing-2xl) 0;
+  }
+}
+
+/* Alternance des fonds de section */
+section.bg-brand-beige + section.bg-brand-beige,
+section.bg-white + section.bg-white {
+  padding-top: 0;
+}
+
+/* Séparateurs de section */
+.section-divider {
+  height: 3px;
+  width: 120px;
+  background: linear-gradient(to right, var(--brand-purple), var(--brand-pink));
+  margin: 0 auto var(--spacing-lg);
+  border-radius: var(--radius-full);
+}
+
+/* Titres de section */
+.section-title {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.section-title h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: var(--spacing-xs);
+}
+
+@media (min-width: 768px) {
+  .section-title h2 {
+    font-size: 2.5rem;
+  }
+}
+
+.section-title p {
+  font-size: 1.125rem;
+  color: var(--brand-text-light);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* Redéfinition du conteneur pour un site plus large */
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  /* Augmentation progressive de la largeur selon les breakpoints */
+  max-width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  box-sizing: border-box; /* Garantit que le padding est inclus dans la largeur */
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1536px;
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
 }
 
 html {
@@ -63,6 +221,8 @@ body {
 main {
   flex: 1;
   padding-top: 80px; /* Espace pour le header fixe */
+  width: 100%; /* Assure que le main prend toute la largeur disponible */
+  overflow-x: hidden; /* Empêche le débordement horizontal */
 }
 
 img {
@@ -115,11 +275,36 @@ p {
 a {
   color: var(--brand-purple);
   text-decoration: none;
-  transition: color 0.2s ease, background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition: color 0.3s ease, background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  position: relative;
 }
 
 a:hover {
   color: var(--brand-purple-dark);
+}
+
+/* Amélioration des liens textuels */
+.text-link {
+  position: relative;
+  display: inline-block;
+}
+
+.text-link::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--brand-purple);
+  transform-origin: bottom right;
+  transition: transform 0.3s ease-out;
+}
+
+.text-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
 }
 
 strong, b {
@@ -184,15 +369,34 @@ header {
 
 /* Menu mobile */
 #mobile-menu {
-  transition: max-height 0.3s ease, opacity 0.3s ease;
+  transition: all 0.3s ease-in-out;
   max-height: 0;
   opacity: 0;
   overflow: hidden;
+  transform: translateY(-10px);
+  margin-top: 0;
 }
 
 #mobile-menu.open {
-  max-height: 500px;
+  max-height: 600px;
   opacity: 1;
+  transform: translateY(0);
+  margin-top: 1rem;
+}
+
+/* Animation du bouton menu */
+#mobile-menu-btn {
+  position: relative;
+  z-index: 20;
+  transition: transform 0.3s ease;
+}
+
+#mobile-menu-btn:hover {
+  transform: scale(1.05);
+}
+
+#mobile-menu-btn:active {
+  transform: scale(0.95);
 }
 
 /* Navigation links */
@@ -305,22 +509,38 @@ header {
   font-size: 0.875rem;
   color: var(--brand-text-light);
   margin-bottom: var(--spacing-md);
+  background-color: rgba(0, 0, 0, 0.02);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-md);
+}
+
+.blog-card__meta span {
+  display: flex;
+  align-items: center;
+}
+
+.blog-card__meta i {
+  color: var(--brand-purple);
+  margin-right: 0.25rem;
 }
 
 .blog-card__category {
   display: inline-block;
-  background-color: var(--brand-purple);
-  color: white;
+  background-color: rgba(143, 120, 211, 0.1);
+  color: var(--brand-purple);
   padding: 0.25rem 0.75rem;
   border-radius: var(--radius-full);
   font-size: 0.75rem;
   font-weight: 600;
   margin-bottom: var(--spacing-sm);
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(143, 120, 211, 0.2);
 }
 
 .blog-card__category:hover {
-  background-color: var(--brand-purple-dark);
+  background-color: var(--brand-purple);
+  color: white;
+  border-color: var(--brand-purple);
 }
 
 /* Pagination */
@@ -584,6 +804,9 @@ header {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: var(--shadow-medium);
   z-index: 40;
+  display: flex !important; /* Force l'affichage */
+  opacity: 1 !important; /* Assure la visibilité */
+  visibility: visible !important; /* Garantit la visibilité */
 }
 
 .whatsapp-button:hover {
@@ -666,6 +889,28 @@ header {
     padding-left: var(--spacing-md);
     padding-right: var(--spacing-md);
   }
+  
+  /* Ajustements pour le hero sur mobile */
+  #hero {
+    min-height: 100vh !important;
+    height: auto !important;
+  }
+  
+  #hero .container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+  
+  /* Amélioration des boutons sur mobile */
+  #hero .flex-col {
+    gap: 1rem !important;
+  }
+  
+  /* Assurer que le WhatsApp est bien visible sur mobile */
+  .whatsapp-button {
+    bottom: 1rem !important;
+    right: 1rem !important;
+  }
 }
 
 @media (max-width: 768px) {
@@ -681,6 +926,31 @@ header {
     min-width: 2.2rem;
     height: 2.2rem;
     font-size: 0.9rem;
+  }
+  
+  /* Ajustements pour tablettes */
+  section {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  /* Amélioration de la navigation sur tablette */
+  header nav {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
+/* Correction pour les écrans très larges */
+@media (min-width: 1920px) {
+  .container {
+    max-width: 1800px;
+  }
+  
+  #hero video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 }
 
@@ -789,10 +1059,21 @@ header {
 /* ===== HERO SECTION ===== */
 #hero {
   position: relative;
+  width: 100%;
+  overflow: hidden;
 }
 
 #hero .absolute {
   z-index: 1;
+}
+
+#hero video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 /* Amélioration de l'overlay pour une meilleure lisibilité du texte */

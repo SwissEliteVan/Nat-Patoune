@@ -142,11 +142,11 @@
 <?php endif; ?>
 
 <!-- Footer -->
-<footer class="bg-brand-text text-white py-12">
+<footer class="bg-brand-text text-white py-16 md:py-20">
     <div class="container mx-auto px-4">
-        <div class="grid md:grid-cols-4 gap-8 mb-8">
+        <div class="grid md:grid-cols-4 gap-10 mb-12">
             <!-- Col 1 : Logo & Description -->
-            <div class="md:col-span-2">
+            <div class="md:col-span-2 pr-0 md:pr-8">
                 <div class="flex items-center gap-3 mb-4">
                     <img src="<?php echo esc_url(get_theme_file_uri('assets/img/logo-nat-patoune-cat-sitting.svg')); ?>" alt="<?php echo esc_attr(get_bloginfo('name')); ?>" class="h-10 w-auto">
                     <span class="font-title font-bold text-2xl"><?php bloginfo('name'); ?></span>
@@ -157,19 +157,19 @@
                     echo $description ? esc_html($description) : 'Cat-sitting à domicile dans le canton de Vaud. Service professionnel avec rapport quotidien et visite de prise de contact offerte.';
                     ?>
                 </p>
-                <div class="flex gap-4">
-                    <a href="https://www.instagram.com/nat.patoune" target="_blank" rel="noopener" aria-label="<?php esc_attr_e('Suivez-nous sur Instagram', 'natpatoune'); ?>" class="w-10 h-10 bg-white/10 hover:bg-brand-purple rounded-full flex items-center justify-center transition">
-                        <i class="fab fa-instagram" aria-hidden="true"></i>
+                <div class="flex gap-4 mt-6">
+                    <a href="https://www.instagram.com/nat.patoune" target="_blank" rel="noopener" aria-label="<?php esc_attr_e('Suivez-nous sur Instagram', 'natpatoune'); ?>" class="w-12 h-12 bg-white/10 hover:bg-brand-purple rounded-full flex items-center justify-center transition-all hover:shadow-glow hover:scale-105">
+                        <i class="fab fa-instagram text-lg" aria-hidden="true"></i>
                     </a>
-                    <a href="<?php echo esc_url(function_exists('natpatoune_get_whatsapp_link') ? natpatoune_get_whatsapp_link() : 'https://wa.me/41787685047'); ?>" target="_blank" rel="noopener" aria-label="<?php esc_attr_e('Contactez-nous sur WhatsApp', 'natpatoune'); ?>" class="w-10 h-10 bg-white/10 hover:bg-green-500 rounded-full flex items-center justify-center transition">
-                        <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                    <a href="<?php echo esc_url(function_exists('natpatoune_get_whatsapp_link') ? natpatoune_get_whatsapp_link() : 'https://wa.me/41787685047'); ?>" target="_blank" rel="noopener" aria-label="<?php esc_attr_e('Contactez-nous sur WhatsApp', 'natpatoune'); ?>" class="w-12 h-12 bg-white/10 hover:bg-green-500 rounded-full flex items-center justify-center transition-all hover:shadow-glow hover:scale-105">
+                        <i class="fab fa-whatsapp text-lg" aria-hidden="true"></i>
                     </a>
                 </div>
             </div>
             
             <!-- Col 2 : Navigation -->
             <div>
-                <h4 class="font-title font-bold text-lg mb-4"><?php esc_html_e('Navigation', 'natpatoune'); ?></h4>
+                <h4 class="font-title font-bold text-lg mb-5 relative inline-block after:content-[''] after:absolute after:bottom-[-6px] after:left-0 after:w-12 after:h-[3px] after:bg-brand-purple after:rounded-full"><?php esc_html_e('Navigation', 'natpatoune'); ?></h4>
                 <?php
                 if (has_nav_menu('footer')) {
                     wp_nav_menu(array(
@@ -194,7 +194,7 @@
             
             <!-- Col 3 : Légal & Contact -->
             <div>
-                <h4 class="font-title font-bold text-lg mb-4"><?php esc_html_e('Informations légales', 'natpatoune'); ?></h4>
+                <h4 class="font-title font-bold text-lg mb-5 relative inline-block after:content-[''] after:absolute after:bottom-[-6px] after:left-0 after:w-12 after:h-[3px] after:bg-brand-purple after:rounded-full"><?php esc_html_e('Informations légales', 'natpatoune'); ?></h4>
                 <ul class="space-y-2 text-sm mb-6">
                     <?php if (function_exists('natpatoune_page_exists') && natpatoune_page_exists('mentions-legales')) : ?>
                     <li><a href="<?php echo esc_url(function_exists('natpatoune_get_page_url') ? natpatoune_get_page_url('mentions-legales') : home_url('/mentions-legales/')); ?>" class="text-gray-300 hover:text-brand-beige transition"><?php esc_html_e('Mentions légales', 'natpatoune'); ?></a></li>
@@ -213,7 +213,7 @@
                     <?php endif; ?>
                 </ul>
                 
-                <h4 class="font-title font-bold text-lg mb-3"><?php esc_html_e('Documents', 'natpatoune'); ?></h4>
+                <h4 class="font-title font-bold text-lg mb-5 relative inline-block after:content-[''] after:absolute after:bottom-[-6px] after:left-0 after:w-12 after:h-[3px] after:bg-brand-purple after:rounded-full"><?php esc_html_e('Documents', 'natpatoune'); ?></h4>
                 <ul class="space-y-2 text-sm text-gray-300 mb-6">
                     <?php if (function_exists('natpatoune_page_exists') && natpatoune_page_exists('contrat-garde-chat')) : ?>
                     <li><a href="<?php echo esc_url(function_exists('natpatoune_get_page_url') ? natpatoune_get_page_url('contrat-garde-chat') : home_url('/contrat-garde-chat/')); ?>" class="hover:text-brand-beige transition"><i class="fas fa-file-contract w-5" aria-hidden="true"></i><?php esc_html_e('Contrat de garde', 'natpatoune'); ?></a></li>
@@ -224,7 +224,7 @@
                     <?php endif; ?>
                 </ul>
                 
-                <h4 class="font-title font-bold text-lg mb-3"><?php esc_html_e('Contact', 'natpatoune'); ?></h4>
+                <h4 class="font-title font-bold text-lg mb-5 relative inline-block after:content-[''] after:absolute after:bottom-[-6px] after:left-0 after:w-12 after:h-[3px] after:bg-brand-purple after:rounded-full"><?php esc_html_e('Contact', 'natpatoune'); ?></h4>
                 <ul class="space-y-2 text-sm text-gray-300">
                     <li>
                         <i class="fas fa-envelope w-5" aria-hidden="true"></i> 
@@ -243,8 +243,15 @@
         </div>
         
         <!-- Copyright -->
-        <div class="border-t border-white/10 pt-8 text-center text-sm text-gray-400">
-            <p>&copy; <?php echo date('Y'); ?> <strong><?php bloginfo('name'); ?></strong> (Nat Patoune) • <?php esc_html_e('Tous droits réservés', 'natpatoune'); ?> • <?php esc_html_e('Garde de chats avec amour dans le canton de Vaud', 'natpatoune'); ?></p>
+        <div class="border-t border-white/10 pt-8 text-center">
+            <div class="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4 text-sm text-gray-300">
+                <p>&copy; <?php echo date('Y'); ?> <strong class="text-white font-medium"><?php bloginfo('name'); ?></strong></p>
+                <span class="hidden md:inline text-gray-500">•</span>
+                <p><?php esc_html_e('Tous droits réservés', 'natpatoune'); ?></p>
+                <span class="hidden md:inline text-gray-500">•</span>
+                <p><?php esc_html_e('Garde de chats avec amour dans le canton de Vaud', 'natpatoune'); ?></p>
+            </div>
+            <p class="mt-4 text-xs text-gray-500"><?php esc_html_e('Site réalisé avec ❤️ pour les chats', 'natpatoune'); ?></p>
         </div>
     </div>
 </footer>

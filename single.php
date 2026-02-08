@@ -29,7 +29,7 @@ get_header();
                 : get_theme_file_uri('assets/img/cat-sitting-domicile-vacances-suisse.webp');
             ?>
 
-            <article id="post-<?php the_ID(); ?>" <?php post_class('max-w-4xl mx-auto'); ?>>
+            <article id="post-<?php the_ID(); ?>" <?php post_class('max-w-5xl mx-auto'); ?>>
 
                 <!-- Article Header -->
                 <header class="single-post-header">
@@ -48,23 +48,23 @@ get_header();
                         </div>
                     <?php endif; ?>
 
-                    <h1 class="single-post-title text-center">
+                    <h1 class="single-post-title text-center font-title font-bold text-3xl md:text-4xl lg:text-5xl mb-6 leading-tight">
                         <?php the_title(); ?>
                     </h1>
 
-                    <div class="single-post-meta">
-                        <span>
-                            <i class="far fa-calendar mr-2" aria-hidden="true"></i><?php echo esc_html(get_the_date()); ?>
+                    <div class="single-post-meta flex flex-wrap justify-center gap-4 md:gap-6 mb-8 text-brand-text-light">
+                        <span class="flex items-center bg-brand-beige px-4 py-2 rounded-full">
+                            <i class="far fa-calendar mr-2 text-brand-purple" aria-hidden="true"></i><?php echo esc_html(get_the_date()); ?>
                         </span>
-                        <span>
-                            <i class="far fa-clock mr-2" aria-hidden="true"></i><?php echo esc_html($read_min); ?> <?php echo esc_html__('min de lecture', 'natpatoune'); ?>
+                        <span class="flex items-center bg-brand-beige px-4 py-2 rounded-full">
+                            <i class="far fa-clock mr-2 text-brand-purple" aria-hidden="true"></i><?php echo esc_html($read_min); ?> <?php echo esc_html__('min de lecture', 'natpatoune'); ?>
                         </span>
-                        <span>
-                            <i class="far fa-user mr-2" aria-hidden="true"></i><?php the_author(); ?>
+                        <span class="flex items-center bg-brand-beige px-4 py-2 rounded-full">
+                            <i class="far fa-user mr-2 text-brand-purple" aria-hidden="true"></i><?php the_author(); ?>
                         </span>
                         <?php if ((int) get_comments_number($post_id) > 0) : ?>
-                            <span>
-                                <i class="far fa-comments mr-2" aria-hidden="true"></i><?php comments_number('0 commentaire', '1 commentaire', '% commentaires'); ?>
+                            <span class="flex items-center bg-brand-beige px-4 py-2 rounded-full">
+                                <i class="far fa-comments mr-2 text-brand-purple" aria-hidden="true"></i><?php comments_number('0 commentaire', '1 commentaire', '% commentaires'); ?>
                             </span>
                         <?php endif; ?>
                     </div>
@@ -95,8 +95,8 @@ get_header();
                 </header>
 
                 <!-- Article Content -->
-                <div class="bg-white rounded-3xl p-8 md:p-12 shadow-soft mb-8">
-                    <div class="single-post-content prose prose-lg max-w-none">
+                <div class="bg-white rounded-3xl p-8 md:p-12 shadow-medium mb-12">
+                    <div class="single-post-content prose prose-lg max-w-none prose-headings:font-title prose-headings:font-bold prose-headings:text-brand-text prose-a:text-brand-purple prose-a:font-medium prose-img:rounded-xl prose-img:shadow-soft">
                         <?php
                         the_content();
 

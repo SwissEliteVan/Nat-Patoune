@@ -8,7 +8,7 @@
 get_header(); ?>
 
 <!-- Hero Section -->
-<section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+<section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-24 pb-16">
     <!-- Background Video - Optimized preload -->
     <video autoplay muted loop playsinline preload="auto" loading="lazy" poster="<?php echo esc_url(get_theme_file_uri('assets/img/cat-sitting-lausanne-hero-poster.webp')); ?>" class="absolute inset-0 w-full h-full object-cover" aria-label="<?php esc_attr_e('Vidéo d\'ambiance de garde de chat', 'natpatoune'); ?>">
         <source src="<?php echo esc_url(get_theme_file_uri('assets/img/cat-sitting-lausanne-hero-720p.mp4')); ?>" type="video/mp4">
@@ -27,12 +27,12 @@ get_header(); ?>
             <span class="text-brand-beige"><?php esc_html_e('Morges, Lausanne & environs', 'natpatoune'); ?></span>
         </h1>
         
-        <p class="text-xl md:text-2xl max-w-3xl mx-auto mb-8 leading-relaxed font-medium">
+        <p class="text-xl md:text-2xl max-w-4xl mx-auto mb-10 leading-relaxed font-medium">
             <?php esc_html_e('Une présence douce et professionnelle pour vos félins pendant vos absences', 'natpatoune'); ?>
         </p>
         
         <!-- Trust Pills -->
-        <div class="flex flex-wrap justify-center gap-4 mb-10 max-w-4xl mx-auto">
+        <div class="flex flex-wrap justify-center gap-5 mb-12 max-w-5xl mx-auto">
             <div class="bg-white/10 backdrop-blur-md px-5 py-3 rounded-full border border-white/20">
                 <i class="fas fa-camera text-brand-beige mr-2" aria-hidden="true"></i>
                 <span class="text-sm md:text-base font-medium"><?php esc_html_e('Rapport quotidien + photos', 'natpatoune'); ?></span>
@@ -51,14 +51,20 @@ get_header(); ?>
             </div>
         </div>
         
-        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a href="<?php echo esc_url(home_url('/#contact')); ?>" class="bg-white hover:bg-brand-beige text-brand-purple font-title font-bold py-4 px-8 rounded-full transition shadow-medium hover:shadow-lg inline-flex items-center">
-                <i class="fas fa-calendar-check mr-2" aria-hidden="true"></i>
+        <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+            <a href="<?php echo esc_url(home_url('/#contact')); ?>" class="bg-white hover:bg-brand-beige text-brand-purple font-title font-bold py-4 px-10 rounded-full transition-all duration-300 shadow-medium hover:shadow-lg inline-flex items-center transform hover:scale-105 group">
+                <span class="bg-brand-purple text-white p-2 rounded-full mr-3 group-hover:bg-brand-purple-dark transition-all">
+                    <i class="fas fa-calendar-check" aria-hidden="true"></i>
+                </span>
                 <?php esc_html_e('Réserver une visite gratuite', 'natpatoune'); ?>
+                <i class="fas fa-arrow-right ml-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" aria-hidden="true"></i>
             </a>
-            <a href="<?php echo esc_url(home_url('/#tarifs')); ?>" class="bg-brand-purple/20 backdrop-blur-sm hover:bg-brand-purple/30 text-white font-title font-bold py-4 px-8 rounded-full transition border-2 border-white inline-flex items-center">
-                <i class="fas fa-tag mr-2" aria-hidden="true"></i>
+            <a href="<?php echo esc_url(home_url('/#tarifs')); ?>" class="bg-brand-purple/20 backdrop-blur-sm hover:bg-brand-purple/30 text-white font-title font-bold py-4 px-10 rounded-full transition-all duration-300 border-2 border-white/80 hover:border-white inline-flex items-center transform hover:scale-105 group">
+                <span class="bg-white/20 p-2 rounded-full mr-3 group-hover:bg-white/30 transition-all">
+                    <i class="fas fa-tag text-white" aria-hidden="true"></i>
+                </span>
                 <?php esc_html_e('Voir les tarifs', 'natpatoune'); ?>
+                <i class="fas fa-chevron-right ml-2 group-hover:translate-x-1 transition-all" aria-hidden="true"></i>
             </a>
         </div>
     </div>
@@ -72,9 +78,9 @@ get_header(); ?>
 </section>
 
 <!-- À propos Section -->
-<section id="a-propos" class="py-16 md:py-24 bg-brand-beige">
+<section id="a-propos" class="py-20 md:py-28 bg-brand-beige">
     <div class="container mx-auto px-4">
-        <div class="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
             <!-- Images avec Badge NP -->
             <div class="relative">
                 <div class="nat-photo-container relative rounded-3xl overflow-hidden shadow-soft protected">
@@ -137,8 +143,12 @@ get_header(); ?>
                     </li>
                 </ul>
                 
-                <a href="<?php echo esc_url(home_url('/#contact')); ?>" class="inline-block bg-brand-purple hover:bg-brand-purple-dark text-white font-title font-bold py-3 px-8 rounded-full transition shadow-soft">
-                    <i class="fas fa-heart mr-2" aria-hidden="true"></i><?php esc_html_e('Me contacter', 'natpatoune'); ?>
+                <a href="<?php echo esc_url(home_url('/#contact')); ?>" class="inline-flex items-center bg-brand-purple hover:bg-brand-purple-dark text-white font-title font-bold py-4 px-10 rounded-full transition-all duration-300 shadow-medium hover:shadow-lg transform hover:scale-105 group">
+                    <span class="bg-white/20 p-2 rounded-full mr-3 group-hover:bg-white/30 transition-all">
+                        <i class="fas fa-heart" aria-hidden="true"></i>
+                    </span>
+                    <?php esc_html_e('Me contacter', 'natpatoune'); ?>
+                    <i class="fas fa-arrow-right ml-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" aria-hidden="true"></i>
                 </a>
             </div>
         </div>
