@@ -127,11 +127,11 @@
 </div>
 
 <!-- WhatsApp Sticky Button -->
-<?php if (function_exists('natpatoune_is_whatsapp_enabled') && natpatoune_is_whatsapp_enabled()) : ?>
-<a href="<?php echo esc_url(function_exists('natpatoune_get_whatsapp_link') ? natpatoune_get_whatsapp_link() : 'https://wa.me/41787685047'); ?>" 
-   target="_blank" 
-   rel="noopener" 
-   aria-label="<?php esc_attr_e('Contactez-nous sur WhatsApp', 'natpatoune'); ?>" 
+<?php /* WhatsApp toujours activé pour assurer la présence sur toutes les pages */ ?>
+<a href="https://wa.me/41787685047"
+   target="_blank"
+   rel="noopener noreferrer"
+   aria-label="WhatsApp Nat Patoune"
    class="whatsapp-button fixed bottom-6 right-6 z-40 flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-lg transition group">
     <!-- Mobile: bouton rond seul -->
     <span class="w-14 h-14 flex items-center justify-center md:w-auto md:h-auto md:py-3 md:px-5">
@@ -140,7 +140,7 @@
     <!-- Desktop: texte visible -->
     <span class="hidden md:inline-block font-bold pr-2">WhatsApp</span>
 </a>
-<?php endif; ?>
+<?php /* WhatsApp toujours visible sur toutes les pages */ ?>
 
 <!-- Footer -->
 <footer class="bg-brand-text text-white py-16 md:py-20">

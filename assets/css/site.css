@@ -223,6 +223,8 @@ main {
   padding-top: 80px; /* Espace pour le header fixe */
   width: 100%; /* Assure que le main prend toute la largeur disponible */
   overflow-x: hidden; /* Empêche le débordement horizontal */
+  overflow-y: visible; /* Permet au contenu de s'afficher verticalement */
+  display: block; /* Assure que le contenu s'affiche correctement */
 }
 
 img {
@@ -892,7 +894,7 @@ header {
   
   /* Ajustements pour le hero sur mobile */
   #hero {
-    min-height: 100vh !important;
+    min-height: 80vh !important;
     height: auto !important;
   }
   
