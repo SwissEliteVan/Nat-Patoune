@@ -6,138 +6,138 @@
  */
 ?>
 <!-- Blog -->
-<section id="blog" class="py-16 md:py-24 bg-white" aria-labelledby="blog-heading">
+<section id="blog" class="py-20 bg-brand-beige" aria-labelledby="blog-heading">
     <div class="container mx-auto px-4">
-        <div class="text-center mb-12">
-            <span class="text-brand-purple font-bold tracking-wider uppercase text-sm">Conseils d'experte</span>
-            <h2 id="blog-heading" class="text-3xl md:text-4xl font-title font-bold text-brand-text mt-2 mb-4">Le Guide du Chat Heureux</h2>
-            <p class="text-gray-500 max-w-2xl mx-auto">En tant que cat-sitter certifiée, je partage ici mes conseils pour garantir le bien-être de vos compagnons.</p>
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <span class="inline-block text-brand-purple font-bold tracking-wider uppercase text-sm mb-2"><?php esc_html_e('Conseils d\'experte', 'natpatoune'); ?></span>
+            <h2 id="blog-heading" class="font-title font-bold text-3xl md:text-4xl text-brand-text mb-4"><?php esc_html_e('Le Guide du Chat Heureux', 'natpatoune'); ?></h2>
+            <p class="text-lg text-brand-text-light"><?php esc_html_e('En tant que cat-sitter certifiée, je partage ici mes conseils pour garantir le bien-être de vos compagnons.', 'natpatoune'); ?></p>
         </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <!-- Article 1 -->
-            <article onclick="document.getElementById('article-1').classList.remove('hidden'); document.getElementById('article-1').classList.add('flex')" class="group cursor-pointer bg-gray-50 rounded-2xl p-4 hover:shadow-lg transition flex flex-col h-full border border-gray-100">
-                <figure class="rounded-xl overflow-hidden mb-4 h-52 bg-gray-200 relative m-0 shrink-0">
+            <article class="bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-medium transition-all transform hover:-translate-y-1 cursor-pointer group modal-trigger" data-modal="article-1">
+                <figure class="relative h-48 overflow-hidden">
                     <?php
                     $img1_path = get_theme_file_path('assets/img/garde-chat-domicile-sans-stress-vaud.webp');
                     if (file_exists($img1_path)) : ?>
-                        <img src="<?php echo esc_url(get_theme_file_uri('assets/img/garde-chat-domicile-sans-stress-vaud.webp')); ?>" width="1200" height="675" class="w-full h-full object-cover transition duration-500 group-hover:scale-110" alt="Chat détendu pendant garde à domicile" loading="lazy">
+                        <img src="<?php echo esc_url(get_theme_file_uri('assets/img/garde-chat-domicile-sans-stress-vaud.webp')); ?>" width="1200" height="675" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Chat détendu pendant garde à domicile" loading="lazy">
                     <?php else : ?>
-                        <div class="w-full h-full bg-gradient-to-br from-brand-purple/20 to-brand-pink/20 flex items-center justify-center">
-                            <i class="fas fa-cat text-brand-purple text-5xl opacity-40"></i>
+                        <div class="w-full h-full bg-brand-grey flex items-center justify-center text-brand-text-light">
+                            <i class="fas fa-cat text-4xl"></i>
                         </div>
                     <?php endif; ?>
-                    <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-brand-purple">Bien-être</div>
+                    <div class="absolute top-4 right-4 bg-brand-purple text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide"><?php esc_html_e('Bien-être', 'natpatoune'); ?></div>
                 </figure>
-                <div class="flex flex-col flex-grow">
-                    <h3 class="font-bold text-lg mb-3 group-hover:text-brand-purple leading-tight text-brand-text">Pourquoi la garde à domicile réduit-elle le stress de votre chat&nbsp;?</h3>
-                    <p class="text-sm text-gray-600 line-clamp-3 mb-4 flex-grow">La garde à domicile s'avère être une solution apaisante pour les chats, qui sont très sensibles aux changements de territoire.</p>
-                    <span class="text-sm text-brand-purple font-bold mt-auto inline-flex items-center">Lire l'article <i class="fas fa-arrow-right ml-2 text-xs transition-transform group-hover:translate-x-1"></i></span>
+                <div class="p-6">
+                    <h3 class="font-title font-bold text-xl text-brand-text mb-3 group-hover:text-brand-purple transition-colors"><?php esc_html_e('Pourquoi la garde à domicile réduit-elle le stress de votre chat ?', 'natpatoune'); ?></h3>
+                    <p class="text-brand-text-light text-sm mb-4 line-clamp-3"><?php esc_html_e('La garde à domicile s\'avère être une solution apaisante pour les chats, qui sont très sensibles aux changements de territoire.', 'natpatoune'); ?></p>
+                    <span class="inline-flex items-center text-brand-purple font-bold text-sm group-hover:underline"><?php esc_html_e('Lire l\'article', 'natpatoune'); ?> <i class="fas fa-arrow-right ml-2 transition-transform group-hover:translate-x-1"></i></span>
                 </div>
             </article>
 
             <!-- Article 2 -->
-            <article onclick="document.getElementById('article-2').classList.remove('hidden'); document.getElementById('article-2').classList.add('flex')" class="group cursor-pointer bg-gray-50 rounded-2xl p-4 hover:shadow-lg transition flex flex-col h-full border border-gray-100">
-                <figure class="rounded-xl overflow-hidden mb-4 h-52 bg-gray-200 relative m-0 shrink-0">
+            <article class="bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-medium transition-all transform hover:-translate-y-1 cursor-pointer group modal-trigger" data-modal="article-2">
+                <figure class="relative h-48 overflow-hidden">
                     <?php
                     $img2_path = get_theme_file_path('assets/img/cat-sitting-domicile-vacances-suisse.webp');
                     if (file_exists($img2_path)) : ?>
-                        <img src="<?php echo esc_url(get_theme_file_uri('assets/img/cat-sitting-domicile-vacances-suisse.webp')); ?>" width="1200" height="675" class="w-full h-full object-cover transition duration-500 group-hover:scale-110" alt="Chat relax chez lui pendant vacances" loading="lazy">
+                        <img src="<?php echo esc_url(get_theme_file_uri('assets/img/cat-sitting-domicile-vacances-suisse.webp')); ?>" width="1200" height="675" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Chat relax chez lui pendant vacances" loading="lazy">
                     <?php else : ?>
-                        <div class="w-full h-full bg-gradient-to-br from-brand-purple/20 to-brand-pink/20 flex items-center justify-center">
-                            <i class="fas fa-cat text-brand-purple text-5xl opacity-40"></i>
+                        <div class="w-full h-full bg-brand-grey flex items-center justify-center text-brand-text-light">
+                            <i class="fas fa-cat text-4xl"></i>
                         </div>
                     <?php endif; ?>
-                    <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-brand-purple">Vacances</div>
+                    <div class="absolute top-4 right-4 bg-brand-purple text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide"><?php esc_html_e('Vacances', 'natpatoune'); ?></div>
                 </figure>
-                <div class="flex flex-col flex-grow">
-                    <h3 class="font-bold text-lg mb-3 group-hover:text-brand-purple leading-tight text-brand-text">Vacances tranquilles : faire garder son chat à domicile dans le canton de Vaud</h3>
-                    <p class="text-sm text-gray-600 line-clamp-3 mb-4 flex-grow">La garde à domicile dans le canton de Vaud permet de profiter de ses vacances sans se soucier de son animal.</p>
-                    <span class="text-sm text-brand-purple font-bold mt-auto inline-flex items-center">Lire l'article <i class="fas fa-arrow-right ml-2 text-xs transition-transform group-hover:translate-x-1"></i></span>
+                <div class="p-6">
+                    <h3 class="font-title font-bold text-xl text-brand-text mb-3 group-hover:text-brand-purple transition-colors"><?php esc_html_e('Vacances tranquilles : faire garder son chat à domicile dans le canton de Vaud', 'natpatoune'); ?></h3>
+                    <p class="text-brand-text-light text-sm mb-4 line-clamp-3"><?php esc_html_e('La garde à domicile dans le canton de Vaud permet de profiter de ses vacances sans se soucier de son animal.', 'natpatoune'); ?></p>
+                    <span class="inline-flex items-center text-brand-purple font-bold text-sm group-hover:underline"><?php esc_html_e('Lire l\'article', 'natpatoune'); ?> <i class="fas fa-arrow-right ml-2 transition-transform group-hover:translate-x-1"></i></span>
                 </div>
             </article>
 
             <!-- Article 3 -->
-            <article onclick="document.getElementById('article-3').classList.remove('hidden'); document.getElementById('article-3').classList.add('flex')" class="group cursor-pointer bg-gray-50 rounded-2xl p-4 hover:shadow-lg transition flex flex-col h-full border border-gray-100">
-                <figure class="rounded-xl overflow-hidden mb-4 h-52 bg-gray-200 relative m-0 shrink-0">
+            <article class="bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-medium transition-all transform hover:-translate-y-1 cursor-pointer group modal-trigger" data-modal="article-3">
+                <figure class="relative h-48 overflow-hidden">
                     <?php
                     $img3_path = get_theme_file_path('assets/img/chaton-cache-couverture.webp');
                     if (file_exists($img3_path)) : ?>
-                        <img src="<?php echo esc_url(get_theme_file_uri('assets/img/chaton-cache-couverture.webp')); ?>" width="1200" height="675" class="w-full h-full object-cover object-center transition duration-500 group-hover:scale-110" alt="Soin médical à domicile pour chat" loading="lazy">
+                        <img src="<?php echo esc_url(get_theme_file_uri('assets/img/chaton-cache-couverture.webp')); ?>" width="1200" height="675" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Soin médical à domicile pour chat" loading="lazy">
                     <?php else : ?>
-                        <div class="w-full h-full bg-gradient-to-br from-brand-purple/20 to-brand-pink/20 flex items-center justify-center">
-                            <i class="fas fa-cat text-brand-purple text-5xl opacity-40"></i>
+                        <div class="w-full h-full bg-brand-grey flex items-center justify-center text-brand-text-light">
+                            <i class="fas fa-cat text-4xl"></i>
                         </div>
                     <?php endif; ?>
-                    <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-brand-purple">Soins Spécifiques</div>
+                    <div class="absolute top-4 right-4 bg-brand-purple text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide"><?php esc_html_e('Soins Spécifiques', 'natpatoune'); ?></div>
                 </figure>
-                <div class="flex flex-col flex-grow">
-                    <h3 class="font-bold text-lg mb-3 group-hover:text-brand-purple leading-tight text-brand-text">Chat âgé ou anxieux : pourquoi le cat-sitting est indispensable</h3>
-                    <p class="text-sm text-gray-600 line-clamp-3 mb-4 flex-grow">Les chats âgés ont des habitudes profondément ancrées. Un changement de routine ou d'environnement peut accentuer des pathologies existantes.</p>
-                    <span class="text-sm text-brand-purple font-bold mt-auto inline-flex items-center">Lire l'article <i class="fas fa-arrow-right ml-2 text-xs transition-transform group-hover:translate-x-1"></i></span>
+                <div class="p-6">
+                    <h3 class="font-title font-bold text-xl text-brand-text mb-3 group-hover:text-brand-purple transition-colors"><?php esc_html_e('Chat âgé ou anxieux : pourquoi le cat-sitting est indispensable', 'natpatoune'); ?></h3>
+                    <p class="text-brand-text-light text-sm mb-4 line-clamp-3"><?php esc_html_e('Les chats âgés ont des habitudes profondément ancrées. Un changement de routine ou d\'environnement peut accentuer des pathologies existantes.', 'natpatoune'); ?></p>
+                    <span class="inline-flex items-center text-brand-purple font-bold text-sm group-hover:underline"><?php esc_html_e('Lire l\'article', 'natpatoune'); ?> <i class="fas fa-arrow-right ml-2 transition-transform group-hover:translate-x-1"></i></span>
                 </div>
             </article>
 
             <!-- Article 4 -->
-            <article onclick="document.getElementById('article-4').classList.remove('hidden'); document.getElementById('article-4').classList.add('flex')" class="group cursor-pointer bg-gray-50 rounded-2xl p-4 hover:shadow-lg transition flex flex-col h-full border border-gray-100">
-                <figure class="rounded-xl overflow-hidden mb-4 h-52 bg-gray-200 relative m-0 shrink-0">
+            <article class="bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-medium transition-all transform hover:-translate-y-1 cursor-pointer group modal-trigger" data-modal="article-4">
+                <figure class="relative h-48 overflow-hidden">
                     <?php
                     $img4_path = get_theme_file_path('assets/img/galerie-chat-5.webp');
                     if (file_exists($img4_path)) : ?>
-                        <img src="<?php echo esc_url(get_theme_file_uri('assets/img/galerie-chat-5.webp')); ?>" width="1200" height="675" class="w-full h-full object-cover transition duration-500 group-hover:scale-110" alt="Chat paisible à la maison avant un départ" loading="lazy">
+                        <img src="<?php echo esc_url(get_theme_file_uri('assets/img/galerie-chat-5.webp')); ?>" width="1200" height="675" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Chat paisible à la maison avant un départ" loading="lazy">
                     <?php else : ?>
-                        <div class="w-full h-full bg-gradient-to-br from-brand-purple/20 to-brand-pink/20 flex items-center justify-center">
-                            <i class="fas fa-cat text-brand-purple text-5xl opacity-40"></i>
+                        <div class="w-full h-full bg-brand-grey flex items-center justify-center text-brand-text-light">
+                            <i class="fas fa-cat text-4xl"></i>
                         </div>
                     <?php endif; ?>
-                    <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-brand-purple">Organisation</div>
+                    <div class="absolute top-4 right-4 bg-brand-purple text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide"><?php esc_html_e('Organisation', 'natpatoune'); ?></div>
                 </figure>
-                <div class="flex flex-col flex-grow">
-                    <h3 class="font-bold text-lg mb-3 group-hover:text-brand-purple leading-tight text-brand-text">Avant de partir : la checklist simple pour une garde à domicile réussie</h3>
-                    <p class="text-sm text-gray-600 line-clamp-3 mb-4 flex-grow">Instructions, alimentation, sécurité, contacts utiles : préparez votre domicile et votre chat pour des visites sereines et efficaces.</p>
-                    <span class="text-sm text-brand-purple font-bold mt-auto inline-flex items-center">Lire l'article <i class="fas fa-arrow-right ml-2 text-xs transition-transform group-hover:translate-x-1"></i></span>
+                <div class="p-6">
+                    <h3 class="font-title font-bold text-xl text-brand-text mb-3 group-hover:text-brand-purple transition-colors"><?php esc_html_e('Avant de partir : la checklist simple pour une garde à domicile réussie', 'natpatoune'); ?></h3>
+                    <p class="text-brand-text-light text-sm mb-4 line-clamp-3"><?php esc_html_e('Instructions, alimentation, sécurité, contacts utiles : préparez votre domicile et votre chat pour des visites sereines et efficaces.', 'natpatoune'); ?></p>
+                    <span class="inline-flex items-center text-brand-purple font-bold text-sm group-hover:underline"><?php esc_html_e('Lire l\'article', 'natpatoune'); ?> <i class="fas fa-arrow-right ml-2 transition-transform group-hover:translate-x-1"></i></span>
                 </div>
             </article>
 
             <!-- Article 5 -->
-            <article onclick="document.getElementById('article-5').classList.remove('hidden'); document.getElementById('article-5').classList.add('flex')" class="group cursor-pointer bg-gray-50 rounded-2xl p-4 hover:shadow-lg transition flex flex-col h-full border border-gray-100">
-                <figure class="rounded-xl overflow-hidden mb-4 h-52 bg-gray-200 relative m-0 shrink-0">
+            <article class="bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-medium transition-all transform hover:-translate-y-1 cursor-pointer group modal-trigger" data-modal="article-5">
+                <figure class="relative h-48 overflow-hidden">
                     <?php
                     $img5_path = get_theme_file_path('assets/img/galerie-chat-6.webp');
                     if (file_exists($img5_path)) : ?>
-                        <img src="<?php echo esc_url(get_theme_file_uri('assets/img/galerie-chat-6.webp')); ?>" width="1200" height="675" class="w-full h-full object-cover transition duration-500 group-hover:scale-110" alt="Chat près de sa gamelle et de son eau" loading="lazy">
+                        <img src="<?php echo esc_url(get_theme_file_uri('assets/img/galerie-chat-6.webp')); ?>" width="1200" height="675" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Chat près de sa gamelle et de son eau" loading="lazy">
                     <?php else : ?>
-                        <div class="w-full h-full bg-gradient-to-br from-brand-purple/20 to-brand-pink/20 flex items-center justify-center">
-                            <i class="fas fa-cat text-brand-purple text-5xl opacity-40"></i>
+                        <div class="w-full h-full bg-brand-grey flex items-center justify-center text-brand-text-light">
+                            <i class="fas fa-cat text-4xl"></i>
                         </div>
                     <?php endif; ?>
-                    <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-brand-purple">Routine</div>
+                    <div class="absolute top-4 right-4 bg-brand-purple text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide"><?php esc_html_e('Routine', 'natpatoune'); ?></div>
                 </figure>
-                <div class="flex flex-col flex-grow">
-                    <h3 class="font-bold text-lg mb-3 group-hover:text-brand-purple leading-tight text-brand-text">Eau, litière, nourriture : les essentiels pour des visites efficaces</h3>
-                    <p class="text-sm text-gray-600 line-clamp-3 mb-4 flex-grow">Les bons réglages font toute la différence : quantités, hygiène, emplacements et astuces pour limiter le stress pendant votre absence.</p>
-                    <span class="text-sm text-brand-purple font-bold mt-auto inline-flex items-center">Lire l'article <i class="fas fa-arrow-right ml-2 text-xs transition-transform group-hover:translate-x-1"></i></span>
+                <div class="p-6">
+                    <h3 class="font-title font-bold text-xl text-brand-text mb-3 group-hover:text-brand-purple transition-colors"><?php esc_html_e('Eau, litière, nourriture : les essentiels pour des visites efficaces', 'natpatoune'); ?></h3>
+                    <p class="text-brand-text-light text-sm mb-4 line-clamp-3"><?php esc_html_e('Les bons réglages font toute la différence : quantités, hygiène, emplacements et astuces pour limiter le stress pendant votre absence.', 'natpatoune'); ?></p>
+                    <span class="inline-flex items-center text-brand-purple font-bold text-sm group-hover:underline"><?php esc_html_e('Lire l\'article', 'natpatoune'); ?> <i class="fas fa-arrow-right ml-2 transition-transform group-hover:translate-x-1"></i></span>
                 </div>
             </article>
 
             <!-- Article 6 -->
-            <article onclick="document.getElementById('article-6').classList.remove('hidden'); document.getElementById('article-6').classList.add('flex')" class="group cursor-pointer bg-gray-50 rounded-2xl p-4 hover:shadow-lg transition flex flex-col h-full border border-gray-100">
-                <figure class="rounded-xl overflow-hidden mb-4 h-52 bg-gray-200 relative m-0 shrink-0">
+            <article class="bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-medium transition-all transform hover:-translate-y-1 cursor-pointer group modal-trigger" data-modal="article-6">
+                <figure class="relative h-48 overflow-hidden">
                     <?php
                     $img6_path = get_theme_file_path('assets/img/galerie-chat-4.webp');
                     if (file_exists($img6_path)) : ?>
-                        <img src="<?php echo esc_url(get_theme_file_uri('assets/img/galerie-chat-4.webp')); ?>" width="1200" height="675" class="w-full h-full object-cover transition duration-500 group-hover:scale-110" alt="Chat curieux dans un intérieur sécurisé" loading="lazy">
+                        <img src="<?php echo esc_url(get_theme_file_uri('assets/img/galerie-chat-4.webp')); ?>" width="1200" height="675" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Chat curieux dans un intérieur sécurisé" loading="lazy">
                     <?php else : ?>
-                        <div class="w-full h-full bg-gradient-to-br from-brand-purple/20 to-brand-pink/20 flex items-center justify-center">
-                            <i class="fas fa-cat text-brand-purple text-5xl opacity-40"></i>
+                        <div class="w-full h-full bg-brand-grey flex items-center justify-center text-brand-text-light">
+                            <i class="fas fa-cat text-4xl"></i>
                         </div>
                     <?php endif; ?>
-                    <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-brand-purple">Sécurité</div>
+                    <div class="absolute top-4 right-4 bg-brand-purple text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide"><?php esc_html_e('Sécurité', 'natpatoune'); ?></div>
                 </figure>
-                <div class="flex flex-col flex-grow">
-                    <h3 class="font-bold text-lg mb-3 group-hover:text-brand-purple leading-tight text-brand-text">Sécurité à domicile : éviter les petits risques pendant votre absence</h3>
-                    <p class="text-sm text-gray-600 line-clamp-3 mb-4 flex-grow">Câbles, fenêtres, plantes toxiques, objets fragiles : les points à vérifier pour protéger votre chat et votre logement.</p>
-                    <span class="text-sm text-brand-purple font-bold mt-auto inline-flex items-center">Lire l'article <i class="fas fa-arrow-right ml-2 text-xs transition-transform group-hover:translate-x-1"></i></span>
+                <div class="p-6">
+                    <h3 class="font-title font-bold text-xl text-brand-text mb-3 group-hover:text-brand-purple transition-colors"><?php esc_html_e('Sécurité à domicile : éviter les petits risques pendant votre absence', 'natpatoune'); ?></h3>
+                    <p class="text-brand-text-light text-sm mb-4 line-clamp-3"><?php esc_html_e('Câbles, fenêtres, plantes toxiques, objets fragiles : les points à vérifier pour protéger votre chat et votre logement.', 'natpatoune'); ?></p>
+                    <span class="inline-flex items-center text-brand-purple font-bold text-sm group-hover:underline"><?php esc_html_e('Lire l\'article', 'natpatoune'); ?> <i class="fas fa-arrow-right ml-2 transition-transform group-hover:translate-x-1"></i></span>
                 </div>
             </article>
         </div>
@@ -154,3 +154,39 @@ for ($i = 1; $i <= 6; $i++) {
     }
 }
 ?>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const triggers = document.querySelectorAll('.modal-trigger');
+        
+        triggers.forEach(trigger => {
+            trigger.addEventListener('click', function() {
+                const modalId = this.getAttribute('data-modal');
+                const modal = document.getElementById(modalId);
+                
+                if (modal) {
+                    modal.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                    
+                    // Close logic
+                    const closeBtn = modal.querySelector('.modal-close');
+                    const overlay = modal.querySelector('.modal-overlay');
+                    
+                    const closeModal = function() {
+                        modal.classList.add('hidden');
+                        document.body.style.overflow = '';
+                    };
+                    
+                    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+                    if (overlay) overlay.addEventListener('click', closeModal);
+                    
+                    document.addEventListener('keydown', function(e) {
+                        if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                            closeModal();
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>

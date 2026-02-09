@@ -91,10 +91,10 @@ function natpatoune_setup() {
 add_action('after_setup_theme', 'natpatoune_setup');
 
 /**
- * Enqueue Styles and Scripts (perf + cache-busting)
+ * Enqueue Styles and Scripts
  */
 function natpatoune_enqueue_assets() {
-    // style.css (WordPress theme header) – keep
+    // style.css (WordPress theme header)
     wp_enqueue_style(
         'natpatoune-style',
         get_stylesheet_uri(),
@@ -102,78 +102,61 @@ function natpatoune_enqueue_assets() {
         natpatoune_file_version('style.css', '1.0.0')
     );
 
-    // site.css – your design system
-    if (is_readable(get_theme_file_path('assets/css/site.css'))) {
-        wp_enqueue_style(
-            'natpatoune-site',
-            natpatoune_theme_uri('assets/css/site.css'),
-            array('natpatoune-style'),
-            natpatoune_file_version('assets/css/site.css', '1.0.0')
-        );
-    }
-
-    // Main theme script - load only if file exists
-    if (is_readable(get_theme_file_path('assets/js/main.js'))) {
-        wp_enqueue_script(
-            'natpatoune-main',
-            natpatoune_theme_uri('assets/js/main.js'),
-            array('jquery'),
-            natpatoune_file_version('assets/js/main.js', '1.0.0'),
-            true
-        );
-
-        // Defer when supported (WP will ignore if not supported)
-        if (function_exists('wp_script_add_data')) {
-            wp_script_add_data('natpatoune-main', 'strategy', 'defer');
-        }
-
-        // Localize script for AJAX and site data
-        wp_localize_script('natpatoune-main', 'natpatouneData', array(
-            'ajaxUrl' => admin_url('admin-ajax.php'),
-            'nonce'   => wp_create_nonce('natpatoune_nonce'),
-            'homeUrl' => esc_url(home_url('/')),
-            'themeUri' => get_template_directory_uri(),
-            'isMobile' => wp_is_mobile(),
-        ));
-    }
-
-    // Conditionally load scripts based on page type
-    if (is_front_page()) {
-        // Front page specific scripts if needed
-        if (is_readable(get_theme_file_path('assets/js/home.js'))) {
-            wp_enqueue_script(
-                'natpatoune-home',
-                natpatoune_theme_uri('assets/js/home.js'),
-                array('jquery', 'natpatoune-main'),
-                natpatoune_file_version('assets/js/home.js', '1.0.0'),
-                true
-            );
-        }
-    }
-    
-    // Blog specific scripts - only load on blog pages
-    if ((is_home() || is_archive() || is_search()) && is_readable(get_theme_file_path('assets/js/blog.js'))) {
-        wp_enqueue_script(
-            'natpatoune-blog',
-            natpatoune_theme_uri('assets/js/blog.js'),
-            array('jquery', 'natpatoune-main'),
-            natpatoune_file_version('assets/js/blog.js', '1.0.0'),
-            true
-        );
-    }
-    
-    // Single post specific scripts
-    if (is_singular('post') && is_readable(get_theme_file_path('assets/js/single.js'))) {
-        wp_enqueue_script(
-            'natpatoune-single',
-            natpatoune_theme_uri('assets/js/single.js'),
-            array('jquery', 'natpatoune-main'),
-            natpatoune_file_version('assets/js/single.js', '1.0.0'),
-            true
-        );
-    }
+    // Tailwind CSS (CDN)
+    wp_enqueue_script(
+        'tailwindcss',
+        'https://cdn.tailwindcss.com',
+        array(),
+        '3.4.1',
+        false // Load in head
+    );
 }
 add_action('wp_enqueue_scripts', 'natpatoune_enqueue_assets');
+
+/**
+ * Tailwind Configuration
+ */
+function natpatoune_tailwind_config() {
+    ?>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            purple: '#8F78D3',
+                            'purple-dark': '#7A65B8',
+                            pink: '#E8AEC3',
+                            green: '#9BB89F',
+                            beige: '#FBF9F4',
+                            text: '#3A3A3A',
+                            'text-light': '#6B6B6B',
+                            white: '#FFFFFF',
+                            grey: '#E5E5E5',
+                            cream: '#FFFDF5',
+                        }
+                    },
+                    fontFamily: {
+                        title: ['Outfit', 'system-ui', 'sans-serif'],
+                        body: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    container: {
+                        center: true,
+                        padding: '1rem',
+                        screens: {
+                            sm: '640px',
+                            md: '768px',
+                            lg: '1024px',
+                            xl: '1280px',
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+    <?php
+}
+add_action('wp_head', 'natpatoune_tailwind_config');
 
 /**
  * Set posts per page for blog to 6
@@ -738,11 +721,10 @@ function natpatoune_get_cookie_settings() {
  * Localize cookie settings for JS
  */
 function natpatoune_localize_cookie_settings() {
-    if (is_readable(get_theme_file_path('assets/js/main.js'))) {
-        wp_localize_script('natpatoune-main', 'natpatouneCookies', natpatoune_get_cookie_settings());
-    }
+    // Removed main.js dependency check as we're rebuilding
+    // Will re-implement cookie logic later if needed
 }
-add_action('wp_enqueue_scripts', 'natpatoune_localize_cookie_settings', 20);
+// add_action('wp_enqueue_scripts', 'natpatoune_localize_cookie_settings', 20);
 
 /**
  * Optimisation des images

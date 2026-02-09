@@ -8,8 +8,8 @@
 get_header();
 ?>
 
-<section class="pt-24 pb-16 bg-brand-beige min-h-screen">
-    <div class="container mx-auto px-4">
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-4 max-w-4xl">
         <?php while (have_posts()) : the_post(); ?>
             <?php
             $post_id = get_the_ID();
@@ -29,17 +29,17 @@ get_header();
                 : get_theme_file_uri('assets/img/fallback-featured-image.webp');
             ?>
 
-            <article id="post-<?php the_ID(); ?>" <?php post_class('max-w-5xl mx-auto'); ?>>
+            <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
                 <!-- Article Header -->
-                <header class="single-post-header">
+                <header class="text-center mb-12">
 
                     <?php if (!empty($categories)) : ?>
-                        <div class="flex flex-wrap gap-2 mb-4 justify-center">
+                        <div class="flex justify-center gap-2 mb-6">
                             <?php foreach ($categories as $category) : ?>
                                 <a
                                     href="<?php echo esc_url(get_category_link($category->term_id)); ?>"
-                                    class="bg-brand-purple text-white text-xs font-bold px-4 py-2 rounded-full hover:bg-brand-purple-dark transition"
+                                    class="bg-brand-purple text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide hover:bg-brand-purple-dark transition-colors"
                                     rel="category"
                                 >
                                     <?php echo esc_html($category->name); ?>
@@ -48,34 +48,34 @@ get_header();
                         </div>
                     <?php endif; ?>
 
-                    <h1 class="single-post-title text-center font-title font-bold text-3xl md:text-4xl lg:text-5xl mb-6 leading-tight">
+                    <h1 class="font-title font-bold text-3xl md:text-5xl text-brand-text mb-6 leading-tight">
                         <?php the_title(); ?>
                     </h1>
 
-                    <div class="single-post-meta flex flex-wrap justify-center gap-4 md:gap-6 mb-8 text-brand-text-light">
-                        <span class="flex items-center bg-brand-beige px-4 py-2 rounded-full">
-                            <i class="far fa-calendar mr-2 text-brand-purple" aria-hidden="true"></i><?php echo esc_html(get_the_date()); ?>
+                    <div class="flex flex-wrap justify-center gap-6 text-brand-text-light text-sm">
+                        <span class="flex items-center gap-2">
+                            <i class="far fa-calendar" aria-hidden="true"></i><?php echo esc_html(get_the_date()); ?>
                         </span>
-                        <span class="flex items-center bg-brand-beige px-4 py-2 rounded-full">
-                            <i class="far fa-clock mr-2 text-brand-purple" aria-hidden="true"></i><?php echo esc_html($read_min); ?> <?php echo esc_html__('min de lecture', 'natpatoune'); ?>
+                        <span class="flex items-center gap-2">
+                            <i class="far fa-clock" aria-hidden="true"></i><?php echo esc_html($read_min); ?> <?php echo esc_html__('min de lecture', 'natpatoune'); ?>
                         </span>
-                        <span class="flex items-center bg-brand-beige px-4 py-2 rounded-full">
-                            <i class="far fa-user mr-2 text-brand-purple" aria-hidden="true"></i><?php the_author(); ?>
+                        <span class="flex items-center gap-2">
+                            <i class="far fa-user" aria-hidden="true"></i><?php the_author(); ?>
                         </span>
                         <?php if ((int) get_comments_number($post_id) > 0) : ?>
-                            <span class="flex items-center bg-brand-beige px-4 py-2 rounded-full">
-                                <i class="far fa-comments mr-2 text-brand-purple" aria-hidden="true"></i><?php comments_number('0 commentaire', '1 commentaire', '% commentaires'); ?>
+                            <span class="flex items-center gap-2">
+                                <i class="far fa-comments" aria-hidden="true"></i><?php comments_number('0 commentaire', '1 commentaire', '% commentaires'); ?>
                             </span>
                         <?php endif; ?>
                     </div>
 
-                    <div class="single-post-featured-image">
+                    <div class="mt-10 rounded-2xl overflow-hidden shadow-lg">
                         <?php if (has_post_thumbnail()) : ?>
                             <?php
                             the_post_thumbnail(
                                 'natpatoune-featured',
                                 array(
-                                    'class'    => 'w-full h-auto',
+                                    'class'    => 'w-full h-auto object-cover',
                                     'loading'  => 'eager',
                                     'decoding' => 'async',
                                 )
@@ -85,7 +85,7 @@ get_header();
                             <img 
                                 src="<?php echo esc_url($fallback_image); ?>" 
                                 alt="<?php echo esc_attr(get_the_title()); ?>" 
-                                class="w-full h-auto"
+                                class="w-full h-auto object-cover"
                                 loading="eager"
                                 decoding="async"
                             >
@@ -95,33 +95,31 @@ get_header();
                 </header>
 
                 <!-- Article Content -->
-                <div class="bg-white rounded-3xl p-8 md:p-12 shadow-medium mb-12">
-                    <div class="single-post-content prose prose-lg max-w-none prose-headings:font-title prose-headings:font-bold prose-headings:text-brand-text prose-a:text-brand-purple prose-a:font-medium prose-img:rounded-xl prose-img:shadow-soft prose-p:leading-relaxed prose-p:text-brand-text prose-p:mb-6">
-                        <?php
-                        the_content();
+                <div class="prose prose-lg prose-purple max-w-none text-brand-text-light">
+                    <?php
+                    the_content();
 
-                        wp_link_pages(array(
-                            'before' => '<div class="page-links mt-8"><span class="page-links-title font-title font-bold">' . esc_html__('Pages:', 'natpatoune') . '</span>',
-                            'after'  => '</div>',
-                            'link_before' => '<span class="page-number">',
-                            'link_after'  => '</span>',
-                        ));
-                        ?>
-                    </div>
+                    wp_link_pages(array(
+                        'before' => '<div class="mt-8 flex gap-2 items-center"><span class="font-bold">' . esc_html__('Pages:', 'natpatoune') . '</span>',
+                        'after'  => '</div>',
+                        'link_before' => '<span class="px-3 py-1 bg-brand-grey rounded hover:bg-brand-purple hover:text-white transition-colors">',
+                        'link_after'  => '</span>',
+                    ));
+                    ?>
                 </div>
 
                 <!-- Tags -->
                 <?php if (!empty($tags) && !is_wp_error($tags)) : ?>
-                    <div class="bg-white rounded-2xl p-6 shadow-soft mb-8">
-                        <h3 class="font-title font-bold text-lg text-brand-text mb-4">
-                            <i class="fas fa-tags text-brand-purple mr-2" aria-hidden="true"></i><?php echo esc_html__('Tags', 'natpatoune'); ?>
+                    <div class="mt-12 pt-8 border-t border-brand-grey/30">
+                        <h3 class="font-bold text-brand-text mb-4 flex items-center gap-2">
+                            <i class="fas fa-tags text-brand-purple" aria-hidden="true"></i><?php echo esc_html__('Tags', 'natpatoune'); ?>
                         </h3>
 
                         <div class="flex flex-wrap gap-2">
                             <?php foreach ($tags as $tag) : ?>
                                 <a
                                     href="<?php echo esc_url(get_tag_link($tag->term_id)); ?>"
-                                    class="bg-brand-beige hover:bg-brand-purple hover:text-white text-brand-text text-sm px-4 py-2 rounded-full transition"
+                                    class="bg-brand-beige text-brand-text-light px-3 py-1 rounded-full text-sm hover:bg-brand-purple hover:text-white transition-colors"
                                     rel="tag"
                                 >
                                     #<?php echo esc_html($tag->name); ?>
@@ -132,25 +130,25 @@ get_header();
                 <?php endif; ?>
 
                 <!-- Post Navigation -->
-                <nav class="post-navigation grid md:grid-cols-2 gap-6 mb-8" aria-label="<?php esc_attr_e('Navigation des articles', 'natpatoune'); ?>">
+                <nav class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6" aria-label="<?php esc_attr_e('Navigation des articles', 'natpatoune'); ?>">
                     <?php
                     $prev_post = get_previous_post();
                     if ($prev_post) :
                     ?>
                         <a
                             href="<?php echo esc_url(get_permalink($prev_post)); ?>"
-                            class="bg-white rounded-2xl p-6 shadow-soft hover:shadow-medium transition group"
+                            class="flex flex-col p-6 bg-brand-beige rounded-xl hover:bg-brand-purple/10 transition-colors group text-left"
                             rel="prev"
                         >
-                            <span class="text-xs text-brand-purple font-bold mb-2 block">
-                                <i class="fas fa-chevron-left mr-2" aria-hidden="true"></i><?php echo esc_html__('Article précédent', 'natpatoune'); ?>
+                            <span class="text-sm text-brand-text-light mb-2 flex items-center gap-2 group-hover:text-brand-purple">
+                                <i class="fas fa-chevron-left" aria-hidden="true"></i><?php echo esc_html__('Article précédent', 'natpatoune'); ?>
                             </span>
-                            <h4 class="font-title font-bold text-brand-text group-hover:text-brand-purple transition">
+                            <h4 class="font-bold text-brand-text group-hover:text-brand-purple transition-colors line-clamp-2">
                                 <?php echo esc_html(get_the_title($prev_post)); ?>
                             </h4>
                         </a>
                     <?php else: ?>
-                        <div></div> <!-- Espace vide pour maintenir l'alignement -->
+                        <div></div>
                     <?php endif; ?>
 
                     <?php
@@ -159,13 +157,13 @@ get_header();
                     ?>
                         <a
                             href="<?php echo esc_url(get_permalink($next_post)); ?>"
-                            class="bg-white rounded-2xl p-6 shadow-soft hover:shadow-medium transition group text-right"
+                            class="flex flex-col p-6 bg-brand-beige rounded-xl hover:bg-brand-purple/10 transition-colors group text-right"
                             rel="next"
                         >
-                            <span class="text-xs text-brand-purple font-bold mb-2 block">
-                                <?php echo esc_html__('Article suivant', 'natpatoune'); ?><i class="fas fa-chevron-right ml-2" aria-hidden="true"></i>
+                            <span class="text-sm text-brand-text-light mb-2 flex items-center justify-end gap-2 group-hover:text-brand-purple">
+                                <?php echo esc_html__('Article suivant', 'natpatoune'); ?><i class="fas fa-chevron-right" aria-hidden="true"></i>
                             </span>
-                            <h4 class="font-title font-bold text-brand-text group-hover:text-brand-purple transition">
+                            <h4 class="font-bold text-brand-text group-hover:text-brand-purple transition-colors line-clamp-2">
                                 <?php echo esc_html(get_the_title($next_post)); ?>
                             </h4>
                         </a>
@@ -186,42 +184,41 @@ get_header();
 
                     if ($related_query->have_posts()) :
                     ?>
-                        <div class="mb-12">
-                            <h3 class="font-title font-bold text-2xl text-brand-text mb-6 text-center">
+                        <div class="mt-20 pt-12 border-t border-brand-grey/30">
+                            <h3 class="font-title font-bold text-2xl text-brand-text mb-8 text-center">
                                 <?php echo esc_html__('Articles similaires', 'natpatoune'); ?>
                             </h3>
                             
-                            <div class="blog-grid max-w-6xl mx-auto">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                                 <?php while ($related_query->have_posts()) : $related_query->the_post(); ?>
-                                    <article class="blog-card bg-white">
-                                        <a href="<?php the_permalink(); ?>" class="block">
+                                    <article class="bg-white rounded-xl overflow-hidden shadow-soft hover:shadow-medium transition-all transform hover:-translate-y-1 flex flex-col h-full border border-brand-grey/20">
+                                        <a href="<?php the_permalink(); ?>" class="block h-48 overflow-hidden">
                                             <?php if (has_post_thumbnail()) : ?>
-                                                <?php the_post_thumbnail('natpatoune-blog-thumb', array('class' => 'blog-card__image')); ?>
+                                                <?php the_post_thumbnail('natpatoune-blog-thumb', array('class' => 'w-full h-full object-cover transition-transform duration-500 hover:scale-110')); ?>
                                             <?php else : ?>
-                                                <img src="<?php echo esc_url($fallback_image); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" class="blog-card__image">
+                                                <img src="<?php echo esc_url($fallback_image); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" class="w-full h-full object-cover">
                                             <?php endif; ?>
                                         </a>
                                         
-                                        <div class="blog-card__content">
-                                            <h4 class="blog-card__title">
+                                        <div class="p-6 flex flex-col flex-grow">
+                                            <h4 class="font-bold text-lg text-brand-text mb-3 line-clamp-2 hover:text-brand-purple transition-colors">
                                                 <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
                                             </h4>
                                             
-                                            <div class="blog-card__excerpt">
+                                            <div class="text-sm text-brand-text-light mb-4 line-clamp-3 flex-grow">
                                                 <?php
                                                 $excerpt = get_the_excerpt();
                                                 if (!empty($excerpt)) {
                                                     echo esc_html(wp_trim_words($excerpt, 15));
                                                 } else {
-                                                    // Si pas d'extrait, on utilise le début du contenu
                                                     $content = wp_strip_all_tags(get_the_content());
                                                     echo esc_html(wp_trim_words($content, 15));
                                                 }
                                                 ?>
                                             </div>
                                             
-                                            <a href="<?php the_permalink(); ?>" class="inline-flex items-center bg-brand-purple hover:bg-brand-purple-dark text-white font-bold py-2 px-6 rounded-full transition-all duration-300 text-sm shadow-sm hover:shadow-md transform hover:scale-105">
-                                                <?php echo esc_html__('Lire', 'natpatoune'); ?> <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
+                                            <a href="<?php the_permalink(); ?>" class="text-brand-purple font-bold text-sm hover:underline inline-flex items-center gap-1">
+                                                <?php echo esc_html__('Lire', 'natpatoune'); ?> <i class="fas fa-arrow-right" aria-hidden="true"></i>
                                             </a>
                                         </div>
                                     </article>
@@ -234,7 +231,6 @@ get_header();
                 }
                 ?>
 
-                <!-- CTA injecté via le filtre the_content dans functions.php -->
             </article>
 
         <?php endwhile; ?>
