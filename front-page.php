@@ -166,17 +166,12 @@ get_header(); ?>
     </div>
 </div>
 
-<!-- Reste du contenu de la page d'accueil -->
-<?php include(locate_template('template-parts/front-page/process.php')); ?>
 <!-- Sections de la page d'accueil -->
 <?php
-// Vérifier si les fichiers existent avant de les inclure
+// Charger uniquement les template-parts qui existent
 $template_parts = [
-    'services',
+    'process',
     'tarifs',
-    'zone-intervention',
-    'temoignages',
-    'faq',
     'contact'
 ];
 
@@ -184,15 +179,6 @@ foreach ($template_parts as $part) {
     $template_path = 'template-parts/front-page/' . $part . '.php';
     if (file_exists(get_theme_file_path($template_path))) {
         include(locate_template($template_path));
-    } else {
-        // Afficher un placeholder pour les sections manquantes
-        echo '<!-- Section ' . esc_html($part) . ' à créer -->';
-        echo '<section id="' . esc_attr($part) . '" class="py-16 md:py-24 bg-brand-beige">';
-        echo '<div class="container mx-auto px-4 text-center">';
-        echo '<h2 class="font-title font-bold text-3xl md:text-4xl text-brand-text mb-6">' . esc_html(ucfirst($part)) . '</h2>';
-        echo '<p class="text-brand-text-light max-w-3xl mx-auto">Cette section sera bientôt disponible.</p>';
-        echo '</div>';
-        echo '</section>';
     }
 }
 ?>
