@@ -12,6 +12,24 @@ if (!defined('ABSPATH')) {
 }
 
 /**
+ * Configuration de débogage
+ *
+ * Pour activer le débogage, décommentez les lignes ci-dessous
+ * et commentez les définitions existantes dans wp-config.php
+ */
+/*
+if (!defined('WP_DEBUG')) {
+    define('WP_DEBUG', false);
+}
+if (!defined('WP_DEBUG_LOG')) {
+    define('WP_DEBUG_LOG', true); // Logs dans wp-content/debug.log
+}
+if (!defined('WP_DEBUG_DISPLAY')) {
+    define('WP_DEBUG_DISPLAY', false); // Ne pas afficher les erreurs
+}
+*/
+
+/**
  * Helpers
  */
 function natpatoune_file_version($relative_path, $fallback = '1.0.0') {
@@ -553,7 +571,7 @@ function natpatoune_get_logo() {
     echo '<a href="' . esc_url(home_url('/')) . '" class="flex items-center gap-3 group">';
 
     if (is_readable($logo_path)) {
-        echo '<img src="' . esc_url(get_theme_file_uri($logo_rel)) . '" alt="' . esc_attr($name) . '" class="h-12 w-auto">';
+        echo '<img src="' . esc_url(get_theme_file_uri($logo_rel)) . '" alt="' . esc_attr($name) . '" class="h-12 w-auto" width="48" height="48">';
     }
 
     echo '<span class="font-title font-bold text-2xl text-brand-purple group-hover:text-brand-purple-dark transition">' . esc_html($name) . '</span>';
@@ -614,7 +632,7 @@ function natpatoune_get_whatsapp_link() {
     if (substr($phone, 0, 1) !== '+') {
         $phone = '+41' . ltrim($phone, '0');
     }
-    return 'https://wa.me/' . $phone;
+    return 'https://wa.me/' . esc_attr($phone);
 }
 
 /**
@@ -645,3 +663,240 @@ function natpatoune_localize_cookie_settings() {
     }
 }
 add_action('wp_enqueue_scripts', 'natpatoune_localize_cookie_settings', 20);
+
+/**
+ * Optimisation des images
+ * - Ajoute le support WebP
+ * - Définit des tailles d'images optimisées
+ */
+function natpatoune_image_optimization() {
+    // Ajouter le support WebP
+    add_filter('upload_mimes', 'natpatoune_add_webp_mime_type');
+    
+    // Définir des tailles d'images optimisées
+    add_image_size('natpatoune-hero', 1920, 1080, true);
+    add_image_size('natpatoune-card', 600, 400, true);
+    add_image_size('natpatoune-thumbnail', 300, 300, true);
+    add_image_size('natpatoune-medium', 800, 600, false);
+    add_image_size('natpatoune-large', 1200, 900, false);
+    
+    // Optimiser les attributs des images
+    add_filter('wp_get_attachment_image_attributes', 'natpatoune_optimize_image_attributes', 10, 3);
+    
+    // Ajouter loading="lazy" aux images dans le contenu
+    add_filter('the_content', 'natpatoune_add_lazy_loading');
+}
+add_action('after_setup_theme', 'natpatoune_image_optimization');
+
+/**
+ * Ajouter le support WebP
+ */
+function natpatoune_add_webp_mime_type($mimes) {
+    $mimes['webp'] = 'image/webp';
+    return $mimes;
+}
+
+/**
+ * Optimiser les attributs des images
+ */
+function natpatoune_optimize_image_attributes($attr, $attachment, $size) {
+    // Ajouter loading="lazy" pour toutes les images sauf les images critiques
+    if (!isset($attr['loading'])) {
+        $attr['loading'] = 'lazy';
+    }
+    
+    // Ajouter decoding="async" pour améliorer les performances
+    if (!isset($attr['decoding'])) {
+        $attr['decoding'] = 'async';
+    }
+    
+    // Ajouter les dimensions pour éviter le CLS (Cumulative Layout Shift)
+    if (!isset($attr['width']) || !isset($attr['height'])) {
+        $dimensions = wp_get_attachment_image_src($attachment->ID, $size);
+        if ($dimensions) {
+            $attr['width'] = $dimensions[1];
+            $attr['height'] = $dimensions[2];
+        }
+    }
+    
+    return $attr;
+}
+
+/**
+ * Ajouter loading="lazy" aux images dans le contenu
+ */
+function natpatoune_add_lazy_loading($content) {
+    // Ne pas modifier le contenu dans l'admin
+    if (is_admin()) {
+        return $content;
+    }
+    
+    // Ajouter loading="lazy" aux images qui n'ont pas déjà cet attribut
+    $content = preg_replace_callback('/<img([^>]+)>/i', function($matches) {
+        // Ne pas modifier si loading est déjà défini
+        if (strpos($matches[1], 'loading=') !== false) {
+            return $matches[0];
+        }
+        
+        // Ajouter l'attribut loading="lazy"
+        return '<img' . $matches[1] . ' loading="lazy">';
+    }, $content);
+    
+    return $content;
+}
+
+/**
+ * Fonction pour générer une image WebP avec fallback
+ */
+function natpatoune_webp_image($attachment_id, $size = 'full', $attr = array(), $fallback = true) {
+    // Vérifier si l'image existe
+    if (!$attachment_id) {
+        return '';
+    }
+    
+    // Récupérer l'URL de l'image
+    $image_url = wp_get_attachment_image_url($attachment_id, $size);
+    if (!$image_url) {
+        return '';
+    }
+    
+    // Vérifier si une version WebP existe
+    $webp_url = natpatoune_get_webp_url($image_url);
+    $webp_exists = $webp_url && file_exists(natpatoune_url_to_path($webp_url));
+    
+    // Si WebP existe, utiliser <picture> avec fallback
+    if ($webp_exists && $fallback) {
+        $img_attr = wp_get_attachment_image_src($attachment_id, $size);
+        $alt = get_post_meta($attachment_id, '_wp_attachment_image_alt', true);
+        
+        $output = '<picture>';
+        $output .= '<source srcset="' . esc_url($webp_url) . '" type="image/webp">';
+        $output .= '<img src="' . esc_url($image_url) . '" alt="' . esc_attr($alt) . '"';
+        
+        // Ajouter les dimensions
+        if ($img_attr && isset($img_attr[1]) && isset($img_attr[2])) {
+            $output .= ' width="' . esc_attr($img_attr[1]) . '" height="' . esc_attr($img_attr[2]) . '"';
+        }
+        
+        // Ajouter loading="lazy" et decoding="async"
+        $output .= ' loading="lazy" decoding="async"';
+        
+        // Ajouter les attributs supplémentaires
+        foreach ($attr as $name => $value) {
+            $output .= ' ' . esc_attr($name) . '="' . esc_attr($value) . '"';
+        }
+        
+        $output .= '>';
+        $output .= '</picture>';
+        
+        return $output;
+    }
+    
+    // Sinon, utiliser l'image standard
+    return wp_get_attachment_image($attachment_id, $size, false, $attr);
+}
+
+/**
+ * Obtenir l'URL WebP d'une image
+ */
+function natpatoune_get_webp_url($url) {
+    $path_parts = pathinfo($url);
+    if (isset($path_parts['extension'])) {
+        return str_replace('.' . $path_parts['extension'], '.webp', $url);
+    }
+    return false;
+}
+
+/**
+ * Convertir une URL en chemin de fichier
+ */
+function natpatoune_url_to_path($url) {
+    $site_url = site_url();
+    $site_dir = wp_normalize_path(ABSPATH);
+    
+    $url_path = wp_normalize_path($url);
+    $url_path = str_replace($site_url, $site_dir, $url_path);
+    
+    return $url_path;
+}
+
+/**
+ * Fonction de sécurité pour échapper les données ACF
+ * Utiliser cette fonction pour les champs ACF qui pourraient contenir du HTML
+ */
+function natpatoune_kses_post($content) {
+    if (empty($content)) {
+        return '';
+    }
+    
+    return wp_kses_post($content);
+}
+
+/**
+ * Fonction pour récupérer une valeur ACF avec fallback
+ */
+function natpatoune_get_acf_field($field_name, $post_id = null, $default = '') {
+    if (!function_exists('get_field')) {
+        return $default;
+    }
+    
+    $value = get_field($field_name, $post_id);
+    return !empty($value) ? $value : $default;
+}
+
+/**
+ * Fonction pour récupérer une image ACF avec dimensions et fallback
+ */
+function natpatoune_get_acf_image($field_name, $post_id = null, $size = 'medium', $attr = array(), $fallback_image = '') {
+    if (!function_exists('get_field')) {
+        if (!empty($fallback_image)) {
+            return '<img src="' . esc_url($fallback_image) . '" alt="' . esc_attr__('Image', 'natpatoune') . '" ' . natpatoune_parse_image_attributes($attr) . '>';
+        }
+        return '';
+    }
+    
+    $image = get_field($field_name, $post_id);
+    
+    if (empty($image)) {
+        if (!empty($fallback_image)) {
+            return '<img src="' . esc_url($fallback_image) . '" alt="' . esc_attr__('Image', 'natpatoune') . '" ' . natpatoune_parse_image_attributes($attr) . '>';
+        }
+        return '';
+    }
+    
+    if (is_array($image)) {
+        // Format ACF image array
+        $image_url = isset($image['sizes'][$size]) ? $image['sizes'][$size] : $image['url'];
+        $image_alt = isset($image['alt']) ? $image['alt'] : '';
+        $image_width = isset($image['sizes'][$size . '-width']) ? $image['sizes'][$size . '-width'] : '';
+        $image_height = isset($image['sizes'][$size . '-height']) ? $image['sizes'][$size . '-height'] : '';
+        
+        $attributes = '';
+        if (!empty($image_width)) {
+            $attr['width'] = $image_width;
+        }
+        if (!empty($image_height)) {
+            $attr['height'] = $image_height;
+        }
+        
+        return '<img src="' . esc_url($image_url) . '" alt="' . esc_attr($image_alt) . '" ' . natpatoune_parse_image_attributes($attr) . '>';
+    } else {
+        // Format ID or URL
+        if (is_numeric($image)) {
+            return wp_get_attachment_image($image, $size, false, $attr);
+        } else {
+            return '<img src="' . esc_url($image) . '" alt="' . esc_attr__('Image', 'natpatoune') . '" ' . natpatoune_parse_image_attributes($attr) . '>';
+        }
+    }
+}
+
+/**
+ * Helper pour parser les attributs d'image
+ */
+function natpatoune_parse_image_attributes($attr) {
+    $attributes = '';
+    foreach ($attr as $name => $value) {
+        $attributes .= ' ' . esc_attr($name) . '="' . esc_attr($value) . '"';
+    }
+    return $attributes;
+}

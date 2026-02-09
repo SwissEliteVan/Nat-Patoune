@@ -30,7 +30,8 @@
     
     if (!menuBtn || !mobileMenu) return;
     
-    menuBtn.addEventListener('click', function() {
+    // Fonction pour ouvrir/fermer le menu
+    function toggleMenu() {
       const isExpanded = menuBtn.getAttribute('aria-expanded') === 'true';
       
       // Basculer l'état du menu
@@ -44,16 +45,41 @@
         if (isExpanded) {
           icon.classList.remove('fa-times');
           icon.classList.add('fa-bars');
+          menuBtn.setAttribute('aria-label', 'Ouvrir le menu');
         } else {
           icon.classList.remove('fa-bars');
           icon.classList.add('fa-times');
+          menuBtn.setAttribute('aria-label', 'Fermer le menu');
+          
+          // Focus sur le premier élément du menu quand il s'ouvre
+          setTimeout(() => {
+            const firstLink = mobileMenu.querySelector('a');
+            if (firstLink) firstLink.focus();
+          }, 100);
         }
+      }
+    }
+    
+    // Événement clic
+    menuBtn.addEventListener('click', toggleMenu);
+    
+    // Événement clavier pour le bouton du menu
+    menuBtn.addEventListener('keydown', function(e) {
+      // Ouvrir/fermer avec Espace ou Entrée
+      if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        toggleMenu();
+      }
+      
+      // Fermer avec Échap
+      if (e.key === 'Escape' && menuBtn.getAttribute('aria-expanded') === 'true') {
+        toggleMenu();
       }
     });
     
     // Fermer le menu mobile lors du clic sur un lien
     const mobileLinks = mobileMenu.querySelectorAll('a');
-    mobileLinks.forEach(link => {
+    mobileLinks.forEach((link, index) => {
       link.addEventListener('click', function() {
         menuBtn.setAttribute('aria-expanded', 'false');
         mobileMenu.classList.add('hidden');
@@ -63,8 +89,39 @@
         if (icon) {
           icon.classList.remove('fa-times');
           icon.classList.add('fa-bars');
+          menuBtn.setAttribute('aria-label', 'Ouvrir le menu');
         }
       });
+      
+      // Navigation au clavier dans le menu
+      link.addEventListener('keydown', function(e) {
+        // Fermer avec Échap
+        if (e.key === 'Escape') {
+          toggleMenu();
+          menuBtn.focus();
+        }
+        
+        // Navigation avec les flèches
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          const nextLink = mobileLinks[index + 1] || mobileLinks[0];
+          if (nextLink) nextLink.focus();
+        }
+        
+        if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          const prevLink = mobileLinks[index - 1] || mobileLinks[mobileLinks.length - 1];
+          if (prevLink) prevLink.focus();
+        }
+      });
+    });
+    
+    // Fermer le menu avec Échap quand il est ouvert
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && menuBtn.getAttribute('aria-expanded') === 'true') {
+        toggleMenu();
+        menuBtn.focus();
+      }
     });
   }
 

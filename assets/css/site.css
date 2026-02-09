@@ -14,9 +14,13 @@
   --brand-green: #9BB89F;
   --brand-beige: #FBF9F4;
   --brand-text: #3A3A3A;
-  --brand-text-light: #6B6B6B;
+  --brand-text-light: #575757; /* Assombri pour un meilleur contraste */
   --brand-white: #FFFFFF;
   --brand-grey: #E5E5E5;
+  
+  /* Couleurs d'accessibilité avec contraste amélioré */
+  --brand-purple-accessible: #7A65B8; /* Version plus foncée pour meilleur contraste sur fond clair */
+  --brand-green-accessible: #6A8A6E; /* Version plus foncée pour meilleur contraste */
   
   /* Typographie */
   --font-title: 'Outfit', system-ui, sans-serif;
@@ -144,10 +148,11 @@ section.bg-white + section.bg-white {
 
 .section-title p {
   font-size: 1.125rem;
-  color: var(--brand-text-light);
+  color: var(--brand-text);
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
+  font-weight: 500;
 }
 /* Redéfinition du conteneur pour un site plus large */
 .container {
@@ -359,6 +364,35 @@ button:focus-visible {
   font-weight: 500;
 }
 
+/* Classes d'accessibilité pour le contraste */
+.text-high-contrast {
+  color: var(--brand-text) !important;
+  font-weight: 500 !important;
+}
+
+.bg-high-contrast {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+  color: white !important;
+}
+
+.link-high-contrast {
+  color: var(--brand-purple-dark) !important;
+  text-decoration: underline !important;
+}
+
+.link-high-contrast:hover,
+.link-high-contrast:focus {
+  color: #5A4898 !important; /* Version encore plus foncée pour le hover */
+  text-decoration: underline !important;
+}
+
+/* Amélioration du contraste pour les textes sur fond coloré */
+.bg-brand-purple .text-white,
+.bg-brand-pink .text-white,
+.bg-brand-green .text-white {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
 /* ===== HEADER & NAVIGATION ===== */
 header {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -498,7 +532,7 @@ header {
 }
 
 .blog-card__excerpt {
-  color: var(--brand-text-light);
+  color: var(--brand-text);
   margin-bottom: var(--spacing-md);
   flex: 1;
   line-height: 1.6;
@@ -712,7 +746,7 @@ header {
   padding: var(--spacing-md) var(--spacing-lg);
   margin: var(--spacing-lg) 0;
   font-style: italic;
-  color: var(--brand-text-light);
+  color: var(--brand-text);
   background-color: var(--brand-beige);
   border-radius: 0 var(--radius-md) var(--radius-md) 0;
 }
