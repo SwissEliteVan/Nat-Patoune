@@ -9,9 +9,7 @@
 
 get_header(); ?>
 
-<main id="main" class="site-main" role="main">
-    
-    <?php if (have_posts()) : ?>
+<?php if (have_posts()) : ?>
         
         <div class="container mx-auto px-4 py-12">
             <div class="max-w-4xl mx-auto">
@@ -83,7 +81,5 @@ get_header(); ?>
         </div>
         
     <?php endif; ?>
-    
-</main>
 
 <?php get_footer(); ?>
