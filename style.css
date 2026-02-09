@@ -3,7 +3,7 @@ Theme Name: Nat Patoune
 Theme URI: https://nat-patoune.ch
 Author: Nat Patoune
 Author URI: https://nat-patoune.ch
-Description: Thème WordPress sur mesure pour Nat Patoune - Service professionnel de garde de chats à domicile dans le canton de Vaud (Morges, Lausanne, Échallens). Thème moderne et responsive avec blog intégré, optimisé pour le SEO et la conversion. Design élégant avec Tailwind CSS.
+Description: ThÃ¨me WordPress sur mesure pour Nat Patoune - Service professionnel de garde de chats Ã  domicile dans le canton de Vaud (Morges, Lausanne, Ã‰challens). ThÃ¨me moderne et responsive avec blog intÃ©grÃ©, optimisÃ© pour le SEO et la conversion. Design Ã©lÃ©gant avec Tailwind CSS.
 Version: 1.0.0
 Requires at least: 6.0
 Tested up to: 6.4
@@ -20,8 +20,1038 @@ Nat Patoune is based on modern web standards with Tailwind CSS utility-first app
 */
 
 /*
- * IMPORTANT: This file is kept MINIMAL as required by WordPress theme standards.
- * 
- * All custom CSS is loaded from /assets/css/site.css via functions.php
- * Do NOT add styles here - add them to assets/css/site.css instead to avoid cache issues.
+ * Table of Contents:
+ * 1. Base Styles & Reset
+ * 2. Typography
+ * 3. Animations
+ * 4. Components
+ * 5. WordPress Core Styles
+ * 6. Responsive
  */
+
+/* The actual styles are loaded from /assets/css/site.css */
+/* This file is kept minimal as required by WordPress theme standards */
+
+
+/* Nat'Patoune - 2026 Design System */
+
+/* ============================================
+   Design System - CSS Variables
+   ============================================ */
+
+:root {
+    /* Colors */
+    --color-primary: #8F78D3;
+    --color-primary-dark: #7A65B8;
+    --color-primary-light: rgba(143, 120, 211, 0.1);
+    --color-secondary: #E8AEC3;
+    --color-accent: #9BB89F;
+    --color-beige: #FBF9F4;
+    --color-text: #3A3A3A;
+    --color-text-light: #6B6B6B;
+    --color-white: #FFFFFF;
+    --color-grey: #E5E5E5;
+    
+    /* Typography Scale (clamp for responsive) */
+    --font-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+    --font-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
+    --font-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+    --font-lg: clamp(1.125rem, 1rem + 0.625vw, 1.25rem);
+    --font-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+    --font-2xl: clamp(1.5rem, 1.3rem + 1vw, 1.875rem);
+    --font-3xl: clamp(1.875rem, 1.5rem + 1.875vw, 2.25rem);
+    --font-4xl: clamp(2.25rem, 1.75rem + 2.5vw, 3rem);
+    --font-5xl: clamp(3rem, 2rem + 5vw, 4rem);
+    
+    /* Spacing */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
+    --space-4xl: 6rem;
+    
+    /* Border Radius */
+    --radius-sm: 0.5rem;
+    --radius-md: 1rem;
+    --radius-lg: 1.5rem;
+    --radius-xl: 2rem;
+    --radius-full: 9999px;
+    
+    /* Shadows */
+    --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.06);
+    --shadow-medium: 0 15px 40px rgba(0, 0, 0, 0.1);
+    --shadow-hard: 0 20px 50px rgba(0, 0, 0, 0.15);
+    
+    /* Container */
+    --container-max: 1280px;
+    --container-padding: clamp(1rem, 4vw, 2rem);
+    
+    /* Transitions */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================
+   Base & Reset
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: var(--color-text);
+    background: var(--color-white);
+}
+
+/* Container */
+.container {
+    max-width: var(--container-max);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--container-padding);
+    padding-right: var(--container-padding);
+}
+
+/* Focus styles for accessibility */
+*:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+}
+
+/* Skip to content link */
+.skip-to-content {
+    position: absolute;
+    top: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-primary);
+    color: var(--color-white);
+    padding: var(--space-md) var(--space-xl);
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    font-weight: 700;
+    z-index: 9999;
+    transition: top var(--transition-base);
+}
+
+.skip-to-content:focus {
+    top: var(--space-md);
+}
+
+/* Screen reader only */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ============================================
+   Scrollbar Styling
+   ============================================ */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-beige);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-secondary);
+    border-radius: 5px;
+    border: 2px solid var(--color-beige);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary);
+}
+
+/* ============================================
+   Background Patterns
+   ============================================ */
+
+.bg-paws {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M18 12c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4zm14 0c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4zM12 24c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4zm26 0c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4zM25 38c-5 0-9-4-9-9 0-3 1.5-5.5 4-7 1.5-1 3.5-1.5 5-1.5s3.5 0.5 5 1.5c2.5 1.5 4 4 4 7 0 5-4 9-9 9z' fill='%238F78D3' fill-opacity='0.04' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: all var(--transition-slow);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    html {
+        scroll-behavior: auto;
+    }
+    
+    .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
+/* ============================================
+   Mobile Menu Drawer
+   ============================================ */
+
+.mobile-menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 998;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-base);
+}
+
+.mobile-menu-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.mobile-menu-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: min(85vw, 400px);
+    background: var(--color-white);
+    box-shadow: -4px 0 30px rgba(0, 0, 0, 0.15);
+    transform: translateX(100%);
+    transition: transform var(--transition-base);
+    z-index: 999;
+    overflow-y: auto;
+}
+
+.mobile-menu-drawer.active {
+    transform: translateX(0);
+}
+
+.mobile-menu-close {
+    position: absolute;
+    top: var(--space-lg);
+    right: var(--space-lg);
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.mobile-menu-close:hover {
+    background: var(--color-primary);
+    color: var(--color-white);
+    transform: rotate(90deg);
+}
+
+/* ============================================
+   Form Styles
+   ============================================ */
+
+.form-input,
+.form-textarea,
+.form-select {
+    width: 100%;
+    padding: var(--space-md);
+    border: 2px solid var(--color-grey);
+    border-radius: var(--radius-md);
+    font-family: inherit;
+    font-size: var(--font-base);
+    transition: all var(--transition-fast);
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px var(--color-primary-light);
+}
+
+/* ============================================
+   Blog Cards
+   ============================================ */
+
+.blog-card {
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.blog-card:hover {
+    transform: translateY(-4px);
+}
+
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ============================================
+   Modal Styles
+   ============================================ */
+
+#blog-modal,
+#lead-popup,
+#certificate-modal {
+    transition: opacity var(--transition-base);
+}
+
+#blog-modal.hidden,
+#lead-popup.hidden,
+#certificate-modal.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#modal-content,
+#popup-content {
+    animation: slideUp var(--transition-base);
+}
+
+.certificate-zoom-trigger {
+    cursor: pointer;
+    transition: transform var(--transition-base);
+}
+
+.certificate-zoom-trigger:hover {
+    transform: scale(1.02);
+}
+
+/* ============================================
+   Pricing Cards
+   ============================================ */
+
+.pricing-card {
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.pricing-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+    opacity: 0;
+    transition: opacity var(--transition-base);
+}
+
+.pricing-card:hover {
+    transform: translateY(-2px);
+}
+
+.pricing-card:hover::before {
+    opacity: 1;
+}
+
+/* ============================================
+   FAQ Section
+   ============================================ */
+
+.faq-item {
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.faq-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
+
+.faq-question {
+    cursor: pointer;
+    border-radius: var(--radius-lg);
+    transition: background-color var(--transition-fast);
+}
+
+.faq-question:hover {
+    background-color: var(--color-primary-light);
+}
+
+.faq-question[aria-expanded="true"] {
+    background-color: rgba(143, 120, 211, 0.03);
+}
+
+.faq-icon {
+    flex-shrink: 0;
+    transition: transform var(--transition-base);
+}
+
+.faq-question[aria-expanded="true"] .faq-icon {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    animation: slideDown var(--transition-base);
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   Zone Accordion & Communes Chips
+   ============================================ */
+
+.zone-accordion-button {
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.zone-accordion-icon {
+    transition: transform var(--transition-base);
+}
+
+.zone-accordion-button[aria-expanded="true"] .zone-accordion-icon {
+    transform: rotate(180deg);
+}
+
+.zone-accordion-content {
+    animation: slideDown var(--transition-base);
+}
+
+/* Communes chips - Modern layout */
+.zone-accordion-content .flex-wrap {
+    max-width: 100%;
+    gap: 0.625rem;
+    line-height: 1.6;
+}
+
+.zone-accordion-content span {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+}
+
+.zone-accordion-content span:hover {
+    background-color: rgba(143, 120, 211, 0.12) !important;
+    border-color: var(--color-primary) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(143, 120, 211, 0.15);
+}
+
+/* Responsive adjustments for communes */
+@media (max-width: 768px) {
+    .zone-accordion-content .flex-wrap {
+        gap: 0.5rem;
+    }
+    
+    .zone-accordion-content span {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.75rem !important;
+    }
+}
+
+/* ============================================
+   Print Styles
+   ============================================ */
+
+@media print {
+    header,
+    footer,
+    #lead-popup,
+    #blog-modal,
+    #certificate-modal,
+    .mobile-menu-overlay,
+    .mobile-menu-drawer,
+    .reveal {
+        display: none !important;
+    }
+
+    body {
+        background: white !important;
+        color: black !important;
+    }
+
+    a {
+        text-decoration: underline;
+    }
+
+    a[href^="http"]::after {
+        content: " (" attr(href) ")";
+        font-size: 0.8em;
+    }
+}
+
+/* ============================================
+   Blog Article Content - 2026 Modern Typography
+   ============================================ */
+
+/* Optimal reading width for blog articles */
+.blog-article-content {
+    max-width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: var(--font-lg);
+    line-height: 1.8;
+}
+
+/* H2 Headings */
+.blog-article-content h2 {
+    font-size: var(--font-2xl);
+    font-weight: 700;
+    margin-top: var(--space-3xl);
+    margin-bottom: var(--space-lg);
+    color: var(--color-text);
+    line-height: 1.3;
+    position: relative;
+    padding-bottom: var(--space-sm);
+}
+
+.blog-article-content h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+    border-radius: 2px;
+}
+
+/* H3 Headings */
+.blog-article-content h3 {
+    font-size: var(--font-xl);
+    font-weight: 600;
+    margin-top: var(--space-2xl);
+    margin-bottom: var(--space-md);
+    color: var(--color-text);
+    line-height: 1.4;
+}
+
+/* Paragraphs */
+.blog-article-content p {
+    margin-bottom: var(--space-lg);
+    line-height: 1.8;
+    color: var(--color-text);
+}
+
+/* Strong text */
+.blog-article-content strong {
+    color: var(--color-text);
+    font-weight: 600;
+}
+
+/* Lists */
+.blog-article-content ul,
+.blog-article-content ol {
+    margin-left: var(--space-xl);
+    margin-bottom: var(--space-lg);
+    color: var(--color-text);
+}
+
+.blog-article-content ul {
+    list-style-type: disc;
+}
+
+.blog-article-content ol {
+    list-style-type: decimal;
+}
+
+.blog-article-content ul li,
+.blog-article-content ol li {
+    margin-bottom: var(--space-md);
+    line-height: 1.8;
+    padding-left: var(--space-sm);
+}
+
+/* Nested lists */
+.blog-article-content ul ul,
+.blog-article-content ol ol,
+.blog-article-content ul ol,
+.blog-article-content ol ul {
+    margin-top: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+/* Blockquotes */
+.blog-article-content blockquote {
+    margin: var(--space-2xl) 0;
+    padding: var(--space-lg) var(--space-xl);
+    border-left: 4px solid var(--color-primary);
+    background: var(--color-primary-light);
+    border-radius: var(--radius-md);
+    font-style: italic;
+    color: var(--color-text);
+}
+
+.blog-article-content blockquote p {
+    margin-bottom: 0;
+}
+
+/* Images */
+.blog-article-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    margin: var(--space-2xl) 0;
+    box-shadow: var(--shadow-soft);
+}
+
+/* Links within content */
+.blog-article-content a {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+    transition: all var(--transition-fast);
+}
+
+.blog-article-content a:hover {
+    color: var(--color-primary-dark);
+    text-decoration-thickness: 3px;
+}
+
+/* Code blocks */
+.blog-article-content code {
+    background: var(--color-beige);
+    padding: 0.2em 0.4em;
+    border-radius: var(--radius-sm);
+    font-size: 0.9em;
+    font-family: 'Courier New', monospace;
+}
+
+.blog-article-content pre {
+    background: var(--color-beige);
+    padding: var(--space-lg);
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+    margin: var(--space-2xl) 0;
+}
+
+.blog-article-content pre code {
+    background: none;
+    padding: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .blog-article-content {
+        font-size: var(--font-base);
+    }
+    
+    .blog-article-content h2 {
+        margin-top: var(--space-2xl);
+    }
+}
+
+/* ============================================
+   Legal Pages
+   ============================================ */
+
+.legal-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--space-2xl);
+}
+
+.legal-content h1 {
+    font-size: var(--font-4xl);
+    font-weight: 700;
+    margin-bottom: var(--space-2xl);
+    color: var(--color-primary);
+}
+
+.legal-content h2 {
+    font-size: var(--font-2xl);
+    font-weight: 700;
+    margin-top: var(--space-2xl);
+    margin-bottom: var(--space-lg);
+    color: var(--color-text);
+}
+
+.legal-content h3 {
+    font-size: var(--font-xl);
+    font-weight: 600;
+    margin-top: var(--space-xl);
+    margin-bottom: var(--space-md);
+    color: var(--color-text);
+}
+
+.legal-content p {
+    margin-bottom: var(--space-md);
+    line-height: 1.75;
+    color: var(--color-text-light);
+}
+
+.legal-content ul,
+.legal-content ol {
+    margin-left: var(--space-xl);
+    margin-bottom: var(--space-md);
+}
+
+.legal-content li {
+    margin-bottom: var(--space-sm);
+    line-height: 1.75;
+    color: var(--color-text-light);
+}
+
+.legal-content a {
+    color: var(--color-primary);
+    text-decoration: underline;
+}
+
+.legal-content a:hover {
+    color: var(--color-primary-dark);
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+
+.text-balance {
+    text-wrap: balance;
+}
+
+.bg-blur {
+    backdrop-filter: blur(8px);
+}
+
+/* ============================================
+   2026 Modern Enhancements - Premium Edition
+   ============================================ */
+
+/* Boutons avec effet premium 2026 */
+button,
+a.inline-flex,
+a.inline-block {
+    position: relative;
+    overflow: hidden;
+}
+
+button::before,
+a.inline-flex::before,
+a.inline-block::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+button:hover::before,
+a.inline-flex:hover::before,
+a.inline-block:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Cards avec effet glassmorphism moderne */
+.bg-white.rounded-2xl,
+.bg-white.rounded-3xl,
+.bg-gradient-to-br {
+    position: relative;
+    overflow: hidden;
+}
+
+.bg-white.rounded-2xl::after,
+.bg-white.rounded-3xl::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(143, 120, 211, 0.05) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+}
+
+.bg-white.rounded-2xl:hover::after,
+.bg-white.rounded-3xl:hover::after {
+    opacity: 1;
+}
+
+/* AmÃ©lioration des puces de communes (chips modernes) */
+.zone-accordion-content span {
+    background: linear-gradient(135deg, #f0f7ff 0%, #e8f4ff 100%);
+    border: 1px solid #cce0ff;
+    border-radius: 20px;
+    padding: 10px 18px;
+    font-size: 0.9em;
+    color: #2c5282;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-block;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.zone-accordion-content span:hover {
+    background: linear-gradient(135deg, #cce0ff 0%, #b8d9ff 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Espacement amÃ©liorÃ© des sections */
+section {
+    margin-bottom: 60px;
+}
+
+@media (min-width: 768px) {
+    section {
+        padding-top: 60px;
+        padding-bottom: 60px;
+    }
+}
+
+/* Harmonisation des titres de section */
+h2.font-title {
+    font-size: clamp(1.875rem, 1.5rem + 1.875vw, 2.5rem);
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    position: relative;
+}
+
+h2.font-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+    border-radius: 2px;
+}
+
+/* Cards modernes avec effet glassmorphism subtil */
+.bg-white.rounded-2xl,
+.bg-white.rounded-3xl {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+}
+
+/* AmÃ©lioration des boutons avec micro-interactions */
+.bg-brand-purple,
+.bg-brand-purple:hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bg-brand-purple:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(143, 120, 211, 0.3);
+}
+
+.bg-brand-purple:active {
+    transform: translateY(0);
+}
+
+/* AmÃ©lioration du formulaire de contact */
+.form-input:focus,
+.form-select:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(143, 120, 211, 0.1);
+    transform: translateY(-1px);
+    transition: all 0.2s ease;
+}
+
+/* Grid de prestations avec hover moderne */
+.grid > div {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.grid > div:hover {
+    transform: translateY(-4px);
+}
+
+/* FAQ accordÃ©on avec animation fluide */
+.faq-answer {
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.3s ease,
+                padding 0.3s ease;
+}
+
+.faq-answer.hidden {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
+/* Pricing cards avec effet premium */
+.pricing-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.pricing-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+    );
+    transform: rotate(45deg);
+    transition: all 0.6s ease;
+}
+
+.pricing-card:hover::before {
+    left: 100%;
+}
+
+/* AmÃ©lioration responsive des espacements */
+@media (max-width: 767px) {
+    h2.font-title {
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+    
+    section {
+        margin-bottom: 40px;
+    }
+}
+
+/* Animation d'entrÃ©e progressive pour les Ã©lÃ©ments */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.reveal {
+    opacity: 0;
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.reveal.active {
+    opacity: 1;
+}
+
+/* 2026 Update: Modern design system, mobile drawer, accessibility improvements */
+
+/* ============================================
+   Hero Section Readability Improvements
+   ============================================ */
+
+/* Text shadow for main hero title */
+#hero h1 {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Text shadow for hero subtitle */
+#hero p.text-xl,
+#hero p.text-2xl {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Improved readability for trust pills */
+#hero .bg-white\/10 {
+    backdrop-filter: blur(4px);
+}
+
+/* Increased overlay opacity for better readability */
+#hero .bg-gradient-to-r.from-brand-purple\/60.to-brand-pink\/40 {
+    background-image: linear-gradient(to right, rgba(143, 120, 211, 0.7), rgba(232, 174, 195, 0.5));
+}
