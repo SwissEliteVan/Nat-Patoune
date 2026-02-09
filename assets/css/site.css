@@ -1211,3 +1211,80 @@ input[type="submit"] {
   background-color: rgba(255, 255, 255, 0.1);
   transform: translateY(-2px);
 }
+
+/* ===================================================================
+   CORRECTIF DE STABILISATION LAYOUT
+   ===================================================================
+   Ajouté le : 2026-02-09
+   Raison : Empêcher le site d'apparaître minuscule ou centré de façon anormale
+   
+   Ce bloc force des propriétés de layout stables sur les éléments racines
+   et conteneurs globaux pour neutraliser toute transformation ou dimensionnement
+   problématique.
+   
+   ⚠️ PATCH TEMPORAIRE - À retirer une fois la cause exacte isolée
+   =================================================================== */
+
+/* Neutralisation des transformations sur body et wrappers */
+body,
+#page,
+#content,
+.site,
+.site-content {
+  transform: none !important;
+  transform-origin: center center !important;
+  scale: none !important;
+  zoom: 1 !important;
+}
+
+/* Force display: block sur éléments principaux */
+body,
+main,
+#main,
+#primary {
+  display: block !important;
+}
+
+/* Garantie de largeur pleine et lisible */
+body {
+  min-width: 320px !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+}
+
+html {
+  min-width: 320px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Neutralisation height/min-height: 100vh problématiques sur conteneurs intermédiaires */
+#page,
+#content,
+.site,
+.site-content {
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+/* Assure que main conserve sa flexibilité pour footer sticky */
+main,
+#main,
+#primary {
+  min-height: auto !important;
+}
+
+/* Reset de positionnement si nécessaire */
+body,
+html {
+  position: relative !important;
+}
+
+/* Empêche tout centrage forcé étrange */
+body {
+  text-align: left !important;
+}
+
+/* =================== FIN CORRECTIF =================== */
