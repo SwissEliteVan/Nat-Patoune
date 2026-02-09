@@ -24,9 +24,9 @@ get_header();
             $tags       = get_the_tags($post_id);
             
             // Fallback image (si pas de thumbnail)
-            $fallback_image = function_exists('natpatoune_get_fallback_image') 
-                ? natpatoune_get_fallback_image() 
-                : get_theme_file_uri('assets/img/cat-sitting-domicile-vacances-suisse.webp');
+            $fallback_image = function_exists('natpatoune_get_fallback_image')
+                ? natpatoune_get_fallback_image()
+                : get_theme_file_uri('assets/img/fallback-featured-image.webp');
             ?>
 
             <article id="post-<?php the_ID(); ?>" <?php post_class('max-w-5xl mx-auto'); ?>>
@@ -96,7 +96,7 @@ get_header();
 
                 <!-- Article Content -->
                 <div class="bg-white rounded-3xl p-8 md:p-12 shadow-medium mb-12">
-                    <div class="single-post-content prose prose-lg max-w-none prose-headings:font-title prose-headings:font-bold prose-headings:text-brand-text prose-a:text-brand-purple prose-a:font-medium prose-img:rounded-xl prose-img:shadow-soft">
+                    <div class="single-post-content prose prose-lg max-w-none prose-headings:font-title prose-headings:font-bold prose-headings:text-brand-text prose-a:text-brand-purple prose-a:font-medium prose-img:rounded-xl prose-img:shadow-soft prose-p:leading-relaxed prose-p:text-brand-text prose-p:mb-6">
                         <?php
                         the_content();
 
@@ -208,11 +208,20 @@ get_header();
                                             </h4>
                                             
                                             <div class="blog-card__excerpt">
-                                                <?php echo esc_html(wp_trim_words(get_the_excerpt(), 15)); ?>
+                                                <?php
+                                                $excerpt = get_the_excerpt();
+                                                if (!empty($excerpt)) {
+                                                    echo esc_html(wp_trim_words($excerpt, 15));
+                                                } else {
+                                                    // Si pas d'extrait, on utilise le début du contenu
+                                                    $content = wp_strip_all_tags(get_the_content());
+                                                    echo esc_html(wp_trim_words($content, 15));
+                                                }
+                                                ?>
                                             </div>
                                             
-                                            <a href="<?php the_permalink(); ?>" class="inline-block bg-brand-purple hover:bg-brand-purple-dark text-white font-bold py-2 px-6 rounded-full transition text-sm">
-                                                <i class="fas fa-arrow-right mr-2" aria-hidden="true"></i><?php echo esc_html__('Lire', 'natpatoune'); ?>
+                                            <a href="<?php the_permalink(); ?>" class="inline-flex items-center bg-brand-purple hover:bg-brand-purple-dark text-white font-bold py-2 px-6 rounded-full transition-all duration-300 text-sm shadow-sm hover:shadow-md transform hover:scale-105">
+                                                <?php echo esc_html__('Lire', 'natpatoune'); ?> <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
                                             </a>
                                         </div>
                                     </article>

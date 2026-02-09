@@ -12,9 +12,9 @@ $posts_page_id = (int) get_option('page_for_posts');
 $posts_page_title = $posts_page_id ? get_the_title($posts_page_id) : 'Blog';
 
 // Fallback image (si pas de thumbnail)
-$fallback_image = function_exists('natpatoune_get_fallback_image') 
-    ? natpatoune_get_fallback_image() 
-    : get_theme_file_uri('assets/img/cat-sitting-domicile-vacances-suisse.webp');
+$fallback_image = function_exists('natpatoune_get_fallback_image')
+    ? natpatoune_get_fallback_image()
+    : get_theme_file_uri('assets/img/fallback-featured-image.webp');
 ?>
 
 <section class="pt-24 pb-16 bg-brand-beige min-h-screen">
@@ -113,7 +113,16 @@ $fallback_image = function_exists('natpatoune_get_fallback_image')
                             </h2>
 
                             <div class="blog-card__excerpt">
-                                <?php echo esc_html(wp_trim_words(get_the_excerpt(), 20)); ?>
+                                <?php
+                                $excerpt = get_the_excerpt();
+                                if (!empty($excerpt)) {
+                                    echo esc_html(wp_trim_words($excerpt, 20));
+                                } else {
+                                    // Si pas d'extrait, on utilise le début du contenu
+                                    $content = wp_strip_all_tags(get_the_content());
+                                    echo esc_html(wp_trim_words($content, 20));
+                                }
+                                ?>
                             </div>
 
                             <div class="blog-card__meta">
@@ -125,7 +134,7 @@ $fallback_image = function_exists('natpatoune_get_fallback_image')
                                 </span>
                             </div>
 
-                            <a href="<?php the_permalink(); ?>" class="inline-flex items-center bg-white hover:bg-brand-purple border border-brand-purple text-brand-purple hover:text-white font-bold py-2 px-6 rounded-full transition-all duration-300 text-sm shadow-sm hover:shadow-md">
+                            <a href="<?php the_permalink(); ?>" class="inline-flex items-center bg-brand-purple hover:bg-brand-purple-dark text-white font-bold py-2 px-6 rounded-full transition-all duration-300 text-sm shadow-sm hover:shadow-md transform hover:scale-105">
                                 <?php echo esc_html__('Lire l\'article', 'natpatoune'); ?> <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
                             </a>
                         </div>

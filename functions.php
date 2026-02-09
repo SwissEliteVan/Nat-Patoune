@@ -188,6 +188,33 @@ function natpatoune_posts_per_page($query) {
 add_action('pre_get_posts', 'natpatoune_posts_per_page');
 
 /**
+ * Fonction pour obtenir l'image par défaut pour les articles sans image mise en avant
+ *
+ * @return string URL de l'image par défaut
+ */
+function natpatoune_get_fallback_image() {
+    $fallback_path = 'assets/img/fallback-featured-image.webp';
+    $fallback_url = get_theme_file_uri($fallback_path);
+    
+    // Vérifier si le fichier existe physiquement
+    if (!file_exists(get_theme_file_path($fallback_path))) {
+        // Utiliser une autre image si disponible
+        $fallback_url = get_theme_file_uri('assets/img/cat-sitting-domicile-vacances-suisse.webp');
+        
+        // Si cette image n'existe pas non plus, utiliser celle qui existe
+        if (!file_exists(get_theme_file_path('assets/img/cat-sitting-domicile-vacances-suisse.webp'))) {
+            // Chercher n'importe quelle image dans le dossier assets/img
+            $images = glob(get_theme_file_path('assets/img/*.{jpg,jpeg,png,gif,webp}'), GLOB_BRACE);
+            if (!empty($images)) {
+                $fallback_url = get_theme_file_uri(str_replace(get_theme_file_path(), '', $images[0]));
+            }
+        }
+    }
+    
+    return $fallback_url;
+}
+
+/**
  * Customizer Settings
  */
 function natpatoune_customize_register($wp_customize) {
@@ -429,8 +456,11 @@ function natpatoune_after_switch_theme() {
         update_option('page_on_front', (int) $home_page->ID);
     }
 
-    if ($blog_page && $page_for_posts === 0) {
+    // Toujours définir la page des articles, même si elle a été modifiée
+    if ($blog_page) {
         update_option('page_for_posts', (int) $blog_page->ID);
+        // S'assurer que le réglage "page des articles" est activé
+        update_option('show_on_front', 'page');
     }
 
     // Permalink structure: set only if empty (default)
@@ -530,6 +560,35 @@ function natpatoune_excerpt_more($more) {
 add_filter('excerpt_more', 'natpatoune_excerpt_more');
 
 /**
+ * Activer les extraits pour les pages
+ * Utile si on veut afficher des extraits de pages dans le futur
+ */
+add_post_type_support('page', 'excerpt');
+
+/**
+ * Ajouter une métabox pour l'extrait dans l'éditeur classique
+ * Rend l'extrait plus visible pour l'utilisateur
+ */
+function natpatoune_add_excerpt_metabox() {
+    add_meta_box('natpatoune_excerpt_metabox', __('Extrait de l\'article', 'natpatoune'), 'natpatoune_excerpt_metabox_callback', 'post', 'normal', 'high');
+}
+add_action('add_meta_boxes', 'natpatoune_add_excerpt_metabox');
+
+/**
+ * Callback pour la métabox d'extrait
+ */
+function natpatoune_excerpt_metabox_callback($post) {
+    ?>
+    <p>
+        <label for="excerpt">
+            <?php _e('L\'extrait est un court résumé de votre article qui apparaît dans les listes d\'articles. Si vous ne le remplissez pas, il sera automatiquement généré à partir du contenu.', 'natpatoune'); ?>
+        </label>
+    </p>
+    <textarea rows="5" cols="50" name="excerpt" id="excerpt" style="width: 100%;"><?php echo $post->post_excerpt; ?></textarea>
+    <?php
+}
+
+/**
  * Add Post CTA after content (only on single posts)
  */
 function natpatoune_post_cta($content) {
@@ -554,6 +613,33 @@ function natpatoune_post_cta($content) {
     return $content . $cta_html;
 }
 add_filter('the_content', 'natpatoune_post_cta');
+
+/**
+ * Ajouter une notice dans l'admin pour rappeler l'importance de l'image mise en avant
+ */
+function natpatoune_featured_image_admin_notice() {
+    global $post_type;
+    
+    // Seulement sur l'écran d'édition des articles
+    if ($post_type !== 'post' || !isset($_GET['action']) || $_GET['action'] !== 'edit') {
+        return;
+    }
+    
+    global $post;
+    
+    // Si l'article n'a pas d'image mise en avant
+    if (!has_post_thumbnail($post->ID)) {
+        ?>
+        <div class="notice notice-info">
+            <p>
+                <strong><?php _e('Conseil:', 'natpatoune'); ?></strong>
+                <?php _e('N\'oubliez pas d\'ajouter une image mise en avant à votre article. Si vous n\'en ajoutez pas, une image par défaut sera utilisée.', 'natpatoune'); ?>
+            </p>
+        </div>
+        <?php
+    }
+}
+add_action('admin_notices', 'natpatoune_featured_image_admin_notice');
 
 /**
  * Get logo or site name
@@ -597,13 +683,7 @@ function natpatoune_get_cta_url() {
     return get_theme_mod('natpatoune_cta_url', home_url('/#contact'));
 }
 
-/**
- * Get fallback featured image
- */
-function natpatoune_get_fallback_image() {
-    $fallback_image = get_theme_file_uri('assets/img/fallback-featured-image.webp');
-    return $fallback_image;
-}
+// La fonction natpatoune_get_fallback_image() est déjà définie plus haut
 
 /**
  * Check if page exists by slug
