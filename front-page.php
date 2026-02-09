@@ -9,11 +9,8 @@ get_header(); ?>
 
 <!-- Hero Section -->
 <section id="hero" class="relative min-h-[80vh] flex items-center justify-center overflow-hidden pt-24 pb-16">
-    <!-- Background Video - Optimized preload -->
-    <video autoplay muted loop playsinline preload="auto" loading="lazy" poster="<?php echo esc_url(get_theme_file_uri('assets/img/cat-sitting-lausanne-hero-poster.webp')); ?>" class="absolute inset-0 w-full h-full object-cover" aria-label="<?php esc_attr_e('Vidéo d\'ambiance de garde de chat', 'natpatoune'); ?>">
-        <source src="<?php echo esc_url(get_theme_file_uri('assets/img/cat-sitting-lausanne-hero-720p.mp4')); ?>" type="video/mp4">
-        <?php esc_html_e('Votre navigateur ne supporte pas la vidéo.', 'natpatoune'); ?>
-    </video>
+    <!-- Background Image Fallback -->
+    <div class="absolute inset-0 w-full h-full bg-gradient-to-br from-brand-purple via-brand-pink to-brand-beige"></div>
     <div class="absolute inset-0 bg-gradient-to-r from-brand-purple/60 to-brand-pink/40"></div>
     
     <!-- Content -->
@@ -83,30 +80,44 @@ get_header(); ?>
         <div class="grid md:grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
             <!-- Images avec Badge NP -->
             <div class="relative">
-                <div class="nat-photo-container relative rounded-3xl overflow-hidden shadow-soft protected">
-                    <img 
-                        src="<?php echo esc_url(get_theme_file_uri('assets/img/nathalie-piguet-cat-sitter-lausanne.webp')); ?>" 
-                        alt="<?php esc_attr_e('Nathalie Piguet, cat-sitter certifiée à Lausanne', 'natpatoune'); ?>" 
-                        class="nat-photo w-full h-auto" 
-                        loading="lazy"
-                    >
+                <div class="nat-photo-container relative rounded-3xl overflow-hidden shadow-soft protected bg-gradient-to-br from-brand-purple/20 to-brand-pink/20 flex items-center justify-center" style="min-height: 400px;">
+                    <?php
+                    $photo_path = get_theme_file_path('assets/img/nathalie-piguet-cat-sitter-lausanne.webp');
+                    if (file_exists($photo_path)) : ?>
+                        <img
+                            src="<?php echo esc_url(get_theme_file_uri('assets/img/nathalie-piguet-cat-sitter-lausanne.webp')); ?>"
+                            alt="<?php esc_attr_e('Nathalie Piguet, cat-sitter certifiée à Lausanne', 'natpatoune'); ?>"
+                            class="nat-photo w-full h-auto"
+                            loading="lazy"
+                        >
+                    <?php else : ?>
+                        <div class="text-center p-8">
+                            <i class="fas fa-cat text-brand-purple text-6xl mb-4"></i>
+                            <p class="text-brand-text font-title font-bold"><?php esc_html_e('Nathalie Piguet', 'natpatoune'); ?></p>
+                            <p class="text-brand-text-light text-sm"><?php esc_html_e('Cat-sitter certifiée', 'natpatoune'); ?></p>
+                        </div>
+                    <?php endif; ?>
                     <!-- Badge NP -->
-                    <img 
-                        src="<?php echo esc_url(get_theme_file_uri('assets/img/monogramme-np-nat-patoune.svg')); ?>" 
-                        alt="<?php esc_attr_e('Monogramme NP - Nat Patoune', 'natpatoune'); ?>" 
+                    <img
+                        src="<?php echo esc_url(get_theme_file_uri('assets/img/monogramme-np-nat-patoune.svg')); ?>"
+                        alt="<?php esc_attr_e('Monogramme NP - Nat Patoune', 'natpatoune'); ?>"
                         class="nat-photo-badge"
-                        width="48" 
+                        width="48"
                         height="48"
                         loading="lazy"
                     >
                 </div>
-                <div class="absolute -bottom-6 -right-6 w-48 h-48 bg-white rounded-2xl shadow-medium p-4 hidden md:block certificate-zoom-trigger cursor-pointer group" tabindex="0" role="button" aria-label="<?php esc_attr_e('Voir le certificat en grand', 'natpatoune'); ?>">
-                    <img src="<?php echo esc_url(get_theme_file_uri('assets/img/certificat-cat-sitter-nathalie-piguet.webp')); ?>" alt="<?php esc_attr_e('Certificat de formation cat-sitter – Nathalie Piguet', 'natpatoune'); ?>" class="w-full h-full object-cover rounded-xl" loading="lazy">
-                    <span class="absolute top-2 right-2 bg-brand-green text-white text-xs font-bold px-3 py-1 rounded-full"><?php esc_html_e('Certifiée', 'natpatoune'); ?></span>
-                    <span class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition rounded-2xl flex items-center justify-center">
-                        <i class="fas fa-search-plus text-white text-2xl opacity-0 group-hover:opacity-100 transition" aria-hidden="true"></i>
-                    </span>
-                </div>
+                <?php
+                $certificat_path = get_theme_file_path('assets/img/certificat-cat-sitter-nathalie-piguet.webp');
+                if (file_exists($certificat_path)) : ?>
+                    <div class="absolute -bottom-6 -right-6 w-48 h-48 bg-white rounded-2xl shadow-medium p-4 hidden md:block certificate-zoom-trigger cursor-pointer group" tabindex="0" role="button" aria-label="<?php esc_attr_e('Voir le certificat en grand', 'natpatoune'); ?>">
+                        <img src="<?php echo esc_url(get_theme_file_uri('assets/img/certificat-cat-sitter-nathalie-piguet.webp')); ?>" alt="<?php esc_attr_e('Certificat de formation cat-sitter – Nathalie Piguet', 'natpatoune'); ?>" class="w-full h-full object-cover rounded-xl" loading="lazy">
+                        <span class="absolute top-2 right-2 bg-brand-green text-white text-xs font-bold px-3 py-1 rounded-full"><?php esc_html_e('Certifiée', 'natpatoune'); ?></span>
+                        <span class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition rounded-2xl flex items-center justify-center">
+                            <i class="fas fa-search-plus text-white text-2xl opacity-0 group-hover:opacity-100 transition" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                <?php endif; ?>
             </div>
             
             <!-- Content -->
@@ -156,22 +167,33 @@ get_header(); ?>
 </section>
 
 <!-- Modale Certificat -->
-<div id="certificate-modal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="certificate-modal-title">
-    <div class="relative max-w-4xl w-full">
-        <button id="certificate-modal-close" class="absolute -top-12 right-0 text-white hover:text-brand-beige text-4xl transition" aria-label="<?php esc_attr_e('Fermer', 'natpatoune'); ?>">
-            <i class="fas fa-times-circle" aria-hidden="true"></i>
-        </button>
-        <img src="<?php echo esc_url(get_theme_file_uri('assets/img/certificat-cat-sitter-nathalie-piguet.webp')); ?>" alt="<?php esc_attr_e('Certificat de formation cat-sitter – Nathalie Piguet', 'natpatoune'); ?>" class="w-full h-auto rounded-lg shadow-2xl" loading="lazy">
-        <p id="certificate-modal-title" class="text-white text-center mt-4 text-lg"><?php esc_html_e('Certificat de formation cat-sitter (certifiée)', 'natpatoune'); ?></p>
+<?php
+$certificat_modal_path = get_theme_file_path('assets/img/certificat-cat-sitter-nathalie-piguet.webp');
+if (file_exists($certificat_modal_path)) : ?>
+    <div id="certificate-modal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="certificate-modal-title">
+        <div class="relative max-w-4xl w-full">
+            <button id="certificate-modal-close" class="absolute -top-12 right-0 text-white hover:text-brand-beige text-4xl transition" aria-label="<?php esc_attr_e('Fermer', 'natpatoune'); ?>">
+                <i class="fas fa-times-circle" aria-hidden="true"></i>
+            </button>
+            <img src="<?php echo esc_url(get_theme_file_uri('assets/img/certificat-cat-sitter-nathalie-piguet.webp')); ?>" alt="<?php esc_attr_e('Certificat de formation cat-sitter – Nathalie Piguet', 'natpatoune'); ?>" class="w-full h-auto rounded-lg shadow-2xl" loading="lazy">
+            <p id="certificate-modal-title" class="text-white text-center mt-4 text-lg"><?php esc_html_e('Certificat de formation cat-sitter (certifiée)', 'natpatoune'); ?></p>
+        </div>
     </div>
-</div>
+<?php endif; ?>
 
 <!-- Sections de la page d'accueil -->
 <?php
-// Charger uniquement les template-parts qui existent
+// Charger les template-parts dans l'ordre exact du HTML de référence
 $template_parts = [
-    'process',
+    'services',
+    'cadeau',
+    'zones',
     'tarifs',
+    'blog',
+    'galerie',
+    'testimonials',
+    'process',
+    'faq',
     'contact'
 ];
 

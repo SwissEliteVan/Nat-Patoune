@@ -199,6 +199,135 @@
             </ul>
         </div>
         
+        <!-- Zone d'intervention & Communes -->
+        <div class="mt-20 mb-12">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <h3 class="font-title font-bold text-2xl md:text-3xl text-brand-text mb-4">
+                    <?php esc_html_e('Zone d\'intervention & communes', 'natpatoune'); ?>
+                </h3>
+                <p class="text-brand-text-light leading-relaxed">
+                    <?php esc_html_e('Je me déplace dans la région de Morges et Lausanne. Tarif selon zone : déplacement inclus dans un rayon de 10 km autour de Morges.', 'natpatoune'); ?>
+                </p>
+            </div>
+            
+            <!-- Zones Accordion -->
+            <div class="max-w-5xl mx-auto space-y-4">
+                
+                <!-- Zone Morges -->
+                <div class="bg-white rounded-2xl shadow-soft overflow-hidden">
+                    <button class="zone-accordion-trigger w-full flex items-center justify-between p-6 text-left hover:bg-brand-beige/50 transition group" aria-expanded="false" aria-controls="zone-morges">
+                        <div class="flex items-center gap-4">
+                            <div class="bg-brand-purple/10 rounded-full p-3 text-brand-purple group-hover:bg-brand-purple group-hover:text-white transition">
+                                <i class="fas fa-map-marker-alt text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-title font-bold text-xl text-brand-text mb-1"><?php esc_html_e('Région de Morges', 'natpatoune'); ?></h4>
+                                <p class="text-sm text-brand-text-light"><?php esc_html_e('15 communes • Déplacement inclus', 'natpatoune'); ?></p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-down text-brand-purple transition-transform duration-300"></i>
+                    </button>
+                    
+                    <div id="zone-morges" class="zone-accordion-content hidden px-6 pb-6">
+                        <div class="pt-4 border-t border-gray-100">
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Morges', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Saint-Prex', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Tolochenaz', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Lonay', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Préverenges', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Denges', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Échichens', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Colombier', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Monnaz', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Clarmont', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Vufflens-le-Château', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Vullierens', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Chigny', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Lully', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Yens', 'natpatoune'); ?></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Zone Lausanne -->
+                <div class="bg-white rounded-2xl shadow-soft overflow-hidden">
+                    <button class="zone-accordion-trigger w-full flex items-center justify-between p-6 text-left hover:bg-brand-beige/50 transition group" aria-expanded="false" aria-controls="zone-lausanne">
+                        <div class="flex items-center gap-4">
+                            <div class="bg-brand-purple/10 rounded-full p-3 text-brand-purple group-hover:bg-brand-purple group-hover:text-white transition">
+                                <i class="fas fa-map-marker-alt text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-title font-bold text-xl text-brand-text mb-1"><?php esc_html_e('Région de Lausanne', 'natpatoune'); ?></h4>
+                                <p class="text-sm text-brand-text-light"><?php esc_html_e('12 communes • Supplément déplacement selon distance', 'natpatoune'); ?></p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-down text-brand-purple transition-transform duration-300"></i>
+                    </button>
+                    
+                    <div id="zone-lausanne" class="zone-accordion-content hidden px-6 pb-6">
+                        <div class="pt-4 border-t border-gray-100">
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Lausanne', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Renens', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Prilly', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Pully', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Lutry', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Épalinges', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Le Mont-sur-Lausanne', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Crissier', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Bussigny', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Chavannes-près-Renens', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Saint-Sulpice', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Écublens', 'natpatoune'); ?></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Zone Ouest lausannois -->
+                <div class="bg-white rounded-2xl shadow-soft overflow-hidden">
+                    <button class="zone-accordion-trigger w-full flex items-center justify-between p-6 text-left hover:bg-brand-beige/50 transition group" aria-expanded="false" aria-controls="zone-ouest">
+                        <div class="flex items-center gap-4">
+                            <div class="bg-brand-purple/10 rounded-full p-3 text-brand-purple group-hover:bg-brand-purple group-hover:text-white transition">
+                                <i class="fas fa-map-marker-alt text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-title font-bold text-xl text-brand-text mb-1"><?php esc_html_e('Ouest lausannois & Échallens', 'natpatoune'); ?></h4>
+                                <p class="text-sm text-brand-text-light"><?php esc_html_e('8 communes • Supplément déplacement selon distance', 'natpatoune'); ?></p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-down text-brand-purple transition-transform duration-300"></i>
+                    </button>
+                    
+                    <div id="zone-ouest" class="zone-accordion-content hidden px-6 pb-6">
+                        <div class="pt-4 border-t border-gray-100">
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Échallens', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Assens', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Bioley-Orjulaz', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Romanel-sur-Lausanne', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Villars-Sainte-Croix', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Cheseaux-sur-Lausanne', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Jouxtens-Mézery', 'natpatoune'); ?></span>
+                                <span class="bg-brand-purple/10 text-brand-purple text-sm px-4 py-2 rounded-full font-medium"><?php esc_html_e('Bottens', 'natpatoune'); ?></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <!-- Note complémentaire -->
+            <div class="max-w-4xl mx-auto mt-8 text-center">
+                <p class="text-brand-text-light text-sm">
+                    <i class="fas fa-info-circle text-brand-purple mr-2"></i>
+                    <?php esc_html_e('Votre commune ne figure pas dans la liste ? Contactez-moi pour vérifier la disponibilité selon distance.', 'natpatoune'); ?>
+                </p>
+            </div>
+        </div>
+        
         <!-- CTA -->
         <div class="text-center mt-12">
             <a href="<?php echo esc_url(home_url('/#contact')); ?>" class="inline-flex items-center bg-brand-purple hover:bg-brand-purple-dark text-white font-title font-bold py-4 px-10 rounded-full transition-all duration-300 shadow-medium hover:shadow-lg transform hover:scale-105 group">

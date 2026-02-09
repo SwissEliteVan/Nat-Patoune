@@ -126,6 +126,168 @@
     </div>
 </div>
 
+<!-- Lead Popup (non intrusive) -->
+<div id="lead-popup" class="lead-popup hidden fixed inset-0 bg-black/50 z-45 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="lead-popup-title">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full relative animate-slide-up">
+        <button id="lead-popup-close" class="absolute top-4 right-4 text-brand-text-light hover:text-brand-purple text-2xl transition z-10" aria-label="<?php esc_attr_e('Fermer', 'natpatoune'); ?>">
+            <i class="fas fa-times-circle" aria-hidden="true"></i>
+        </button>
+        
+        <div class="p-8">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-brand-purple/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-gift text-brand-purple text-3xl" aria-hidden="true"></i>
+                </div>
+                <h3 id="lead-popup-title" class="font-title font-bold text-2xl text-brand-text mb-3">
+                    <?php esc_html_e('Offre de bienvenue', 'natpatoune'); ?>
+                </h3>
+                <p class="text-brand-text-light leading-relaxed">
+                    <?php esc_html_e('Recevez gratuitement mon guide "5 conseils pour préparer votre chat à votre départ" et bénéficiez d\'une visite de contact offerte.', 'natpatoune'); ?>
+                </p>
+            </div>
+            
+            <form id="lead-popup-form" class="space-y-4">
+                <div>
+                    <label for="lead-name" class="block text-sm font-medium text-brand-text mb-1">
+                        <?php esc_html_e('Votre prénom', 'natpatoune'); ?> <span class="text-brand-purple">*</span>
+                    </label>
+                    <input type="text" id="lead-name" name="lead-name" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-purple focus:ring focus:ring-brand-purple/20 transition" placeholder="<?php esc_attr_e('Ex: Sophie', 'natpatoune'); ?>">
+                </div>
+                
+                <div>
+                    <label for="lead-email" class="block text-sm font-medium text-brand-text mb-1">
+                        <?php esc_html_e('Votre email', 'natpatoune'); ?> <span class="text-brand-purple">*</span>
+                    </label>
+                    <input type="email" id="lead-email" name="lead-email" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-purple focus:ring focus:ring-brand-purple/20 transition" placeholder="<?php esc_attr_e('votre@email.ch', 'natpatoune'); ?>">
+                </div>
+                
+                <div class="flex items-start gap-2">
+                    <input type="checkbox" id="lead-consent" name="lead-consent" required class="mt-1 h-4 w-4 focus:ring-2 focus:ring-brand-purple focus:ring-offset-2">
+                    <label for="lead-consent" class="text-xs text-brand-text-light">
+                        <?php esc_html_e('J\'accepte de recevoir le guide par email et les actualités de Nat Patoune. Désinscription possible à tout moment.', 'natpatoune'); ?>
+                    </label>
+                </div>
+                
+                <button type="submit" class="w-full bg-brand-purple hover:bg-brand-purple-dark text-white font-title font-bold py-3 px-6 rounded-full transition shadow-medium hover:shadow-lg inline-flex items-center justify-center">
+                    <i class="fas fa-download mr-2" aria-hidden="true"></i>
+                    <?php esc_html_e('Recevoir mon guide gratuit', 'natpatoune'); ?>
+                </button>
+                
+                <p class="text-xs text-brand-text-light text-center mt-3">
+                    <?php esc_html_e('Pas de spam, promis. Seulement des conseils utiles.', 'natpatoune'); ?>
+                </p>
+            </form>
+            
+            <div id="lead-popup-success" class="hidden text-center">
+                <div class="w-16 h-16 bg-brand-green/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-check-circle text-brand-green text-3xl" aria-hidden="true"></i>
+                </div>
+                <h4 class="font-title font-bold text-xl text-brand-text mb-3">
+                    <?php esc_html_e('Merci !', 'natpatoune'); ?>
+                </h4>
+                <p class="text-brand-text-light mb-6">
+                    <?php esc_html_e('Votre guide arrive dans votre boîte mail d\'ici quelques minutes. Pensez à vérifier vos spams si vous ne le recevez pas.', 'natpatoune'); ?>
+                </p>
+                <button id="lead-popup-close-success" class="bg-brand-purple hover:bg-brand-purple-dark text-white font-bold py-3 px-6 rounded-full transition">
+                    <?php esc_html_e('Fermer', 'natpatoune'); ?>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Offre Commerciale -->
+<div id="modal-offre" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9999] hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="modal-offre-title">
+  <div class="bg-brand-cream rounded-3xl border-2 border-brand-purple/20 shadow-2xl relative overflow-hidden max-w-md w-full animate-fade-in">
+    
+    <!-- Bouton fermer -->
+    <button type="button"
+            id="modal-offre-close"
+            aria-label="Fermer"
+            class="absolute top-4 right-4 z-30 flex h-10 w-10 items-center justify-center rounded-full bg-white hover:bg-brand-purple hover:text-white text-brand-text transition-all duration-300 shadow-medium hover:scale-110 focus:outline-none focus:ring-2 focus:ring-brand-purple focus:ring-offset-2">
+      <i class="fas fa-times text-lg" aria-hidden="true"></i>
+    </button>
+
+    <!-- En-tête avec dégradé pastel -->
+    <div class="relative bg-gradient-to-br from-brand-purple to-brand-pink px-6 pt-8 pb-6 text-center">
+      <!-- Icône décorative -->
+      <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 shadow-soft">
+        <i class="fas fa-cat text-white text-3xl" aria-hidden="true"></i>
+      </div>
+      
+      <h3 id="modal-offre-title" class="font-title font-bold text-2xl text-white leading-tight mb-2">
+        Offre de bienvenue Nat'Patoune
+      </h3>
+      <p class="text-white/95 text-base font-medium">
+        Pré-visite offerte pour une première garde
+      </p>
+    </div>
+
+    <!-- Corps du modal -->
+    <div class="p-6 bg-white">
+      <!-- Liste des bénéfices -->
+      <div class="space-y-3 mb-6">
+        <div class="flex items-start gap-3">
+          <div class="w-6 h-6 bg-brand-purple/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+            <i class="fas fa-check text-brand-purple text-sm" aria-hidden="true"></i>
+          </div>
+          <span class="text-brand-text text-sm leading-relaxed">
+            <strong class="font-semibold">Pré-visite offerte</strong>
+          </span>
+        </div>
+        
+        <div class="flex items-start gap-3">
+          <div class="w-6 h-6 bg-brand-purple/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+            <i class="fas fa-check text-brand-purple text-sm" aria-hidden="true"></i>
+          </div>
+          <span class="text-brand-text text-sm leading-relaxed">
+            <strong class="font-semibold">Photos à chaque passage</strong>
+          </span>
+        </div>
+        
+        <div class="flex items-start gap-3">
+          <div class="w-6 h-6 bg-brand-purple/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+            <i class="fas fa-check text-brand-purple text-sm" aria-hidden="true"></i>
+          </div>
+          <span class="text-brand-text text-sm leading-relaxed">
+            <strong class="font-semibold">Suivi personnalisé</strong> selon les habitudes de votre chat
+          </span>
+        </div>
+      </div>
+
+      <!-- Boutons CTA -->
+      <div class="space-y-3">
+        <a href="#contact"
+           id="modal-offre-cta-primary"
+           class="block w-full rounded-full bg-brand-purple hover:bg-brand-purple-dark px-6 py-3.5 font-title font-bold text-white shadow-medium transition-all duration-300 hover:shadow-lg hover:scale-105 text-center focus:outline-none focus:ring-2 focus:ring-brand-purple focus:ring-offset-2">
+          <i class="fas fa-calendar-check mr-2" aria-hidden="true"></i>
+          Réserver ma pré-visite
+        </a>
+        
+        <a href="#zones-tarifs"
+           id="modal-offre-cta-secondary"
+           class="block w-full rounded-full bg-brand-beige hover:bg-brand-pink/20 px-6 py-3 font-title font-semibold text-brand-purple border-2 border-brand-purple/20 transition-all duration-300 hover:border-brand-pink text-center focus:outline-none focus:ring-2 focus:ring-brand-pink focus:ring-offset-2">
+          <i class="fas fa-map-marker-alt mr-2" aria-hidden="true"></i>
+          Voir les zones & tarifs
+        </a>
+      </div>
+
+      <!-- Mention légale discrète -->
+      <p class="mt-5 text-center text-xs text-brand-text-light">
+        Offre valable pour une première réservation
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Boutons flottants (FABs) -->
+<div class="fab-container fixed bottom-5 right-5 z-[900] flex flex-col gap-3">
+    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fab-btn btn-top hidden bg-brand-purple text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition" id="backToTopBtn" aria-label="Haut de page">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+    <a href="tel:+41787685047" class="fab-btn btn-phone bg-blue-400 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition" aria-label="Appeler"><i class="fas fa-phone"></i></a>
+</div>
+
 <!-- WhatsApp Sticky Button -->
 <?php /* WhatsApp toujours activé pour assurer la présence sur toutes les pages */ ?>
 <a href="https://wa.me/41787685047"
@@ -256,6 +418,63 @@
         </div>
     </div>
 </footer>
+
+<!-- Modal CGV -->
+<div id="modal-cgv" class="fixed inset-0 bg-black/50 z-[9999] hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl overflow-hidden w-full max-w-4xl max-h-[85vh] flex flex-col">
+        <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 sticky top-0 z-10">
+            <h3 class="font-bold text-brand-purple">Conditions Générales</h3>
+            <button onclick="document.getElementById('modal-cgv').classList.add('hidden')" class="text-gray-400" aria-label="Fermer"><i class="fas fa-times text-xl"></i></button>
+        </div>
+        <div class="p-6 overflow-y-auto text-gray-600 text-sm leading-relaxed">
+            <p class="font-bold mb-2">1. Présentation de l'activité</p>
+            <p class="mb-4">Nat'Patoune est une entreprise de gardiennage à domicile spécialisée dans le soin et la surveillance de chats au domicile de leur propriétaire.</p>
+            <p class="font-bold mb-2">2. Pré-visite et remise des clés</p>
+            <p class="mb-4">Une pré-visite à domicile est obligatoire avant le début de toute prestation. Elle permet un premier contact entre le client et Nat'Patoune. Cette pré-visite est payante, au tarif d'une visite de cat-sitting (sauf offre commerciale en cours).</p>
+            <p class="font-bold mb-2">3. Conditions de paiement</p>
+            <p class="mb-4">Le règlement de la prestation doit être effectué au plus tard le premier jour du cat-sitting. Modes de paiement : Cash, Virement bancaire, TWINT.</p>
+            <p class="font-bold mb-2">4. Annulation</p>
+            <p class="mb-4">Toute annulation doit être communiquée par écrit. Moins de 7 jours avant le début de la garde : 25 % du montant total est dû.</p>
+            <p class="font-bold mb-2">5. Urgences</p>
+            <p class="mb-4">En cas d'urgence médicale, Nat'Patoune conduira l'animal chez le vétérinaire. Les frais sont à la charge du propriétaire.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Confidentialité -->
+<div id="modal-privacy" class="fixed inset-0 bg-black/50 z-[9999] hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl overflow-hidden w-full max-w-3xl max-h-[85vh] flex flex-col">
+        <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 sticky top-0 z-10">
+            <h3 class="font-bold text-brand-purple">Politique de Confidentialité (nLPD)</h3>
+            <button onclick="document.getElementById('modal-privacy').classList.add('hidden')" class="text-gray-400" aria-label="Fermer"><i class="fas fa-times text-xl"></i></button>
+        </div>
+        <div class="p-6 overflow-y-auto text-gray-600 text-sm leading-relaxed">
+            <p class="mb-4">Nat'Patoune respecte la Loi fédérale sur la protection des données (LPD) et le RGPD.</p>
+            <h4 class="font-bold mb-2">1. Responsable du traitement</h4>
+            <p class="mb-4">Nathalie Piguet, Nat'Patoune, Saint-Saphorin-sur-Morges.</p>
+            <h4 class="font-bold mb-2">2. Données collectées</h4>
+            <p class="mb-4">Nous collectons uniquement les données nécessaires à la prestation (Nom, Adresse, Infos chat, Clés). Via le site : Cookies techniques et statistiques anonymisées.</p>
+            <h4 class="font-bold mb-2">3. Cookies & Traceurs</h4>
+            <p class="mb-4">Vous pouvez gérer vos préférences via la bannière en bas de page. Nous n'utilisons pas de cookies publicitaires tiers intrusifs.</p>
+            <h4 class="font-bold mb-2">4. Vos droits</h4>
+            <p class="mb-4">Droit d'accès, de rectification et de suppression de vos données sur simple demande.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Mentions légales -->
+<div id="modal-mentions" class="fixed inset-0 bg-black/50 z-[9999] hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl overflow-hidden w-full max-w-lg max-h-[85vh] flex flex-col">
+        <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 sticky top-0 z-10">
+            <h3 class="font-bold text-brand-purple">Mentions Légales</h3>
+            <button onclick="document.getElementById('modal-mentions').classList.add('hidden')" class="text-gray-400" aria-label="Fermer"><i class="fas fa-times text-xl"></i></button>
+        </div>
+        <div class="p-6 overflow-y-auto text-gray-600 text-sm leading-relaxed">
+            <p class="mb-2"><strong>Éditeur du site :</strong><br>Nat'Patoune<br>Représentée par : Mme Nathalie Piguet<br>Adresse : Saint-Saphorin-sur-Morges, Vaud, Suisse</p>
+            <p class="mb-2"><strong>Hébergement :</strong><br>Hostinger International Ltd.<br>61 Lordou Vironos Street, 6023 Larnaca, Chypre.</p>
+        </div>
+    </div>
+</div>
 
 <?php wp_footer(); ?>
 </body>

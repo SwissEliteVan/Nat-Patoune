@@ -199,7 +199,8 @@ body {
    Animations
    ============================================ */
 
-.reveal {
+/* Animation désactivée - pas de JS pour déclencher .active */
+/* .reveal {
     opacity: 0;
     transform: translateY(24px);
     transition: all var(--transition-slow);
@@ -208,7 +209,7 @@ body {
 .reveal.active {
     opacity: 1;
     transform: translateY(0);
-}
+} */
 
 @keyframes fadeIn {
     from { opacity: 0; }
@@ -1020,14 +1021,15 @@ h2.font-title::after {
     }
 }
 
-.reveal {
+/* Animation désactivée - doublon sans déclencheur JS */
+/* .reveal {
     opacity: 0;
     animation: fadeInUp 0.6s ease forwards;
 }
 
 .reveal.active {
     opacity: 1;
-}
+} */
 
 /* 2026 Update: Modern design system, mobile drawer, accessibility improvements */
 

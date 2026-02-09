@@ -19,7 +19,236 @@
     initScrollHeader();
     initImageProtection();
     initWhatsAppButton();
+    initAccordions();
+    initCertificateModal();
+    initLeadPopup();
+    initBackToTop();
+    initModals();
+    initGiftForm();
+    initOffreModal();
+    initOfflineDetection();
   });
+
+  /**
+   * Bouton Back to Top
+   */
+  function initBackToTop() {
+    const backToTopBtn = document.getElementById('backToTopBtn');
+    if (!backToTopBtn) return;
+    
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 300) {
+        backToTopBtn.classList.remove('hidden');
+        backToTopBtn.classList.add('show');
+      } else {
+        backToTopBtn.classList.add('hidden');
+        backToTopBtn.classList.remove('show');
+      }
+    }, { passive: true });
+  }
+
+  /**
+   * Gestion des modales génériques
+   */
+  function initModals() {
+    // Ouverture des modales CGV, Privacy, Mentions
+    const modalTriggers = {
+      'modal-cgv': document.querySelectorAll('[onclick*="modal-cgv"]'),
+      'modal-privacy': document.querySelectorAll('[onclick*="modal-privacy"]'),
+      'modal-mentions': document.querySelectorAll('[onclick*="modal-mentions"]')
+    };
+    
+    Object.keys(modalTriggers).forEach(modalId => {
+      const triggers = modalTriggers[modalId];
+      const modal = document.getElementById(modalId);
+      
+      if (!modal) return;
+      
+      triggers.forEach(trigger => {
+        trigger.addEventListener('click', function(e) {
+          e.preventDefault();
+          modal.classList.remove('hidden');
+          modal.classList.add('flex');
+        });
+      });
+    });
+  }
+
+  /**
+   * Formulaire cadeau
+   */
+  function initGiftForm() {
+    const giftForm = document.getElementById('giftForm');
+    if (!giftForm) return;
+    
+    giftForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      if (!this.checkValidity()) {
+        this.reportValidity();
+        return;
+      }
+      
+      const from = document.getElementById('giftFrom').value;
+      const to = document.getElementById('giftTo').value;
+      const amountRadio = document.querySelector('input[name="amount"]:checked');
+      const amount = amountRadio ? amountRadio.value : 'Non spécifié';
+      const msg = document.getElementById('giftMessage').value;
+      const email = document.getElementById('giftEmail').value;
+      
+      // Construire l'email
+      const subject = encodeURIComponent('Commande Bon Cadeau Nat\'Patoune - ' + from);
+      const body = encodeURIComponent(`Bonjour Nathalie,
+
+Je souhaite commander un bon cadeau.
+
+- De la part de : ${from}
+- Pour : ${to}
+- Montant : ${amount} CHF
+- Email de réception : ${email}
+
+Message sur la carte :
+"${msg}"
+
+Je procède au paiement TWINT/Bancaire de ce pas.
+Merci !`);
+      
+      window.location.href = `mailto:miaou@nat-patoune.ch?subject=${subject}&body=${body}`;
+      
+      // Afficher le message de succès
+      giftForm.classList.add('hidden');
+      const successDiv = document.getElementById('giftSuccess');
+      const confName = document.getElementById('confName');
+      if (confName) confName.innerText = from;
+      if (successDiv) successDiv.classList.remove('hidden');
+      
+      const modalContent = document.querySelector('#modal-cadeau .modal-content');
+      if (modalContent) modalContent.scrollTop = 0;
+    });
+  }
+
+  /**
+   * Modal Offre Commerciale (non intrusif)
+   */
+  function initOffreModal() {
+    const offreModal = document.getElementById('modal-offre');
+    const closeBtn = document.getElementById('modal-offre-close');
+    const ctaPrimary = document.getElementById('modal-offre-cta-primary');
+    const ctaSecondary = document.getElementById('modal-offre-cta-secondary');
+    
+    if (!offreModal) return;
+    
+    // Vérifier si déjà affichée dans cette session
+    if (sessionStorage.getItem('offreClosed')) return;
+    
+    let modalShown = false;
+    let scrollTriggered = false;
+    let timeTriggered = false;
+    
+    // Déclenchement après 12 secondes
+    const timeoutId = setTimeout(() => {
+      if (!modalShown && !scrollTriggered) {
+        timeTriggered = true;
+        showOffreModal();
+      }
+    }, 12000); // 12 secondes
+    
+    // Déclenchement au scroll 40%
+    function checkScroll() {
+      if (modalShown || scrollTriggered) return;
+      
+      const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+      
+      if (scrollPercent >= 40) {
+        scrollTriggered = true;
+        clearTimeout(timeoutId);
+        showOffreModal();
+        window.removeEventListener('scroll', checkScroll);
+      }
+    }
+    
+    window.addEventListener('scroll', checkScroll, { passive: true });
+    
+    // Fonction pour afficher le modal
+    function showOffreModal() {
+      if (modalShown) return;
+      modalShown = true;
+      
+      offreModal.classList.remove('hidden');
+      offreModal.classList.add('flex');
+      
+      // Focus sur le bouton fermer pour accessibilité
+      setTimeout(() => {
+        if (closeBtn) closeBtn.focus();
+      }, 100);
+    }
+    
+    // Fonction pour fermer le modal
+    function closeOffreModal() {
+      offreModal.classList.add('hidden');
+      offreModal.classList.remove('flex');
+      sessionStorage.setItem('offreClosed', 'true');
+    }
+    
+    // Bouton fermer
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeOffreModal);
+    }
+    
+    // CTA principal - ferme le modal et scroll vers contact
+    if (ctaPrimary) {
+      ctaPrimary.addEventListener('click', function(e) {
+        closeOffreModal();
+      });
+    }
+    
+    // CTA secondaire - ferme le modal et scroll vers zones-tarifs
+    if (ctaSecondary) {
+      ctaSecondary.addEventListener('click', function(e) {
+        closeOffreModal();
+      });
+    }
+    
+    // Fermer au clic en dehors du modal
+    offreModal.addEventListener('click', function(e) {
+      if (e.target === offreModal) {
+        closeOffreModal();
+      }
+    });
+    
+    // Fermer avec la touche Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && !offreModal.classList.contains('hidden')) {
+        closeOffreModal();
+      }
+    });
+  }
+
+  /**
+   * Détection offline
+   */
+  function initOfflineDetection() {
+    const offlineMessage = document.getElementById('offlineMessage');
+    if (!offlineMessage) return;
+    
+    function checkConnection() {
+      if (!navigator.onLine) {
+        offlineMessage.classList.remove('hidden');
+      } else {
+        offlineMessage.classList.add('hidden');
+      }
+    }
+    
+    window.addEventListener('online', () => {
+      offlineMessage.classList.add('hidden');
+    });
+    
+    window.addEventListener('offline', () => {
+      offlineMessage.classList.remove('hidden');
+    });
+    
+    checkConnection();
+  }
 
   /**
    * Menu mobile
@@ -372,6 +601,233 @@
       
       // Ajuster la position initiale
       adjustWhatsAppPosition();
+    }
+  }
+
+  /**
+   * Accordéons (Zones + FAQ)
+   */
+  function initAccordions() {
+    // Sélectionner tous les boutons d'accordéon
+    const accordionTriggers = document.querySelectorAll('.zone-accordion-trigger, .faq-accordion-trigger');
+    
+    accordionTriggers.forEach(trigger => {
+      trigger.addEventListener('click', function() {
+        const contentId = this.getAttribute('aria-controls');
+        const content = document.getElementById(contentId);
+        const chevron = this.querySelector('.fa-chevron-down');
+        const isExpanded = this.getAttribute('aria-expanded') === 'true';
+        
+        if (!content) return;
+        
+        // Basculer l'état
+        if (isExpanded) {
+          // Fermer
+          this.setAttribute('aria-expanded', 'false');
+          content.classList.add('hidden');
+          if (chevron) {
+            chevron.style.transform = 'rotate(0deg)';
+          }
+        } else {
+          // Ouvrir
+          this.setAttribute('aria-expanded', 'true');
+          content.classList.remove('hidden');
+          if (chevron) {
+            chevron.style.transform = 'rotate(180deg)';
+          }
+        }
+      });
+      
+      // Support clavier
+      trigger.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this.click();
+        }
+      });
+    });
+  }
+
+  /**
+   * Modal certificat
+   */
+  function initCertificateModal() {
+    const certificateTriggers = document.querySelectorAll('.certificate-zoom-trigger');
+    const modal = document.getElementById('certificate-modal');
+    const modalClose = document.getElementById('certificate-modal-close');
+    
+    if (!modal) return;
+    
+    // Ouvrir la modal au clic sur le certificat
+    certificateTriggers.forEach(trigger => {
+      trigger.addEventListener('click', function() {
+        modal.classList.remove('hidden');
+        modal.style.display = 'flex';
+        
+        // Focus sur le bouton fermer pour accessibilité
+        setTimeout(() => {
+          if (modalClose) modalClose.focus();
+        }, 100);
+      });
+      
+      // Support clavier
+      trigger.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this.click();
+        }
+      });
+    });
+    
+    // Fermer la modal
+    if (modalClose) {
+      modalClose.addEventListener('click', function() {
+        modal.classList.add('hidden');
+        modal.style.display = 'none';
+      });
+    }
+    
+    // Fermer au clic en dehors
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        modal.classList.add('hidden');
+        modal.style.display = 'none';
+      }
+    });
+    
+    // Fermer avec Échap
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        modal.classList.add('hidden');
+        modal.style.display = 'none';
+      }
+    });
+  }
+
+  /**
+   * Lead Popup (non intrusive)
+   */
+  function initLeadPopup() {
+    const popup = document.getElementById('lead-popup');
+    const popupClose = document.getElementById('lead-popup-close');
+    const popupForm = document.getElementById('lead-popup-form');
+    const popupSuccess = document.getElementById('lead-popup-success');
+    const popupCloseSuccess = document.getElementById('lead-popup-close-success');
+    
+    if (!popup) return;
+    
+    // Vérifier si l'utilisateur a déjà vu/fermé la popup
+    const popupDismissed = localStorage.getItem('natpatoune_lead_popup_dismissed');
+    const popupSubmitted = localStorage.getItem('natpatoune_lead_popup_submitted');
+    
+    if (popupDismissed || popupSubmitted) return;
+    
+    let popupShown = false;
+    let scrollTriggered = false;
+    
+    // Afficher après 30 secondes
+    const timeoutId = setTimeout(() => {
+      if (!popupShown && !scrollTriggered) {
+        showPopup();
+      }
+    }, 30000); // 30 secondes
+    
+    // Afficher au scroll 50%
+    function checkScroll() {
+      if (popupShown || scrollTriggered) return;
+      
+      const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+      
+      if (scrollPercent > 50) {
+        scrollTriggered = true;
+        clearTimeout(timeoutId);
+        showPopup();
+        window.removeEventListener('scroll', checkScroll);
+      }
+    }
+    
+    window.addEventListener('scroll', checkScroll, { passive: true });
+    
+    // Fonction pour afficher la popup
+    function showPopup() {
+      if (popupShown) return;
+      popupShown = true;
+      
+      popup.classList.remove('hidden');
+      popup.style.display = 'flex';
+      
+      // Focus sur le premier champ
+      setTimeout(() => {
+        const firstInput = popup.querySelector('input[type="text"]');
+        if (firstInput) firstInput.focus();
+      }, 100);
+    }
+    
+    // Fermer la popup
+    function closePopup() {
+      popup.classList.add('hidden');
+      popup.style.display = 'none';
+      localStorage.setItem('natpatoune_lead_popup_dismissed', 'true');
+      localStorage.setItem('natpatoune_lead_popup_dismissed_date', new Date().toISOString());
+    }
+    
+    if (popupClose) {
+      popupClose.addEventListener('click', closePopup);
+    }
+    
+    if (popupCloseSuccess) {
+      popupCloseSuccess.addEventListener('click', closePopup);
+    }
+    
+    // Fermer au clic en dehors
+    popup.addEventListener('click', function(e) {
+      if (e.target === popup) {
+        closePopup();
+      }
+    });
+    
+    // Fermer avec Échap
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && !popup.classList.contains('hidden')) {
+        closePopup();
+      }
+    });
+    
+    // Soumission du formulaire
+    if (popupForm) {
+      popupForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(popupForm);
+        const name = formData.get('lead-name');
+        const email = formData.get('lead-email');
+        const consent = formData.get('lead-consent');
+        
+        if (!name || !email || !consent) {
+          alert('Veuillez remplir tous les champs requis.');
+          return;
+        }
+        
+        // Ici, vous pouvez ajouter un appel AJAX pour envoyer les données
+        // Pour l'instant, on simule le succès
+        console.log('Lead capturé:', { name, email });
+        
+        // Marquer comme soumis
+        localStorage.setItem('natpatoune_lead_popup_submitted', 'true');
+        localStorage.setItem('natpatoune_lead_popup_submitted_date', new Date().toISOString());
+        localStorage.setItem('natpatoune_lead_email', email);
+        
+        // Afficher le message de succès
+        popupForm.classList.add('hidden');
+        if (popupSuccess) {
+          popupSuccess.classList.remove('hidden');
+        }
+        
+        // Fermer automatiquement après 5 secondes
+        setTimeout(() => {
+          closePopup();
+        }, 5000);
+      });
     }
   }
 

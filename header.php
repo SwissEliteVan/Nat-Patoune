@@ -71,10 +71,23 @@
 <body <?php body_class('font-body text-brand-text bg-brand-white'); ?>>
 <?php wp_body_open(); ?>
 
+<!-- Message offline (Service Worker) -->
+<div class="offline-message hidden fixed top-0 left-0 right-0 bg-yellow-400 text-gray-900 px-4 py-2 text-center z-[10001]" id="offlineMessage">
+    <i class="fas fa-wifi mr-2"></i>Vous êtes hors ligne. Certaines fonctionnalités peuvent être limitées.
+</div>
+
 <!-- Accessibilité: lien d'évitement -->
 <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:text-brand-purple focus:shadow-medium focus:rounded-md">
   <?php esc_html_e('Aller au contenu principal', 'natpatoune'); ?>
 </a>
+
+<!-- Barre supérieure -->
+<div class="bg-brand-purple text-white py-2 text-xs font-medium relative z-20">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+        <span class="hidden md:inline"><i class="fas fa-map-marker-alt mr-2 text-brand-pink"></i> Morges, Ouest lausannois, Lausanne et Échallens</span>
+        <a href="mailto:<?php echo esc_attr(function_exists('natpatoune_get_email') ? natpatoune_get_email() : 'miaou@nat-patoune.ch'); ?>" class="hover:text-brand-pink transition font-bold ml-auto md:ml-0">Contact</a>
+    </div>
+</div>
 
 <!-- Header avec navigation -->
 <header class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md shadow-sm z-50">

@@ -7,7 +7,7 @@
 
 get_header(); ?>
 
-<main class="pt-24 pb-16 bg-brand-beige min-h-screen">
+<section class="pt-24 pb-16 bg-brand-beige min-h-screen">
     <div class="container mx-auto px-4">
         <?php
         while (have_posts()) : the_post();
@@ -41,6 +41,6 @@ get_header(); ?>
         endwhile;
         ?>
     </div>
-</main>
+</section>
 
 <?php get_footer(); ?>

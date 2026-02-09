@@ -979,4 +979,174 @@ function natpatoune_parse_image_attributes($attr) {
         $attributes .= ' ' . esc_attr($name) . '="' . esc_attr($value) . '"';
     }
     return $attributes;
-}
+  }
+  
+  /**
+   * Ajouter les données structurées Schema.org (LocalBusiness + Service)
+   * Améliore le SEO et l'affichage dans les résultats de recherche Google
+   */
+  function natpatoune_add_schema_org() {
+    // Uniquement sur la page d'accueil
+    if (!is_front_page()) {
+      return;
+    }
+    
+    $schema = array(
+      '@context' => 'https://schema.org',
+      '@graph' => array(
+        // LocalBusiness
+        array(
+          '@type' => 'LocalBusiness',
+          '@id' => home_url('/#localbusiness'),
+          'name' => 'Nat Patoune',
+          'description' => 'Service professionnel de garde de chats à domicile dans la région de Morges et Lausanne. Cat-sitter certifiée avec rapport quotidien et photos.',
+          'url' => home_url('/'),
+          'telephone' => '+41787685047',
+          'email' => function_exists('natpatoune_get_email') ? natpatoune_get_email() : 'miaou@nat-patoune.ch',
+          'priceRange' => 'CHF 25-55',
+          'image' => get_theme_file_uri('assets/img/logo-nat-patoune-cat-sitting.svg'),
+          'address' => array(
+            '@type' => 'PostalAddress',
+            'addressLocality' => 'Morges',
+            'addressRegion' => 'VD',
+            'addressCountry' => 'CH'
+          ),
+          'geo' => array(
+            '@type' => 'GeoCoordinates',
+            'latitude' => '46.5117',
+            'longitude' => '6.4987'
+          ),
+          'areaServed' => array(
+            array(
+              '@type' => 'City',
+              'name' => 'Morges'
+            ),
+            array(
+              '@type' => 'City',
+              'name' => 'Lausanne'
+            ),
+            array(
+              '@type' => 'City',
+              'name' => 'Saint-Prex'
+            ),
+            array(
+              '@type' => 'City',
+              'name' => 'Renens'
+            ),
+            array(
+              '@type' => 'City',
+              'name' => 'Prilly'
+            )
+          ),
+          'openingHoursSpecification' => array(
+            '@type' => 'OpeningHoursSpecification',
+            'dayOfWeek' => array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'),
+            'opens' => '08:00',
+            'closes' => '20:00'
+          ),
+          'sameAs' => array(
+            'https://www.instagram.com/nat.patoune'
+          ),
+          'hasOfferCatalog' => array(
+            '@type' => 'OfferCatalog',
+            'name' => 'Services de garde de chats',
+            'itemListElement' => array(
+              array(
+                '@type' => 'Offer',
+                'itemOffered' => array(
+                  '@type' => 'Service',
+                  'name' => 'Formule Essentielle',
+                  'description' => '1 visite de 30 minutes par jour avec nourriture, eau, litière, jeux et rapport quotidien',
+                  'provider' => array(
+                    '@id' => home_url('/#localbusiness')
+                  ),
+                  'areaServed' => array(
+                    '@type' => 'City',
+                    'name' => 'Morges'
+                  ),
+                  'priceSpecification' => array(
+                    '@type' => 'PriceSpecification',
+                    'price' => '25',
+                    'priceCurrency' => 'CHF'
+                  )
+                )
+              ),
+              array(
+                '@type' => 'Offer',
+                'itemOffered' => array(
+                  '@type' => 'Service',
+                  'name' => 'Formule Confort',
+                  'description' => '2 visites de 30 minutes par jour avec nourriture, eau, litière, jeux, rapport détaillé, arrosage et courrier',
+                  'provider' => array(
+                    '@id' => home_url('/#localbusiness')
+                  ),
+                  'areaServed' => array(
+                    '@type' => 'City',
+                    'name' => 'Morges'
+                  ),
+                  'priceSpecification' => array(
+                    '@type' => 'PriceSpecification',
+                    'price' => '40',
+                    'priceCurrency' => 'CHF'
+                  )
+                )
+              ),
+              array(
+                '@type' => 'Offer',
+                'itemOffered' => array(
+                  '@type' => 'Service',
+                  'name' => 'Formule Premium',
+                  'description' => '3 visites de 30 minutes par jour avec nourriture, eau, litière, jeux, photos/vidéos, arrosage, courrier et brossage',
+                  'provider' => array(
+                    '@id' => home_url('/#localbusiness')
+                  ),
+                  'areaServed' => array(
+                    '@type' => 'City',
+                    'name' => 'Morges'
+                  ),
+                  'priceSpecification' => array(
+                    '@type' => 'PriceSpecification',
+                    'price' => '55',
+                    'priceCurrency' => 'CHF'
+                  )
+                )
+              )
+            )
+          )
+        ),
+        // Organization
+        array(
+          '@type' => 'Organization',
+          '@id' => home_url('/#organization'),
+          'name' => 'Nat Patoune',
+          'url' => home_url('/'),
+          'logo' => get_theme_file_uri('assets/img/logo-nat-patoune-cat-sitting.svg'),
+          'sameAs' => array(
+            'https://www.instagram.com/nat.patoune'
+          ),
+          'contactPoint' => array(
+            '@type' => 'ContactPoint',
+            'telephone' => '+41787685047',
+            'contactType' => 'Customer Service',
+            'areaServed' => 'CH',
+            'availableLanguage' => array('French')
+          )
+        ),
+        // WebSite
+        array(
+          '@type' => 'WebSite',
+          '@id' => home_url('/#website'),
+          'url' => home_url('/'),
+          'name' => 'Nat Patoune - Garde de chats à domicile',
+          'description' => 'Cat-sitting professionnel dans la région de Morges et Lausanne',
+          'publisher' => array(
+            '@id' => home_url('/#organization')
+          ),
+          'inLanguage' => 'fr-CH'
+        )
+      )
+    );
+    
+    echo '<script type="application/ld+json">' . wp_json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . '</script>' . "\n";
+  }
+  add_action('wp_head', 'natpatoune_add_schema_org', 5);
