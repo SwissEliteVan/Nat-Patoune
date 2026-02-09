@@ -168,7 +168,7 @@ section.bg-white + section.bg-white {
 
 @media (min-width: 640px) {
   .container {
-    max-width: 640px;
+    max-width: 90%;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
   }
@@ -176,7 +176,7 @@ section.bg-white + section.bg-white {
 
 @media (min-width: 768px) {
   .container {
-    max-width: 768px;
+    max-width: 90%;
     padding-left: 2rem;
     padding-right: 2rem;
   }
@@ -184,7 +184,7 @@ section.bg-white + section.bg-white {
 
 @media (min-width: 1024px) {
   .container {
-    max-width: 1024px;
+    max-width: 90%;
     padding-left: 2.5rem;
     padding-right: 2.5rem;
   }
@@ -225,11 +225,12 @@ body {
 
 main {
   flex: 1;
-  padding-top: 80px; /* Espace pour le header fixe */
+  padding-top: 0; /* Le padding est gere par chaque section individuellement */
   width: 100%; /* Assure que le main prend toute la largeur disponible */
   overflow-x: hidden; /* Empêche le débordement horizontal */
   overflow-y: visible; /* Permet au contenu de s'afficher verticalement */
   display: block; /* Assure que le contenu s'affiche correctement */
+  min-height: calc(100vh - 80px); /* Hauteur minimale pour pousser le footer */
 }
 
 img {
