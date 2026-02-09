@@ -168,7 +168,7 @@ section.bg-white + section.bg-white {
 
 @media (min-width: 640px) {
   .container {
-    max-width: 90%;
+    max-width: 640px;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
   }
@@ -176,7 +176,7 @@ section.bg-white + section.bg-white {
 
 @media (min-width: 768px) {
   .container {
-    max-width: 90%;
+    max-width: 768px;
     padding-left: 2rem;
     padding-right: 2rem;
   }
@@ -184,7 +184,7 @@ section.bg-white + section.bg-white {
 
 @media (min-width: 1024px) {
   .container {
-    max-width: 90%;
+    max-width: 1024px;
     padding-left: 2.5rem;
     padding-right: 2.5rem;
   }
