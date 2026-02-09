@@ -208,8 +208,10 @@ section.bg-white + section.bg-white {
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 80px; /* Pour les ancres, tenir compte du header fixe */
-  font-size: 16px; /* Base pour les rem */
+  scroll-padding-top: 80px;
+  font-size: 16px;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -221,16 +223,21 @@ body {
   line-height: 1.6;
   color: var(--brand-text);
   background-color: var(--brand-white);
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 main {
   flex: 1;
-  padding-top: 0; /* Le padding est gere par chaque section individuellement */
-  width: 100%; /* Assure que le main prend toute la largeur disponible */
-  overflow-x: hidden; /* Empêche le débordement horizontal */
-  overflow-y: visible; /* Permet au contenu de s'afficher verticalement */
-  display: block; /* Assure que le contenu s'affiche correctement */
-  min-height: calc(100vh - 80px); /* Hauteur minimale pour pousser le footer */
+  padding-top: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-y: visible;
+  display: block;
+  min-height: calc(100vh - 80px);
+  position: relative;
 }
 
 img {
