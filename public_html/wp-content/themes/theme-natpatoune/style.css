@@ -3,14 +3,19 @@ Theme Name: Nat-Patoune
 Theme URI:
 Author: SwissEliteVan
 Author URI:
-Description: Thème sur mesure pour Nat-Patoune.
+Description: Thème sur mesure pour Nat-Patoune, service de garde de chats à domicile.
 Version: 1.0.0
+Requires at least: 6.0
+Requires PHP: 7.4
 Text Domain: theme-natpatoune
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
 
-/* ============================================================
+/* ==========================================================================
    RESET & BASE
-   ============================================================ */
+   ========================================================================== */
+
 *,
 *::before,
 *::after {
@@ -38,17 +43,74 @@ a {
     text-decoration: none;
 }
 
+a:focus,
+button:focus,
+input:focus,
+textarea:focus {
+    outline: 2px solid #e8913a;
+    outline-offset: 2px;
+}
+
 .container {
     width: 90%;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-/* ============================================================
-   1. HEADER — Padding augmenté pour aérer la navigation
-   ============================================================ */
+/* ==========================================================================
+   ACCESSIBILITE
+   ========================================================================== */
+
+.screen-reader-text {
+    border: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    word-wrap: normal !important;
+}
+
+.screen-reader-text:focus {
+    background-color: #f1f1f1;
+    border-radius: 3px;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+    clip: auto !important;
+    clip-path: none;
+    color: #21759b;
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 700;
+    height: auto;
+    left: 5px;
+    line-height: normal;
+    padding: 15px 23px 14px;
+    text-decoration: none;
+    top: 5px;
+    width: auto;
+    z-index: 100000;
+}
+
+.skip-link:focus {
+    background-color: #e8913a;
+    color: #fff;
+    font-size: 1rem;
+    padding: 12px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100001;
+}
+
+/* ==========================================================================
+   HEADER
+   ========================================================================== */
+
 .site-header {
-    padding: 1.5rem 0;
+    padding: 1rem 0;
     background-color: #fff;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
     position: sticky;
@@ -62,30 +124,75 @@ a {
     justify-content: space-between;
 }
 
-.site-header .site-branding img {
+.site-branding {
+    flex-shrink: 0;
+}
+
+.site-branding img {
     max-height: 60px;
     width: auto;
 }
 
-.site-header nav ul {
+.site-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.site-title a {
+    transition: color 0.3s ease;
+}
+
+.site-title a:hover {
+    color: #e8913a;
+}
+
+.site-description {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 0.15rem;
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.menu-toggle-bar {
+    display: block;
+    width: 24px;
+    height: 3px;
+    background-color: #333;
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.main-navigation ul {
     list-style: none;
     display: flex;
     gap: 2rem;
 }
 
-.site-header nav a {
+.main-navigation a {
     font-weight: 500;
     padding: 0.5rem 0;
     transition: color 0.3s ease;
 }
 
-.site-header nav a:hover {
+.main-navigation a:hover,
+.main-navigation .current-menu-item > a {
     color: #e8913a;
 }
 
-/* ============================================================
-   2. SECTIONS — Espacement standardisé (padding vertical uniforme)
-   ============================================================ */
+/* ==========================================================================
+   SECTIONS
+   ========================================================================== */
+
 .hero-section,
 .services-section,
 .front-page-content,
@@ -100,9 +207,10 @@ a {
     color: #222;
 }
 
-/* ============================================================
-   3. HERO — Text-shadow pour lisibilité sur image de fond
-   ============================================================ */
+/* ==========================================================================
+   HERO
+   ========================================================================== */
+
 .hero-section {
     background-size: cover;
     background-position: center;
@@ -130,9 +238,10 @@ a {
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
-/* ============================================================
-   4. BOUTONS — Transitions fluides au survol
-   ============================================================ */
+/* ==========================================================================
+   BOUTONS
+   ========================================================================== */
+
 .hero-btn,
 .read-more {
     display: inline-block;
@@ -170,9 +279,10 @@ a {
     box-shadow: 0 4px 12px rgba(232, 145, 58, 0.3);
 }
 
-/* ============================================================
-   SERVICES — Grille de cartes
-   ============================================================ */
+/* ==========================================================================
+   SERVICES
+   ========================================================================== */
+
 .services-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -209,9 +319,10 @@ a {
     font-size: 0.95rem;
 }
 
-/* ============================================================
-   DERNIERS ARTICLES — Grille de cartes
-   ============================================================ */
+/* ==========================================================================
+   ARTICLES (grille)
+   ========================================================================== */
+
 .posts-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -267,36 +378,577 @@ a {
     margin-bottom: 1rem;
 }
 
-/* ============================================================
-   FOOTER
-   ============================================================ */
-.site-footer {
-    background-color: #222;
-    color: #ccc;
-    padding: 3rem 0;
-    text-align: center;
-    font-size: 0.9rem;
+/* ==========================================================================
+   SINGLE & PAGE
+   ========================================================================== */
+
+.entry-header {
+    margin-bottom: 2rem;
 }
 
-.site-footer a {
+.entry-title {
+    font-size: 2.25rem;
+    line-height: 1.3;
+    color: #222;
+    margin-bottom: 0.75rem;
+}
+
+.entry-meta {
+    font-size: 0.9rem;
+    color: #666;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+}
+
+.entry-meta a {
     color: #e8913a;
     transition: color 0.3s ease;
 }
 
-.site-footer a:hover {
+.entry-meta a:hover {
+    color: #cf7c2e;
+}
+
+.entry-thumbnail {
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.entry-thumbnail img {
+    width: 100%;
+    height: auto;
+}
+
+.entry-content {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+}
+
+.entry-content p {
+    margin-bottom: 1.25rem;
+}
+
+.entry-content h2 {
+    font-size: 1.6rem;
+    margin: 2rem 0 1rem;
+    color: #222;
+}
+
+.entry-content h3 {
+    font-size: 1.3rem;
+    margin: 1.5rem 0 0.75rem;
+    color: #222;
+}
+
+.entry-content ul,
+.entry-content ol {
+    margin: 0 0 1.25rem 1.5rem;
+}
+
+.entry-content blockquote {
+    border-left: 4px solid #e8913a;
+    margin: 1.5rem 0;
+    padding: 1rem 1.5rem;
+    background: #fafafa;
+    font-style: italic;
+}
+
+.entry-content img {
+    border-radius: 4px;
+    margin: 1.5rem 0;
+}
+
+.entry-footer {
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.entry-footer a {
+    color: #e8913a;
+}
+
+.page-links {
+    margin: 2rem 0;
+    font-weight: 600;
+}
+
+.page-links a {
+    color: #e8913a;
+    padding: 0 0.5rem;
+}
+
+.post-navigation,
+.posts-navigation {
+    margin: 3rem 0;
+    padding: 1.5rem 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.post-navigation .nav-links,
+.posts-navigation .nav-links {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.post-navigation a,
+.posts-navigation a {
+    color: #e8913a;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.post-navigation a:hover,
+.posts-navigation a:hover {
+    color: #cf7c2e;
+}
+
+/* ==========================================================================
+   ARCHIVE & SEARCH HEADERS
+   ========================================================================== */
+
+.archive-header,
+.search-header {
+    margin-bottom: 3rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid #eee;
+}
+
+.archive-title,
+.search-title {
+    font-size: 1.8rem;
+    color: #222;
+}
+
+.search-title span {
+    color: #e8913a;
+}
+
+.archive-description {
+    margin-top: 0.75rem;
+    color: #555;
+    font-size: 1rem;
+}
+
+/* ==========================================================================
+   404 & NO RESULTS
+   ========================================================================== */
+
+.error-404 {
+    text-align: center;
+    padding: 4rem 0;
+}
+
+.error-404 .entry-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.error-404 .entry-content p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 2rem;
+}
+
+.no-results {
+    text-align: center;
+    padding: 3rem 0;
+}
+
+.no-results .entry-title {
+    margin-bottom: 1rem;
+}
+
+.no-results .entry-content p {
+    color: #555;
+    margin-bottom: 2rem;
+}
+
+/* ==========================================================================
+   RECHERCHE
+   ========================================================================== */
+
+.search-form {
+    display: flex;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.search-field {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 2px solid #ddd;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+    font-size: 1rem;
+    font-family: inherit;
+}
+
+.search-field:focus {
+    border-color: #e8913a;
+    outline: none;
+}
+
+.search-submit {
+    padding: 0.75rem 1.5rem;
+    background-color: #e8913a;
+    color: #fff;
+    border: 2px solid #e8913a;
+    border-radius: 0 4px 4px 0;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background-color 0.3s ease;
+}
+
+.search-submit:hover {
+    background-color: #cf7c2e;
+    border-color: #cf7c2e;
+}
+
+/* ==========================================================================
+   COMMENTAIRES
+   ========================================================================== */
+
+.comments-area {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid #eee;
+}
+
+.comments-title {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: #222;
+}
+
+.comment-list {
+    list-style: none;
+    padding: 0;
+}
+
+.comment-list .comment {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.comment-list .comment-body {
+    display: flex;
+    gap: 1rem;
+}
+
+.comment-list .comment-content {
+    flex: 1;
+}
+
+.comment-list .comment-content p {
+    margin-bottom: 0.5rem;
+}
+
+.comment-list .comment-author {
+    font-weight: 600;
+}
+
+.comment-list .comment-metadata {
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.comment-list .comment-metadata a {
+    color: #888;
+}
+
+.comment-respond {
+    margin-top: 2rem;
+}
+
+.comment-respond .comment-reply-title {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+}
+
+.comment-form label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.comment-form input[type="text"],
+.comment-form input[type="email"],
+.comment-form input[type="url"],
+.comment-form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: inherit;
+    margin-bottom: 1rem;
+}
+
+.comment-form input:focus,
+.comment-form textarea:focus {
+    border-color: #e8913a;
+    outline: none;
+}
+
+.comment-form .form-submit .submit {
+    background-color: #e8913a;
+    color: #fff;
+    border: none;
+    padding: 0.85rem 2rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.comment-form .form-submit .submit:hover {
+    background-color: #cf7c2e;
+}
+
+.comments-navigation {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.comments-navigation .nav-links {
+    display: flex;
+    justify-content: space-between;
+}
+
+.comments-navigation a {
+    color: #e8913a;
+}
+
+/* ==========================================================================
+   SIDEBAR & WIDGETS
+   ========================================================================== */
+
+.widget-area {
+    padding: 2rem 0;
+}
+
+.widget {
+    margin-bottom: 2rem;
+}
+
+.widget-title {
+    font-size: 1.15rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e8913a;
+    color: #222;
+}
+
+.widget ul {
+    list-style: none;
+    padding: 0;
+}
+
+.widget ul li {
+    padding: 0.35rem 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.widget ul li a {
+    color: #555;
+    transition: color 0.3s ease;
+}
+
+.widget ul li a:hover {
+    color: #e8913a;
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+
+.site-footer {
+    background-color: #222;
+    color: #ccc;
+    padding: 3rem 0 2rem;
+    font-size: 0.9rem;
+}
+
+.footer-cta {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.footer-contact {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.footer-contact a {
+    color: #e8913a;
+    transition: color 0.3s ease;
+}
+
+.footer-contact a:hover {
     color: #fff;
 }
 
-/* ============================================================
+.footer-socials {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.footer-socials a {
+    color: #ccc;
+    transition: color 0.3s ease;
+}
+
+.footer-socials a:hover {
+    color: #e8913a;
+}
+
+.footer-navigation {
+    margin-bottom: 1.5rem;
+}
+
+.footer-menu {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.footer-menu a {
+    color: #ccc;
+    transition: color 0.3s ease;
+}
+
+.footer-menu a:hover {
+    color: #e8913a;
+}
+
+.footer-copy {
+    text-align: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid #444;
+    color: #888;
+    font-size: 0.85rem;
+}
+
+/* ==========================================================================
+   ALIGNEMENTS WORDPRESS
+   ========================================================================== */
+
+.alignleft {
+    float: left;
+    margin: 0.5rem 1.5rem 1rem 0;
+}
+
+.alignright {
+    float: right;
+    margin: 0.5rem 0 1rem 1.5rem;
+}
+
+.aligncenter {
+    display: block;
+    margin: 1rem auto;
+}
+
+.wp-caption {
+    max-width: 100%;
+}
+
+.wp-caption-text {
+    font-size: 0.85rem;
+    color: #666;
+    text-align: center;
+    padding: 0.5rem 0;
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.gallery-item {
+    flex: 1 1 200px;
+}
+
+.gallery-item img {
+    border-radius: 4px;
+}
+
+/* ==========================================================================
+   SITE-MAIN
+   ========================================================================== */
+
+.site-main {
+    padding: 3rem 0;
+    min-height: 50vh;
+}
+
+/* ==========================================================================
    RESPONSIVE
-   ============================================================ */
+   ========================================================================== */
+
 @media (max-width: 768px) {
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    .main-navigation {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #fff;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        padding: 1rem 0;
+    }
+
+    .main-navigation.toggled {
+        display: block;
+    }
+
+    .main-navigation ul {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .main-navigation li {
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .main-navigation a {
+        display: block;
+        padding: 0.75rem 5%;
+    }
+
     .hero-title {
         font-size: 2rem;
     }
 
     .hero-subtitle {
         font-size: 1rem;
+    }
+
+    .hero-overlay {
+        padding: 4rem 0;
     }
 
     .hero-section,
@@ -307,11 +959,60 @@ a {
     }
 
     .site-header {
-        padding: 1rem 0;
+        padding: 0.75rem 0;
     }
 
     .section-title {
         font-size: 1.6rem;
         margin-bottom: 2rem;
+    }
+
+    .entry-title {
+        font-size: 1.6rem;
+    }
+
+    .entry-meta {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .footer-contact {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .footer-menu {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .post-navigation .nav-links,
+    .posts-navigation .nav-links {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .search-form {
+        flex-direction: column;
+    }
+
+    .search-field {
+        border-right: 2px solid #ddd;
+        border-radius: 4px;
+        margin-bottom: 0.5rem;
+    }
+
+    .search-field:focus {
+        border-color: #e8913a;
+    }
+
+    .search-submit {
+        border-radius: 4px;
+    }
+
+    .site-main {
+        padding: 2rem 0;
     }
 }
