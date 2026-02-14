@@ -4,9 +4,12 @@
  */
 
 function natpatoune_theme_setup() {
+    load_theme_textdomain('theme-natpatoune', get_template_directory() . '/languages');
+
     add_theme_support('post-thumbnails');
     add_theme_support('excerpt');
     add_theme_support('title-tag');
+    add_theme_support('automatic-feed-links');
 
     add_theme_support('html5', array(
         'search-form',
@@ -59,6 +62,18 @@ function natpatoune_enqueue_assets() {
     }
 }
 add_action('wp_enqueue_scripts', 'natpatoune_enqueue_assets');
+
+function natpatoune_widgets_init() {
+    register_sidebar(array(
+        'name'          => __('Barre latérale', 'theme-natpatoune'),
+        'id'            => 'sidebar-1',
+        'before_widget' => '<section id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h2 class="widget-title">',
+        'after_title'   => '</h2>',
+    ));
+}
+add_action('widgets_init', 'natpatoune_widgets_init');
 
 function natpatoune_customize_register($wp_customize) {
 

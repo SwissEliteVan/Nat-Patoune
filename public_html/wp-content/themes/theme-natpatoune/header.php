@@ -39,7 +39,10 @@
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
+<a class="skip-link screen-reader-text" href="#primary"><?php esc_html_e('Aller au contenu', 'theme-natpatoune'); ?></a>
+
 <header class="site-header" role="banner">
+  <div class="container">
     <div class="site-branding">
         <?php if (has_custom_logo()) : ?>
             <div class="site-logo">
@@ -69,4 +72,5 @@
         ));
         ?>
     </nav>
+  </div>
 </header>
