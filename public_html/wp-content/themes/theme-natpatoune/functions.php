@@ -175,5 +175,101 @@ function natpatoune_customize_register($wp_customize) {
         'section' => 'natpatoune_blog_section',
         'type'    => 'text',
     ));
+    // ==========================================================
+    // === Paramètres Nat Patoune (coordonnées, réseaux, CTA) ===
+    // ==========================================================
+    $wp_customize->add_section('natpatoune_settings_section', array(
+        'title'    => __('Paramètres Nat Patoune', 'theme-natpatoune'),
+        'priority' => 30,
+    ));
+
+    // --- Coordonnées ---
+    $wp_customize->add_setting('natpatoune_phone', array(
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('natpatoune_phone', array(
+        'label'       => __('Numéro de téléphone', 'theme-natpatoune'),
+        'description' => __('Ex : +41 79 123 45 67', 'theme-natpatoune'),
+        'section'     => 'natpatoune_settings_section',
+        'type'        => 'text',
+    ));
+
+    $wp_customize->add_setting('natpatoune_email', array(
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_email',
+    ));
+    $wp_customize->add_control('natpatoune_email', array(
+        'label'   => __('Adresse email', 'theme-natpatoune'),
+        'section' => 'natpatoune_settings_section',
+        'type'    => 'email',
+    ));
+
+    // --- Réseaux sociaux ---
+    $social_links = array(
+        'natpatoune_facebook'  => __('Facebook — URL', 'theme-natpatoune'),
+        'natpatoune_instagram' => __('Instagram — URL', 'theme-natpatoune'),
+        'natpatoune_tiktok'    => __('TikTok — URL', 'theme-natpatoune'),
+        'natpatoune_youtube'   => __('YouTube — URL', 'theme-natpatoune'),
+    );
+    foreach ($social_links as $id => $label) {
+        $wp_customize->add_setting($id, array(
+            'default'           => '',
+            'sanitize_callback' => 'esc_url_raw',
+        ));
+        $wp_customize->add_control($id, array(
+            'label'   => $label,
+            'section' => 'natpatoune_settings_section',
+            'type'    => 'url',
+        ));
+    }
+
+    // --- Bouton d'appel à l'action (CTA) ---
+    $wp_customize->add_setting('natpatoune_cta_text', array(
+        'default'           => __('Prendre rendez-vous', 'theme-natpatoune'),
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('natpatoune_cta_text', array(
+        'label'   => __('CTA — Texte du bouton', 'theme-natpatoune'),
+        'section' => 'natpatoune_settings_section',
+        'type'    => 'text',
+    ));
+
+    $wp_customize->add_setting('natpatoune_cta_url', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control('natpatoune_cta_url', array(
+        'label'   => __('CTA — Lien du bouton', 'theme-natpatoune'),
+        'section' => 'natpatoune_settings_section',
+        'type'    => 'url',
+    ));
 }
 add_action('customize_register', 'natpatoune_customize_register');
+
+/**
+ * Helpers pour récupérer les paramètres Nat Patoune dans les templates.
+ */
+function natpatoune_get_phone() {
+    return get_theme_mod('natpatoune_phone', '');
+}
+
+function natpatoune_get_email() {
+    return get_theme_mod('natpatoune_email', '');
+}
+
+function natpatoune_get_socials() {
+    return array(
+        'facebook'  => get_theme_mod('natpatoune_facebook', ''),
+        'instagram' => get_theme_mod('natpatoune_instagram', ''),
+        'tiktok'    => get_theme_mod('natpatoune_tiktok', ''),
+        'youtube'   => get_theme_mod('natpatoune_youtube', ''),
+    );
+}
+
+function natpatoune_get_cta() {
+    return array(
+        'text' => get_theme_mod('natpatoune_cta_text', __('Prendre rendez-vous', 'theme-natpatoune')),
+        'url'  => get_theme_mod('natpatoune_cta_url', ''),
+    );
+}
