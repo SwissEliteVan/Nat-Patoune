@@ -1,8 +1,5 @@
 <?php
 /**
- * Template part : Section Hero de la page d'accueil.
- * Tous les contenus sont modifiables via Apparence > Personnaliser > Page d'accueil.
- *
  * @package Theme_NatPatoune
  */
 

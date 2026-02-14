@@ -1,8 +1,5 @@
 <?php
 /**
- * Template part : Section Services de la page d'accueil.
- * Contenus modifiables via Apparence > Personnaliser > Page d'accueil.
- *
  * @package Theme_NatPatoune
  */
 
