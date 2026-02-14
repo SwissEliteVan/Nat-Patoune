@@ -30,10 +30,7 @@ $template_parts = [
 ];
 
 foreach ($template_parts as $part) {
-    $template_path = 'template-parts/front-page/' . $part . '.php';
-    if (file_exists(get_theme_file_path($template_path))) {
-        include(locate_template($template_path));
-    }
+    get_template_part('template-parts/front-page/' . $part);
 }
 ?>
 
