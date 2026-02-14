@@ -152,50 +152,10 @@
     </div>
 </footer>
 
+<?php get_template_part('template-parts/footer/modals'); ?>
+
 <?php wp_footer(); ?>
 
-<!-- Scripts -->
-<script>
-    // Mobile Menu Toggle
-    document.addEventListener('DOMContentLoaded', function() {
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        
-        if (mobileMenuBtn && mobileMenu) {
-            mobileMenuBtn.addEventListener('click', function() {
-                const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
-                mobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
-                mobileMenu.classList.toggle('hidden');
-                
-                // Icon toggle
-                const icon = mobileMenuBtn.querySelector('i');
-                if (icon) {
-                    icon.classList.toggle('fa-bars');
-                    icon.classList.toggle('fa-times');
-                }
-            });
-        }
-
-        // Back to Top Button
-        const backToTopBtn = document.getElementById('backToTopBtn');
-        if (backToTopBtn) {
-            window.addEventListener('scroll', function() {
-                if (window.scrollY > 300) {
-                    backToTopBtn.classList.remove('hidden');
-                } else {
-                    backToTopBtn.classList.add('hidden');
-                }
-            });
-
-            backToTopBtn.addEventListener('click', function() {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
-        }
-    });
-</script>
 
 </body>
 </html>

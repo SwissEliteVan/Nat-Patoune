@@ -57,6 +57,9 @@ function natpatoune_setup() {
     add_theme_support('responsive-embeds');
     add_theme_support('wp-block-styles'); // Gutenberg front styles
     add_theme_support('editor-styles');   // Editor styles
+    add_theme_support('align-wide');
+    add_theme_support('custom-line-height');
+    add_theme_support('custom-spacing');
 
     // Editor style: reuse your design system (safe, simple). Later we can switch to a lighter editor.css.
     add_editor_style('assets/css/site.css');
@@ -102,6 +105,20 @@ function natpatoune_enqueue_assets() {
         natpatoune_file_version('style.css', '1.0.0')
     );
 
+    wp_enqueue_style(
+        'natpatoune-fonts',
+        'https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap',
+        array(),
+        null
+    );
+
+    wp_enqueue_style(
+        'natpatoune-icons',
+        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css',
+        array(),
+        '6.5.1'
+    );
+
     // Tailwind CSS (CDN)
     wp_enqueue_script(
         'tailwindcss',
@@ -110,53 +127,84 @@ function natpatoune_enqueue_assets() {
         '3.4.1',
         false // Load in head
     );
+
+    wp_add_inline_script(
+        'tailwindcss',
+        "tailwind.config={theme:{extend:{colors:{brand:{purple:'#8F78D3','purple-dark':'#7A65B8',pink:'#E8AEC3',green:'#9BB89F',beige:'#FBF9F4',text:'#3A3A3A','text-light':'#6B6B6B',white:'#FFFFFF',grey:'#E5E5E5',cream:'#FFFDF5'}},fontFamily:{title:['Outfit','system-ui','sans-serif'],body:['Inter','system-ui','sans-serif']},container:{center:true,padding:'1rem',screens:{sm:'640px',md:'768px',lg:'1024px',xl:'1280px'}}}}};",
+        'after'
+    );
+
+    wp_enqueue_script(
+        'natpatoune-main',
+        get_theme_file_uri('assets/js/main.js'),
+        array(),
+        natpatoune_file_version('assets/js/main.js', '1.0.0'),
+        true
+    );
+
+    if (is_singular() && comments_open() && get_option('thread_comments')) {
+        wp_enqueue_script('comment-reply');
+    }
 }
 add_action('wp_enqueue_scripts', 'natpatoune_enqueue_assets');
 
 /**
- * Tailwind Configuration
+ * Add resource hints for third-party assets.
+ *
+ * @param array  $urls          Resource hints.
+ * @param string $relation_type Type of relation.
+ *
+ * @return array
  */
-function natpatoune_tailwind_config() {
-    ?>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            purple: '#8F78D3',
-                            'purple-dark': '#7A65B8',
-                            pink: '#E8AEC3',
-                            green: '#9BB89F',
-                            beige: '#FBF9F4',
-                            text: '#3A3A3A',
-                            'text-light': '#6B6B6B',
-                            white: '#FFFFFF',
-                            grey: '#E5E5E5',
-                            cream: '#FFFDF5',
-                        }
-                    },
-                    fontFamily: {
-                        title: ['Outfit', 'system-ui', 'sans-serif'],
-                        body: ['Inter', 'system-ui', 'sans-serif'],
-                    },
-                    container: {
-                        center: true,
-                        padding: '1rem',
-                        screens: {
-                            sm: '640px',
-                            md: '768px',
-                            lg: '1024px',
-                            xl: '1280px',
-                        },
-                    },
-                }
-            }
-        }
-    </script>
-    <?php
+function natpatoune_resource_hints($urls, $relation_type) {
+    if ('preconnect' === $relation_type) {
+        $urls[] = 'https://fonts.googleapis.com';
+        $urls[] = array(
+            'href'        => 'https://fonts.gstatic.com',
+            'crossorigin' => 'anonymous',
+        );
+        $urls[] = 'https://cdnjs.cloudflare.com';
+    }
+
+    return $urls;
 }
-add_action('wp_head', 'natpatoune_tailwind_config');
+add_filter('wp_resource_hints', 'natpatoune_resource_hints', 10, 2);
+
+/**
+ * Register lightweight custom post types for reusable sections.
+ */
+function natpatoune_register_cpts() {
+    register_post_type(
+        'nat_service',
+        array(
+            'labels'       => array(
+                'name'          => __('Services', 'natpatoune'),
+                'singular_name' => __('Service', 'natpatoune'),
+            ),
+            'public'       => true,
+            'menu_icon'    => 'dashicons-heart',
+            'has_archive'  => false,
+            'show_in_rest' => true,
+            'supports'     => array('title', 'editor', 'thumbnail', 'excerpt', 'page-attributes'),
+        )
+    );
+
+    register_post_type(
+        'nat_testimonial',
+        array(
+            'labels'       => array(
+                'name'          => __('Témoignages', 'natpatoune'),
+                'singular_name' => __('Témoignage', 'natpatoune'),
+            ),
+            'public'       => true,
+            'menu_icon'    => 'dashicons-format-quote',
+            'has_archive'  => false,
+            'show_in_rest' => true,
+            'supports'     => array('title', 'editor', 'thumbnail', 'excerpt', 'page-attributes'),
+        )
+    );
+}
+add_action('init', 'natpatoune_register_cpts');
 
 /**
  * Set posts per page for blog to 6

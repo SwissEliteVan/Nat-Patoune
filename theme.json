@@ -1,0 +1,48 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 2,
+  "settings": {
+    "appearanceTools": true,
+    "color": {
+      "palette": [
+        { "slug": "brand-purple", "name": "Brand Purple", "color": "#8F78D3" },
+        { "slug": "brand-purple-dark", "name": "Brand Purple Dark", "color": "#7A65B8" },
+        { "slug": "brand-pink", "name": "Brand Pink", "color": "#E8AEC3" },
+        { "slug": "brand-green", "name": "Brand Green", "color": "#9BB89F" },
+        { "slug": "brand-text", "name": "Brand Text", "color": "#3A3A3A" },
+        { "slug": "brand-beige", "name": "Brand Beige", "color": "#FBF9F4" }
+      ]
+    },
+    "layout": {
+      "contentSize": "760px",
+      "wideSize": "1280px"
+    },
+    "spacing": {
+      "units": ["px", "rem", "%", "vh", "vw"]
+    },
+    "typography": {
+      "fontFamilies": [
+        {
+          "fontFamily": "'Inter', system-ui, sans-serif",
+          "name": "Inter",
+          "slug": "inter"
+        },
+        {
+          "fontFamily": "'Outfit', system-ui, sans-serif",
+          "name": "Outfit",
+          "slug": "outfit"
+        }
+      ]
+    }
+  },
+  "styles": {
+    "color": {
+      "background": "#FBF9F4",
+      "text": "#3A3A3A"
+    },
+    "typography": {
+      "fontFamily": "var(--wp--preset--font-family--inter)",
+      "lineHeight": "1.6"
+    }
+  }
+}
