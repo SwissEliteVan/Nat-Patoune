@@ -11,7 +11,6 @@
         }
     ?>">
 
-    <!-- Open Graph -->
     <meta property="og:locale" content="<?php echo esc_attr(get_locale()); ?>">
     <meta property="og:site_name" content="<?php echo esc_attr(get_bloginfo('name')); ?>">
     <?php if (is_single() || is_page()) : ?>
@@ -29,7 +28,6 @@
         <meta property="og:url" content="<?php echo esc_url(home_url('/')); ?>">
     <?php endif; ?>
 
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="<?php echo esc_attr(is_single() || is_page() ? get_the_title() : get_bloginfo('name')); ?>">
     <meta name="twitter:description" content="<?php
