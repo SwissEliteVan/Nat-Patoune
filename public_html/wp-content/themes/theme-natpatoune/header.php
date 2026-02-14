@@ -42,35 +42,43 @@
 <a class="skip-link screen-reader-text" href="#primary"><?php esc_html_e('Aller au contenu', 'theme-natpatoune'); ?></a>
 
 <header class="site-header" role="banner">
-  <div class="container">
-    <div class="site-branding">
-        <?php if (has_custom_logo()) : ?>
-            <div class="site-logo">
-                <?php the_custom_logo(); ?>
-            </div>
-        <?php else : ?>
-            <h1 class="site-title">
-                <a href="<?php echo esc_url(home_url('/')); ?>">
-                    <?php bloginfo('name'); ?>
-                </a>
-            </h1>
-            <?php
-            $description = get_bloginfo('description', 'display');
-            if ($description) : ?>
-                <p class="site-description"><?php echo esc_html($description); ?></p>
+    <div class="container">
+        <div class="site-branding">
+            <?php if (has_custom_logo()) : ?>
+                <div class="site-logo">
+                    <?php the_custom_logo(); ?>
+                </div>
+            <?php else : ?>
+                <h1 class="site-title">
+                    <a href="<?php echo esc_url(home_url('/')); ?>">
+                        <?php bloginfo('name'); ?>
+                    </a>
+                </h1>
+                <?php
+                $description = get_bloginfo('description', 'display');
+                if ($description) : ?>
+                    <p class="site-description"><?php echo esc_html($description); ?></p>
+                <?php endif; ?>
             <?php endif; ?>
-        <?php endif; ?>
-    </div>
+        </div>
 
-    <nav class="main-navigation" role="navigation" aria-label="<?php esc_attr_e('Menu principal', 'theme-natpatoune'); ?>">
-        <?php
-        wp_nav_menu(array(
-            'theme_location' => 'primary',
-            'container'      => false,
-            'menu_class'     => 'primary-menu',
-            'fallback_cb'    => false,
-        ));
-        ?>
-    </nav>
-  </div>
+        <button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">
+            <span class="menu-toggle-bar"></span>
+            <span class="menu-toggle-bar"></span>
+            <span class="menu-toggle-bar"></span>
+            <span class="screen-reader-text"><?php esc_html_e('Menu', 'theme-natpatoune'); ?></span>
+        </button>
+
+        <nav id="site-navigation" class="main-navigation" role="navigation" aria-label="<?php esc_attr_e('Menu principal', 'theme-natpatoune'); ?>">
+            <?php
+            wp_nav_menu(array(
+                'theme_location' => 'primary',
+                'menu_id'        => 'primary-menu',
+                'container'      => false,
+                'menu_class'     => 'primary-menu',
+                'fallback_cb'    => false,
+            ));
+            ?>
+        </nav>
+    </div>
 </header>
